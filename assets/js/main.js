@@ -60,6 +60,8 @@ function initButtons(root){if(!G||RM||!matchMedia('(hover:hover) and (pointer:fi
     b.addEventListener('mouseenter',()=>tl.restart());b.addEventListener('mouseleave',()=>{tl.pause();gsap.to(ch,{yPercent:0,scaleY:1,rotate:0,duration:.2,overwrite:'auto'});});});}
 
 /* ---------- DATA（示例内容） ---------- */
+const CV=n=>`assets/img/covers/${n}.webp`;
+const SK=n=>`assets/img/sketch/${n}.svg`;
 const today=new Date();today.setHours(0,0,0,0);
 const D=(y,m,d)=>new Date(y,m-1,d),T0=D(2026,10,5),T1=D(2026,12,13),wd=['日','一','二','三','四','五','六'];
 const NCH='Nunawading Community Hub';
@@ -76,13 +78,13 @@ const status=e=>e.d<today?['done','已结束']:e===next?['open','报名中']:[''
 const tk=next||EV[EV.length-1];
 $('#ticket').innerHTML=`<div class="ticket__main"><span class="chip open">下一场 · ${status(tk)[1]}</span><span class="num">${tk.d.getMonth()+1}/${tk.d.getDate()}</span><h3>${tk.title}</h3><p class="t-small">周${wd[tk.d.getDay()]} ${tk.t} · ${tk.type}<br>${tk.place}</p></div><div class="ticket__stub">入场券<small>免费 · FREE</small></div>`;
 const CB=['#EAE4D2','#DEDAC1','#E6E1CC','#D3D6B9','#EDE8D8','#C6CBA8'];
-$('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article class="ecard ${hot?'dark':''}" style="--cb:${CB[i]}"><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what">${hot?'<span class="chip" style="align-self:flex-start;background:var(--paper)">下一场</span>':''}<h3 class="t-h3">${e.title}</h3><p class="meta">${e.type} · ${e.place}</p></div></article>`}).join('');
+const TI={'线下读书会':'book','文学夜':'night','线上讨论':'laptop','嘉宾讲座':'mic'};
+$('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article class="ecard ${hot?'dark':''}" style="--cb:${CB[i]}"><img class="sk" src="${SK(TI[e.type]+(hot?'-light':''))}" alt=""><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what">${hot?'<span class="chip" style="align-self:flex-start;background:var(--paper)">下一场</span>':''}<h3 class="t-h3">${e.title}</h3><p class="meta">${e.type} · ${e.place}</p></div></article>`}).join('');
 
 $('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.type} · ${e.t} · ${e.place}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div><span class="chip ${sc}">${sl}</span></article>`}).join('');
 
 /* real covers, from 豆瓣 (Chinese editions) */
-const CV=n=>`assets/img/covers/${n}.webp`;
-const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><span class="book__back"></span><span class="book__pages"></span><div class="book__page"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div><span class="book__ribbon"></span><div class="book__cover"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div></div>`;
+const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div><div class="book__slip"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div><div class="book__face book__spine"><b>${(o.title||note[0]).replace(/[《》]/g,'')}</b><i></i></div><div class="book__face book__front"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div><span class="book__shadow"></span></div>`;
 const BOOKS=[
   ['biancheng','边城','沈从文','2025 秋 · 创社第一本','茶峒的渡船和翠翠，是我们的第一张长桌。','#4D5A3E'],
   ['huozhe','活着','余华','2026 春 · 两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
@@ -91,7 +93,7 @@ const BOOKS=[
   ['jinsuo','金锁记','张爱玲','2026 冬 · 线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
   ['hulanhe','呼兰河传','萧红','2026 秋 · 正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
   ['eergu','额尔古纳河右岸','迟子建','2026 秋 · 11 月 28 日','一个人讲完一个民族的百年。','#5B4A2E']];
-$('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
+$('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
 const TERMS=[
   {id:'t3',tf:'#C9DEE3',books:['hulanhe','eergu'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后补充回顾与照片。',kv:[['书目','《呼兰河传》《额尔古纳河右岸》'],['活动','6 场，全部免费'],['状态','进行中']],list:EV.map(e=>[fmt(e.d),e.type,e.title])},
@@ -100,8 +102,7 @@ const TERMS=[
   {id:'t0',tf:'#C6CBA8',books:['biancheng'],name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',kv:[['书目','《边城》'],['活动','2 场'],['地点','成员家中']],list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
 const TYPES=['全部','线下读书会','文学夜','线上讨论','嘉宾讲座'];
 const bkOf=c=>(BOOKS.find(b=>b[0]===c)||[])[5]||'#2B3326';
-$('#terms').innerHTML=TERMS.map(t=>`<article class="tfeat" id="${t.id}" style="--tf:${t.tf}"><div class="tfeat__books">${t.books.map(c=>{const b=BOOKS.find(x=>x[0]===c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],alt:`《${b[1]}》封面`});}).join('')}</div><div class="tfeat__txt"><span class="chip">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><dl class="kv">${t.kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><div class="list">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div></article>`).join('');
-$('#termlist').innerHTML=TERMS.map((t,i)=>`<li data-i="${i}"><a href="#${t.id}">${t.theme}<small>${t.name}</small></a></li>`).join('');
+$('#terms').innerHTML=TERMS.map(t=>`<article class="tfeat" id="${t.id}" style="--tf:${t.tf}"><div class="tfeat__books">${t.books.map(c=>{const b=BOOKS.find(x=>x[0]===c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div><div class="tfeat__txt"><span class="chip">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><dl class="kv">${t.kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><div class="list">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div></article>`).join('');
 $('#filters').innerHTML=TYPES.map((t,i)=>`<button type="button" aria-pressed="${i===0}" data-f="${t}">${t}</button>`).join('');
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
   $$('#terms .r').forEach(r=>r.hidden=f!=='全部'&&r.dataset.type!==f);
@@ -114,24 +115,27 @@ $('#glist').innerHTML=GEN.map((g,i)=>`<li data-i="${i}">${g[0]}</li>`).join('');
 [...new Set(GEN.flatMap(g=>g.slice(1)))].forEach(c=>{const i=new Image();i.src=CV(c);});
 
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
-function coverFollow(sec,list,items,getCovers,offsets){
+/* covers appear beside the list (never on top of the words), swing in, drift a little with the pointer */
+function sideCovers(sec,list,items,getCovers){
   const covs=$$('.fcov',sec);if(!G||!covs.length)return;
-  const q=covs.map((c,k)=>({x:gsap.quickTo(c,'x',{duration:.55+k*.14,ease:'power3'}),y:gsap.quickTo(c,'y',{duration:.55+k*.14,ease:'power3'})}));
-  let on=false,cur=-1;
-  const place=e=>{const r=sec.getBoundingClientRect();covs.forEach((c,k)=>{const o=offsets[k];q[k].x(e.clientX-r.left+o[0]*c.offsetWidth-c.offsetWidth/2);q[k].y(e.clientY-r.top+o[1]*c.offsetHeight-c.offsetHeight/2);});};
-  sec.addEventListener('pointermove',e=>{if(on)place(e);});
-  $$(items,list).forEach((li,i)=>li.addEventListener('pointerenter',e=>{if(!DESK())return;
-    $$(items,list).forEach(x=>x.classList.toggle('on',x===li));sec.dataset.active='true';
-    const cs=getCovers(i);
-    if(!on){const r=sec.getBoundingClientRect();covs.forEach((c,k)=>{const o=offsets[k];gsap.set(c,{x:e.clientX-r.left+o[0]*c.offsetWidth-c.offsetWidth/2,y:e.clientY-r.top+o[1]*c.offsetHeight-c.offsetHeight/2});});}
-    on=true;if(cur===i)return;cur=i;
-    covs.forEach((c,k)=>{const src=cs[k];gsap.killTweensOf(c,'scale,rotation,opacity');
-      if(!src){gsap.to(c,{scale:.4,opacity:0,duration:.3,ease:'power2.in'});return;}
-      gsap.to(c,{scale:.6,opacity:0,duration:.14,ease:'power2.in',onComplete:()=>{$('img',c).src=CV(src);gsap.fromTo(c,{scale:.55,rotation:offsets[k][2]*2.2,opacity:0},{scale:1,rotation:offsets[k][2],opacity:1,duration:.75,delay:k*.05,ease:'back.out(1.8)'});}});});}));
-  list.addEventListener('pointerleave',()=>{on=false;cur=-1;sec.dataset.active='false';$$(items,list).forEach(x=>x.classList.remove('on'));
-    covs.forEach((c,k)=>gsap.to(c,{scale:.5,opacity:0,rotation:0,duration:.35,delay:k*.03,ease:'power2.in'}));});}
-coverFollow($('#genre'),$('#glist'),'li',i=>GEN[i].slice(1),[[-1.15,-.55,-9],[1.15,-.6,7],[-1.05,.6,6],[1.1,.55,-8]]);
-coverFollow($('#termsec'),$('#termlist'),'li',i=>TERMS[i].books,[[-1.2,-.1,-8],[1.2,-.05,7]]);
+  const slot=[[-1,-.62,-8],[-1.9,.18,6],[1,-.5,7],[1.9,.28,-6]];
+  const px=covs.map(c=>gsap.quickTo(c,'xPercent',{duration:1.1,ease:'power3'})),py=covs.map(c=>gsap.quickTo(c,'yPercent',{duration:1.1,ease:'power3'}));
+  let cur=-1;
+  const place=(li,i)=>{const sr=sec.getBoundingClientRect(),rs=$$(items,list).map(x=>x.getBoundingClientRect()),lr={left:Math.min(...rs.map(r=>r.left)),right:Math.max(...rs.map(r=>r.right))},ir=li.getBoundingClientRect(),cs=getCovers(i);
+    covs.forEach((c,k)=>{const src=cs[k];gsap.killTweensOf(c);
+      if(!src){gsap.to(c,{opacity:0,scale:.6,duration:.3,ease:'power2.in'});return;}
+      const w=c.offsetWidth,h=c.offsetHeight,[sx,sy,rot]=slot[k];
+      const x=sx<0?lr.left-sr.left-w*(-sx)-36:lr.right-sr.left+w*(sx-1)+36;
+      const y=ir.top-sr.top+ir.height/2+sy*h-h/2;
+      const img=$('img',c);
+      if(img.dataset.src!==src){img.dataset.src=src;img.src=CV(src);
+        gsap.fromTo(c,{x,y:y+40,rotation:rot*2.4,scale:.7,opacity:0},{x,y,rotation:rot,scale:1,opacity:1,duration:.85,delay:k*.06,ease:'back.out(1.6)'});}
+      else gsap.to(c,{x,y,rotation:rot,scale:1,opacity:1,duration:.7,ease:'power3.out'});});};
+  $$(items,list).forEach((li,i)=>li.addEventListener('pointerenter',()=>{if(!DESK())return;$$(items,list).forEach(x=>x.classList.toggle('on',x===li));sec.dataset.active='true';if(cur!==i){cur=i;place(li,i);}}));
+  sec.addEventListener('pointermove',e=>{if(cur<0)return;const r=sec.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;covs.forEach((c,k)=>{px[k](dx*(8+k*3));py[k](dy*(6+k*2));});});
+  list.addEventListener('pointerleave',()=>{cur=-1;sec.dataset.active='false';$$(items,list).forEach(x=>x.classList.remove('on'));
+    covs.forEach((c,k)=>{gsap.killTweensOf(c,'opacity,scale');gsap.to(c,{opacity:0,scale:.8,duration:.4,delay:k*.03,ease:'power2.in'});$('img',c).dataset.src='';});});}
+sideCovers($('#genre'),$('#glist'),'li',i=>GEN[i].slice(1));
 
 /* manifesto phrases */
 $$('[data-manifesto]').forEach(m=>{m.innerHTML=m.textContent.split(/(?<=[，。、])/).map(t=>`<span class="ph${RM?'':' dim'}">${t}</span>`).join('');});
@@ -139,14 +143,14 @@ $$('[data-manifesto]').forEach(m=>{m.innerHTML=m.textContent.split(/(?<=[，。�
 /* slider */
 const sliders=[];
 function initSlider(name){const vp=$(`[data-slider="${name}"]`),track=$('.track',vp),ctrl=$(`[data-ctrl="${name}"]`),cards=[...track.children];
-  const o={x:0,tx:0,max:0};const measure=()=>{o.max=Math.max(0,track.scrollWidth-vp.clientWidth);};
-  const upd=()=>{if(!ctrl)return;$('[data-prev]',ctrl).classList.toggle('off',o.tx>-4);$('[data-next]',ctrl).classList.toggle('off',o.tx<=-o.max+4);};
-  const step=()=>cards[0].getBoundingClientRect().width+parseFloat(getComputedStyle(track).gap||0);
-  const go=d=>{o.tx=Math.max(-o.max,Math.min(0,o.tx-d*step()));upd();};
+  const o={x:0,tx:0,i:0,stops:[0]};
+  const measure=()=>{const max=Math.max(0,track.scrollWidth-vp.clientWidth);o.stops=cards.map(c=>Math.min(c.offsetLeft,max)).filter((v,i,a)=>i===0||v>a[i-1]+1);if(o.i>=o.stops.length)o.i=o.stops.length-1;o.tx=-o.stops[o.i];};
+  const upd=()=>{if(!ctrl)return;$('[data-prev]',ctrl).classList.toggle('off',o.i===0);$('[data-next]',ctrl).classList.toggle('off',o.i>=o.stops.length-1);};
+  const go=d=>{o.i=Math.max(0,Math.min(o.stops.length-1,o.i+d));o.tx=-o.stops[o.i];upd();};
   $('[data-prev]',ctrl).onclick=()=>go(-1);$('[data-next]',ctrl).onclick=()=>go(1);
-  let down=null;vp.addEventListener('pointerdown',e=>{if(DESK())down={x:e.clientX,tx:o.tx,mv:false};});
-  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-down.x;if(Math.abs(dx)>4)down.mv=true;o.tx=Math.max(-o.max-60,Math.min(60,down.tx+dx));});
-  addEventListener('pointerup',()=>{if(!down)return;o.tx=Math.max(-o.max,Math.min(0,o.tx));upd();setTimeout(()=>down=null,0);});
+  let down=null;vp.addEventListener('pointerdown',e=>{if(DESK())down={x:e.clientX,tx:o.tx};});
+  addEventListener('pointermove',e=>{if(!down)return;const dx=e.clientX-down.x;o.tx=down.tx+dx;});
+  addEventListener('pointerup',()=>{if(!down)return;const t=-o.tx;let bi=0,bd=1e9;o.stops.forEach((v,i)=>{const d=Math.abs(v-t);if(d<bd){bd=d;bi=i;}});o.i=bi;o.tx=-o.stops[bi];upd();down=null;});
   o.tick=()=>{if(!DESK()){track.style.transform='';return;}o.x+=(o.tx-o.x)*.12;track.style.transform=`translate3d(${o.x.toFixed(2)}px,0,0)`;};
   o.measure=()=>{measure();upd();};measure();upd();sliders.push(o);}
 initSlider('term');addEventListener('resize',()=>sliders.forEach(s=>s.measure()));
@@ -210,62 +214,47 @@ const CITIES=[[139.69,35.69],[121.47,31.23],[116.4,39.9],[103.82,1.35],[106.85,-
   box.addEventListener('pointermove',e=>{if(!drag)return;lam=drag.l+(e.clientX-drag.x)*.4;phi=Math.max(-50,Math.min(50,drag.p-(e.clientY-drag.y)*.3));});
   ['pointerup','pointercancel'].forEach(t=>box.addEventListener(t,()=>drag=null));})();
 
-/* pin map on the events page: Nunawading as the centre of a few dashed rings */
-(function(){const cv=$('#pinmap');if(!cv||!cv.getContext)return;const ctx=cv.getContext('2d');let S=0,dpr=1,vis=false;
-  const size=()=>{dpr=Math.min(2,devicePixelRatio||1);S=cv.getBoundingClientRect().width;cv.width=S*dpr;cv.height=S*dpr;};
-  new ResizeObserver(size).observe(cv);new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(cv);size();
-  const t0=performance.now();
-  const ro=new ResizeObserver(()=>{size();draw(0);});ro.observe(cv);
-  function f(now){requestAnimationFrame(f);if(vis&&S)draw(RM?0:(now-t0)/1000);}
-  function draw(t){if(!S)return;const c=S/2;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,S,S);
-    ctx.lineWidth=1.5;[.18,.3,.42].forEach((r,i)=>{ctx.beginPath();ctx.setLineDash([6,8]);ctx.lineDashOffset=-t*(6+i*3)*(i%2?1:-1);ctx.arc(c,c,S*r,0,Math.PI*2);ctx.strokeStyle='rgba(250,246,236,.32)';ctx.stroke();});
-    ctx.setLineDash([]);ctx.strokeStyle='rgba(250,246,236,.2)';ctx.beginPath();ctx.moveTo(c,S*.04);ctx.lineTo(c,S*.96);ctx.moveTo(S*.04,c);ctx.lineTo(S*.96,c);ctx.stroke();
-    ctx.fillStyle='rgba(250,246,236,.7)';ctx.font=`500 ${Math.max(11,S/34)}px "Noto Sans SC",sans-serif`;ctx.textAlign='center';ctx.fillText('N',c,S*.03+S/34);
-    ctx.textAlign='left';ctx.fillText('← 墨尔本 CBD 约 20 公里',S*.06,c-10);ctx.textAlign='center';
-    const k=RM?0:(t*14)%(S*.08);ctx.beginPath();ctx.arc(c,c,S*.03+k,0,Math.PI*2);ctx.strokeStyle=`rgba(184,65,47,${1-k/(S*.08)})`;ctx.lineWidth=2;ctx.stroke();
-    ctx.beginPath();ctx.arc(c,c,S*.03,0,Math.PI*2);ctx.fillStyle='#B8412F';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#FAF6EC';ctx.stroke();
-    ctx.fillStyle='#FAF6EC';ctx.font=`700 ${Math.max(13,S/22)}px "Noto Serif SC",serif`;ctx.fillText('Nunawading',c,c+S*.1);}
-  requestAnimationFrame(f);})();
+
 
 
 /* ---------- signature hovers ----------
    Everything below animates transforms only, through GSAP, so hovers stay at 60fps. */
 const FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
 const MOTION=G&&!RM;
-function inkPrep(svg){$$('path,circle,rect,ellipse,line,polyline',svg).forEach(el=>{if(el.getAttribute('stroke')==='none')return;el.setAttribute('pathLength','1');el.style.strokeDasharray='1 1';el.style.strokeDashoffset='0';});}
-function inkDraw(svg,dur=1.2){if(!MOTION||!svg)return;gsap.fromTo($$('[pathLength]',svg),{strokeDashoffset:1},{strokeDashoffset:0,duration:dur,stagger:.06,ease:'power2.inOut',overwrite:true});}
+function inkPrep(svg){if(!svg||svg.tagName.toLowerCase()!=='svg')return;$$('path,circle,rect,ellipse,line,polyline',svg).forEach(el=>{if(el.getAttribute('stroke')==='none')return;el.setAttribute('pathLength','1');el.style.strokeDasharray='1 1';el.style.strokeDashoffset='0';});}
+function inkDraw(svg,dur=1.2){if(!MOTION||!svg||svg.tagName.toLowerCase()!=='svg')return;gsap.fromTo($$('[pathLength]',svg),{strokeDashoffset:1},{strokeDashoffset:0,duration:dur,stagger:.06,ease:'power2.inOut',overwrite:true});}
 function tilt(el,max,target){if(!MOTION||!FINE)return;target=target||el;gsap.set(target,{transformPerspective:1200});
   const rx=gsap.quickTo(target,'rotationX',{duration:.9,ease:'power3'}),ry=gsap.quickTo(target,'rotationY',{duration:.9,ease:'power3'});
-  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry((px-.5)*max*2);rx(-(py-.5)*max*2);el.style.setProperty('--mx',(px*100).toFixed(1)+'%');el.style.setProperty('--my',(py*100).toFixed(1)+'%');});
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry((px-.5)*max*2);rx(-(py-.5)*max*2);});
   el.addEventListener('pointerleave',()=>{rx(0);ry(0);});}
 const rOf=el=>parseFloat(getComputedStyle(el).getPropertyValue('--r'))||0;
 function adoptRotation(el){const r=rOf(el);if(MOTION){el.style.rotate='0deg';gsap.set(el,{rotation:r});}return r;}
 
 /* illustrated cards: ghost character, dot texture, rotating badge, ink redraw, 3D tilt */
-$$('.icard').forEach(c=>{
-  const d=document.createElement('span');d.className='dots';c.prepend(d);
-  if(c.dataset.ghost){const g=document.createElement('span');g.className='ghost';g.textContent=c.dataset.ghost;g.setAttribute('aria-hidden','true');c.prepend(g);}
-  if(c.classList.contains('leaf')){const r=document.createElement('span');r.className='ring';r.setAttribute('aria-hidden','true');const id='rg'+Math.random().toString(36).slice(2,7);
-    r.innerHTML=`<svg viewBox="0 0 100 100"><defs><path id="${id}" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text><textPath href="#${id}">莎士比亚的猫 · READ TOGETHER · 一起读 · </textPath></text></svg>`;c.appendChild(r);}
-  const ill=$('.ill',c);if(ill)inkPrep(ill);
-  tilt(c,5);
-  if(MOTION&&FINE){const g=$('.ghost',c);
-    c.addEventListener('pointerenter',()=>{inkDraw(ill);if(g)gsap.to(g,{x:-18,y:-10,rotation:-6,duration:1.2,ease:'power3.out'});});
-    c.addEventListener('pointerleave',()=>{if(g)gsap.to(g,{x:0,y:0,rotation:0,duration:1.2,ease:'power3.out'});});}});
+$$('.icard').forEach(c=>{const ill=$('.ill',c);
+  tilt(c,4);
+  if(MOTION&&FINE&&ill){c.addEventListener('pointerenter',()=>gsap.fromTo(ill,{scaleY:1,scaleX:1,transformOrigin:'50% 100%'},{keyframes:{scaleY:[.95,1.04,1],scaleX:[1.03,.99,1]},duration:.8,ease:'sine.out'}));}});
 $$('svg.ink').forEach(svg=>{inkPrep(svg);if(MOTION&&ST)ScrollTrigger.create({trigger:svg,start:'top 85%',onEnter:()=>inkDraw(svg,1.6)});});
 
-/* real 3D books: follow the pointer, cover swings open (CSS), tap toggles on touch */
-$$('[data-book]').forEach(b=>{const inn=$('.book__in',b);
-  if(MOTION&&FINE){gsap.set(inn,{rotationY:-24,rotationX:6});const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
-    b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(-8+(px-.5)*26);rx(4-(py-.5)*14);});
-    b.addEventListener('pointerenter',()=>gsap.to(b,{y:-10,duration:.8,ease:'back.out(2)'}));
-    b.addEventListener('pointerleave',()=>{ry(-24);rx(6);gsap.to(b,{y:0,duration:.8,ease:'power3.out'});});}
-  else b.addEventListener('click',()=>b.classList.toggle('open'));});
+/* 3D books: turn toward the pointer (always showing the spine side), lift, and a reading slip rises out of the pages */
+$$('[data-book]').forEach(b=>{const inn=$('.book__in',b),slip=$('.book__slip',b),sh=$('.book__shadow',b);
+  if(!MOTION){return;}
+  gsap.set(inn,{rotationY:28,rotationX:4});gsap.set(slip,{y:0,z:0});
+  const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
+  const open=()=>{gsap.to(b,{y:-12,duration:.8,ease:'back.out(2)'});gsap.to(sh,{scaleX:.85,opacity:.6,duration:.8});gsap.to(slip,{yPercent:-52,duration:.9,delay:.1,ease:'back.out(1.4)'});};
+  const close=()=>{ry(28);rx(4);gsap.to(b,{y:0,duration:.8,ease:'power3.out'});gsap.to(sh,{scaleX:1,opacity:1,duration:.8});gsap.to(slip,{yPercent:0,duration:.6,ease:'power3.inOut'});};
+  if(FINE){b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(18+(1-px)*22);rx(6-(py-.5)*12);});
+    b.addEventListener('pointerenter',open);b.addEventListener('pointerleave',close);}
+  else{let on=false;b.addEventListener('click',()=>{on=!on;on?open():close();});}});
 
+/* postmarks drawn in the same round brush line as the stamp icons */
+$$('.stamp__pm').forEach((pm,i)=>{const t=pm.textContent.trim();const pts=[];for(let k=0;k<=40;k++){const a=k/40*Math.PI*2,r=17+Math.sin(a*3+i)*.5+Math.cos(a*5+i*2)*.4;pts.push((22+Math.cos(a)*r).toFixed(1)+' '+(22+Math.sin(a)*r).toFixed(1));}
+  const waves=[30,34,38].map(y=>`M40 ${y} q4 -2.6 8 0 t8 0 t8 0 t8 0`).join(' ');
+  pm.innerHTML=`<svg viewBox="0 0 76 44" aria-hidden="true"><path d="M${pts.join(' L')}"/><path d="M${pts.map(p=>p.split(' ').map((v,j)=>((+v-22)*.78+22).toFixed(1)).join(' ')).join(' L')}" stroke-width="1"/><text x="22" y="21" text-anchor="middle">${t}</text><text x="22" y="30.5" text-anchor="middle" style="font-size:5.4px;font-weight:700">墨尔本 2026</text><path d="${waves}"/></svg>`;});
 /* postage stamps: lift, straighten, postmark lands */
-$$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);const r=adoptRotation(f);inkPrep($('svg',f));
+$$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);const r=adoptRotation(f);
   if(!MOTION||!FINE)return;
-  st.addEventListener('pointerenter',()=>{gsap.to(f,{y:-16,rotation:0,scale:1.06,duration:.8,ease:'back.out(2.2)'});inkDraw($('svg',f),.9);
+  st.addEventListener('pointerenter',()=>{gsap.to(f,{y:-16,rotation:0,scale:1.06,duration:.8,ease:'back.out(2.2)'});gsap.fromTo($('.stamp__ic',f),{rotation:-12,scale:.85},{rotation:0,scale:1,duration:.9,ease:'elastic.out(1,.5)'});
     gsap.fromTo(pm,{opacity:0,scale:1.9,rotation:-34},{opacity:.92,scale:1,rotation:-18,duration:.36,delay:.18,ease:'power4.in',onComplete:()=>gsap.fromTo(f,{x:-3},{x:0,duration:.4,ease:'elastic.out(1,.3)'})});});
   st.addEventListener('pointerleave',()=>{gsap.to(f,{y:0,rotation:r,scale:1,duration:.8,ease:'power3.out'});gsap.to(pm,{opacity:0,duration:.35});});});
 
@@ -279,7 +268,7 @@ $$('.lib').forEach(l=>{const c=$('.lib__card',l),sp=$('.lib__stamp',l),pk=$('.li
   if(FINE){l.addEventListener('pointerenter',pull);l.addEventListener('pointerleave',push);}else l.addEventListener('click',e=>{if(e.target.closest('a'))return;open?push():pull();});});
 
 /* hanging bookmarks: a damped swing, the tassel lags behind */
-$$('.mark').forEach(m=>{const t=$('.mark__tassel',m);if(!MOTION)return;let busy=false;
+$$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElement('i');e.className='mark__eyelet';$('.mark__body',m).before(e);if(!MOTION)return;let busy=false;
   const swing=dir=>{if(busy)return;busy=true;const a=8*dir;
     gsap.to(m,{keyframes:{rotation:[a,-a*.62,a*.36,-a*.18,a*.07,0],easeEach:'sine.inOut'},duration:2.2,onComplete:()=>busy=false});
     gsap.to(t,{keyframes:{rotation:[-a*1.6,a*1.1,-a*.6,a*.3,0],easeEach:'sine.inOut'},duration:2.4,delay:.06});
@@ -287,15 +276,15 @@ $$('.mark').forEach(m=>{const t=$('.mark__tassel',m);if(!MOTION)return;let busy=
   m.addEventListener('pointerenter',e=>{const r=m.getBoundingClientRect();swing(e.clientX<r.left+r.width/2?-1:1);});
   m.addEventListener('click',()=>swing(1));});
 
-/* envelopes: flap opens, letter slides out */
-$$('.env').forEach(v=>{const fl=$('.env__flap',v),lt=$('.env__letter',v);if(!MOTION)return;
-  const tl=gsap.timeline({paused:true,defaults:{ease:'power2.inOut'}})
-    .to(fl,{rotationX:-178,duration:.42,ease:'power2.in'})
-    .set(fl,{zIndex:0},.22)
-    .to(lt,{yPercent:-64,duration:.8,ease:'back.out(1.5)'},.3)
-    .to(v,{y:-6,duration:.6,ease:'power2.out'},0);
-  if(FINE){v.addEventListener('pointerenter',()=>tl.timeScale(1).play());v.addEventListener('pointerleave',()=>tl.timeScale(1.6).reverse());}
-  else v.addEventListener('click',()=>tl.reversed()||tl.progress()===0?tl.play():tl.reverse());});
+/* envelopes: the envelope dips and straightens, the letter slides up from behind */
+$$('.env').forEach(v=>{const lt=$('.env__letter',v),img=$('.env__img',v);const r=adoptRotation(v);if(!MOTION)return;
+  const tl=gsap.timeline({paused:true})
+    .to(v,{rotation:0,duration:.6,ease:'power3.out'},0)
+    .to(img,{y:8,duration:.25,ease:'power2.out'},0).to(img,{y:0,duration:.6,ease:'elastic.out(1,.4)'},.25)
+    .to(lt,{yPercent:-108,duration:.9,ease:'back.out(1.5)'},.12)
+    .fromTo($('.env__ic',v),{rotation:-20,scale:.6},{rotation:0,scale:1,duration:.8,ease:'back.out(2.4)'},.45);
+  if(FINE){v.addEventListener('pointerenter',()=>tl.timeScale(1).play());v.addEventListener('pointerleave',()=>tl.timeScale(1.5).reverse());}
+  else v.addEventListener('click',()=>tl.progress()<.5?tl.play():tl.reverse());});
 
 /* polaroids straighten and lift toward the pointer */
 $$('.pola').forEach(pl=>{const r=adoptRotation(pl);if(!MOTION||!FINE)return;
@@ -303,12 +292,7 @@ $$('.pola').forEach(pl=>{const r=adoptRotation(pl);if(!MOTION||!FINE)return;
   pl.addEventListener('pointerleave',()=>{gsap.to(pl,{rotation:r,scale:1,y:0,zIndex:1,duration:.8,ease:'power3.out'});});});
 
 /* HMS-style timeline */
-const ILL={
-  house:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M60 180V96l90-62 90 62v84z" fill="#E9DCB5"/><path d="M40 108l110-80 110 80"/><rect x="128" y="120" width="44" height="60" fill="#FAF6EC"/><rect x="80" y="110" width="32" height="28" fill="#C9DEE3"/><rect x="188" y="110" width="32" height="28" fill="#C9DEE3"/><path d="M20 180h260"/><path d="M196 52V30h18v34" fill="#FAF6EC"/><path d="M204 22c-6-8 4-12-2-20" stroke="#B8412F"/></svg>',
-  cat:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="70" y="40" width="160" height="120" rx="10" fill="#FAF6EC"/><path d="M90 70h70M90 92h120M90 114h96"/><circle cx="214" cy="68" r="12" fill="#B8412F" stroke="#B8412F"/><path d="M96 160c0-24 10-36 26-36s26 12 26 36"/><path d="M104 130l-4-12 12 7M140 130l4-12-12 7" fill="#C6CBA8"/><path d="M148 156q30 4 34-18" /><path d="M20 180h260"/></svg>',
-  calendar:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="70" y="36" width="160" height="140" rx="10" fill="#FAF6EC"/><path d="M70 72h160M108 24v24M192 24v24"/><path d="M96 98h20M140 98h20M184 98h20M96 126h20M140 126h20M184 126h20M96 152h20"/><circle cx="150" cy="126" r="16" stroke="#B8412F"/><path d="M230 150q30-6 40-34" stroke="#6B7756"/><path d="M262 112l8 4 4-8" stroke="#6B7756"/></svg>',
-  mic:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="40" width="150" height="100" rx="8" fill="#C9DEE3"/><path d="M30 150h170l-12 16H42z" fill="#FAF6EC"/><rect x="214" y="40" width="30" height="62" rx="15" fill="#FAF6EC"/><path d="M200 84a29 29 0 0 0 58 0M229 114v26M210 146h38"/><path d="M80 78q35-30 70 0" stroke="#B8412F"/><circle cx="115" cy="98" r="10"/></svg>',
-  globe:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="150" cy="100" r="76" fill="#C9DEE3"/><path d="M74 100h152M150 24c-40 40-40 112 0 152M150 24c40 40 40 112 0 152"/><path d="M96 58q54 20 108 0M96 142q54-20 108 0"/><path d="M174 128l58-70" stroke="#B8412F" stroke-dasharray="6 7"/><circle cx="174" cy="128" r="6" fill="#B8412F" stroke="#B8412F"/></svg>'};
+const ILL={house:'home',cat:'cat',calendar:'calendar',mic:'podcast',globe:'globe'};
 const HIST=[
   {y:'2025',s:'秋',h:'第一次读书会',p:'几位朋友在家里读沈从文《边城》。没有主持人，也没有讨论提纲，一直聊到很晚。',ill:'house'},
   {y:'2025',s:'冬',h:'有了名字',p:'建立微信群和公众号，取名「莎士比亚的猫」。第一次公开朗读会，来了二十多人。',ill:'cat'},
@@ -319,26 +303,44 @@ const HIST=[
   ticks.innerHTML=HIST.map((h,i)=>`<button type="button" data-i="${i}">${h.y} ${h.s}</button>`).join('');
   const bs=$$('button',ticks),fill=$('#tlFill'),tx=$('#tlText'),il=$('#tlIll');
   const paint=()=>{const c=b=>b.offsetLeft+b.offsetWidth/2;fill.style.left=c(bs[0])+'px';fill.style.width=(c(bs[ti])-c(bs[0]))+'px';bs.forEach((b,i)=>b.setAttribute('aria-current',i===ti));$('#tlPrev').classList.toggle('off',ti===0);$('#tlNext').classList.toggle('off',ti===HIST.length-1);};
-  const fillIn=()=>{const h=HIST[ti];tx.innerHTML=`<span class="when">${h.y}<small style="font-size:.38em;margin-left:.2em">${h.s}</small></span><h3>${h.h}</h3><p>${h.p}</p>`;il.innerHTML=ILL[h.ill];inkPrep($('svg',il));};
+  const fillIn=()=>{const h=HIST[ti];tx.innerHTML=`<span class="when">${h.y}<small style="font-size:.38em;margin-left:.2em">${h.s}</small></span><h3>${h.h}</h3><p>${h.p}</p>`;il.innerHTML=`<img class="sk" src="${SK(ILL[h.ill])}" alt="">`;};
   const show=(i,anim)=>{if(i<0||i>=HIST.length)return;ti=i;paint();
     if(!MOTION||!anim){fillIn();return;}
-    gsap.to([tx,il],{opacity:0,y:-14,duration:.22,ease:'power2.in',onComplete:()=>{fillIn();gsap.fromTo(tx.children,{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.06,ease:EN});gsap.set([tx,il],{opacity:1,y:0});inkDraw($('svg',il),1.3);}});};
+    gsap.to([tx,il],{opacity:0,y:-14,duration:.22,ease:'power2.in',onComplete:()=>{fillIn();gsap.fromTo(tx.children,{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.06,ease:EN});gsap.set([tx,il],{opacity:1,y:0});gsap.fromTo($('img',il),{y:40,rotation:-14,scale:.7,opacity:0},{y:0,rotation:0,scale:1,opacity:1,duration:1,ease:'elastic.out(1,.6)'});}});};
   bs.forEach((b,i)=>b.addEventListener('click',()=>show(i,true)));$('#tlPrev').onclick=()=>show(ti-1,true);$('#tlNext').onclick=()=>show(ti+1,true);
   addEventListener('resize',paint);show(ti,false);
-  if(MOTION&&ST)ScrollTrigger.create({trigger:'#tl',start:'top 75%',once:true,onEnter:()=>inkDraw($('svg',il),1.6)});
   window.__tlPaint=paint;})();
 
-/* the cat yawns now and then */
-(function(){const head=$('#catHead'),mouth=$('#catMouth');if(!head||!MOTION)return;gsap.set(mouth,{scaleX:.2,scaleY:0,opacity:0});
-  const yawn=()=>{gsap.timeline({onComplete:()=>gsap.delayedCall(6+Math.random()*6,yawn)})
-    .to(head,{rotation:-7,y:-3,duration:1,ease:'sine.inOut'})
-    .to(mouth,{opacity:1,scaleX:1,scaleY:1,duration:.9,ease:'power2.out'},.2)
-    .to(head,{rotation:-8.5,duration:.9,ease:'sine.inOut'})
-    .to(mouth,{scaleX:.85,scaleY:.15,duration:.45,ease:'power2.in'})
-    .to(mouth,{opacity:0,duration:.12})
-    .to(head,{rotation:0,y:0,duration:1.1,ease:'sine.inOut'},'-=.35')
-    .to(head,{rotation:1.2,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut'});};
+/* the cat yawns now and then: the mouth opens under the nose and the whole cat stretches a little (no separate head layer, so nothing doubles up) */
+(function(){const cat=$('#cat'),mouth=$('#catMouth');if(!cat||!mouth||!MOTION)return;gsap.set(mouth,{scaleX:.3,scaleY:0,opacity:0,transformOrigin:'50% 15%'});gsap.set(cat,{transformOrigin:'50% 100%'});
+  const yawn=()=>{gsap.timeline({onComplete:()=>gsap.delayedCall(7+Math.random()*6,yawn)})
+    .to(cat,{scaleY:1.035,scaleX:.99,duration:1.1,ease:'sine.inOut'})
+    .to(mouth,{opacity:1,duration:.15},.25)
+    .to(mouth,{scaleX:1,scaleY:1,duration:1,ease:'power2.out'},.25)
+    .to(mouth,{scaleY:.9,duration:.6,yoyo:true,repeat:1,ease:'sine.inOut'})
+    .to(mouth,{scaleX:.5,scaleY:0,duration:.4,ease:'power2.in'})
+    .to(mouth,{opacity:0,duration:.1})
+    .to(cat,{scaleY:1,scaleX:1,duration:1,ease:'sine.inOut'},'-=.5');};
   gsap.delayedCall(4.2,yawn);})();
+
+/* 阅读，也是一种连接: real covers drift in from the edges and get tied to the centre with dashed thread */
+const LINK=[['huozhe',.13,.2,-9,9],['qingcheng',.84,.16,8,8.5],['bainian',.08,.62,6,8],['hulanhe',.9,.6,-7,9],['santi',.26,.86,4,7],['xueguo',.72,.88,-5,7.5],['hamlet',.3,.08,5,6.5],['ditan',.66,.1,-4,6.5],['eergu',.03,.4,-3,6],['walden',.97,.38,4,6]];
+(function(){const box=$('#linkCovers');if(!box)return;box.innerHTML=LINK.map(([c,,,,w])=>`<div class="lcov" style="--cw:${w}em"><img src="${CV(c)}" alt=""></div>`).join('');})();
+function linkLayout(t){const el=$('.link__el'),covs=$$('.lcov'),svg=$('#linkThreads');if(!el)return;const W=el.clientWidth,H=el.clientHeight,cx=W/2,cy=H/2;
+  svg.setAttribute('viewBox',`0 0 ${W} ${H}`);let d='';
+  covs.forEach((c,i)=>{const[,fx,fy,rot]=LINK[i];const w=c.offsetWidth,h=c.offsetHeight;
+    const ex=fx*W,ey=fy*H,sx=cx+(fx-.5)*W*2.2,sy=cy+(fy-.5)*H*2.2;const k=Math.min(1,Math.max(0,t*1.25-i*.025)),e=1-Math.pow(1-k,3);
+    const x=sx+(ex-sx)*e,y=sy+(ey-sy)*e;gsap.set(c,{x:x-w/2,y:y-h/2,rotation:rot*(2.5-1.5*e),opacity:Math.min(1,k*1.6)});
+    const tk=Math.min(1,Math.max(0,(t-.45)/.45));if(tk>0){const mx=(x+cx)/2+(y-cy)*.18,my=(y+cy)/2-(x-cx)*.18,qx=cx+(x-cx)*.28,qy=cy+(y-cy)*.28;
+      const px=qx+(x-qx)*tk,py=qy+(y-qy)*tk;d+=`M${qx.toFixed(1)} ${qy.toFixed(1)} Q${mx.toFixed(1)} ${my.toFixed(1)} ${px.toFixed(1)} ${py.toFixed(1)} `;}});
+  svg.innerHTML=d?`<path d="${d}"/>`:'';}
+const LST={t:MOTION?0:1};if(G){addEventListener('resize',()=>linkLayout(LST.t));requestAnimationFrame(()=>linkLayout(LST.t));}
+function linkScene(){const st=LST;st.t=0;linkLayout(0);
+  if(!MOTION||!ST)return;gsap.set('#linkContent > *',{opacity:0,y:'1.6em'});
+  gsap.timeline({scrollTrigger:{trigger:'#linkSec',start:'top 70%',end:'bottom bottom',scrub:.8}})
+    .to(st,{t:1,duration:.75,ease:'none',onUpdate:()=>linkLayout(st.t)})
+    .to('#linkContent > *',{opacity:1,y:0,stagger:.05,duration:.2,ease:'none'},.45).to({},{duration:.1});
+  const le=$('.link__el');if(FINE&&!le.dataset.pm){le.dataset.pm=1;le.addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;$$('.lcov').forEach((c,i)=>gsap.to($('img',c),{x:dx*(10+i*2),y:dy*(10+i*2),duration:1,ease:'power3.out',overwrite:'auto'}));});}}
 
 /* scroll animations */
 let ctxPage=null;
@@ -360,12 +362,7 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
 function home(page){
   const bind=!page.dataset.bound;page.dataset.bound=1;
   rise($$('#termTrack .ecard'),'#termTrack');
-  const tl=gsap.timeline({scrollTrigger:{trigger:'#boxSec',start:'top top',end:'bottom bottom',scrub:.6}});
-  gsap.set('#boxContent > *',{opacity:0,y:'2em'});
-  tl.fromTo('#book3d',{rotateX:18,rotateZ:-8,scale:.9,y:'4em'},{rotateX:0,rotateZ:0,scale:1,y:0,duration:.25,ease:'none'})
-    .to('#bookCover',{rotateY:-178,duration:.3,ease:'power1.inOut'},.15)
-    .to('#book3d',{scale:()=>DESK()?5.4:4.2,duration:.35,ease:'power2.in'},.42)
-    .to('#boxContent > *',{opacity:1,y:0,stagger:.04,duration:.2,ease:'none'},.68).to({},{duration:.12});
+  linkScene();
   rise($$('#glist li'),'#glist');
   gsap.to('#globeBox',{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 }

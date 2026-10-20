@@ -25,6 +25,8 @@ def build(artifact=False):
     covers = {f.stem: data_uri(f'assets/img/covers/{f.name}') for f in sorted((ROOT / 'assets/img/covers').glob('*.webp'))}
     import json
     html = html.replace('const CV=n=>`assets/img/covers/${n}.webp`;', 'const COVERS=' + json.dumps(covers) + ';const CV=n=>COVERS[n];')
+    sketches = {f.stem: data_uri(f'assets/img/sketch/{f.name}') for f in sorted((ROOT / 'assets/img/sketch').glob('*.svg'))}
+    html = html.replace('const SK=n=>`assets/img/sketch/${n}.svg`;', 'const SKETCH=' + json.dumps(sketches) + ';const SK=n=>SKETCH[n];')
     html = re.sub(r'(src|href)="(assets/img/[^"]+)"', lambda m: f'{m.group(1)}="{data_uri(m.group(2))}"', html)
     if artifact:
         head = html[html.index('<title>'):html.index('</head>')]

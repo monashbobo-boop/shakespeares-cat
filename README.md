@@ -30,6 +30,8 @@
 
 | 版本 | 日期 | 主要变化 |
 | --- | --- | --- |
+| v8 | 2026-10-21 | 图标换成手绘风；标题改成一句话；去掉卡片上的装饰；修猫打哈欠 |
+| v7 | 2026-10-20 | 修复卡片截断、封面遮字、立体书白板；真实地图；插画和图标换成开源素材 |
 | v6 | 2026-10-20 | 真实封面的立体书；卡片换成邮票、借书卡、书签、信封；猫会打哈欠 |
 | v5.1 | 2026-10-20 | 内页按 sample 的节奏重做，每页由不同的版块组成 |
 | v5 | 2026-10-20 | 换成墨绿加象牙白；首页猫咪趴在标题上、尾巴会摆；地球去掉笑脸；所有内页补充内容 |
@@ -44,8 +46,12 @@ index.html              页面结构（7 个页面都在这个文件里）
 assets/css/style.css    配色、字体、版式（文件开头的 :root 是全部颜色）
 assets/js/main.js       交互和示例数据（活动、往期、书单在文件中部的 DATA 区）
 assets/js/land.js       地球的陆地轮廓数据
-assets/img/             logo 和猫咪图片（身体、尾巴、头三层）
+assets/img/             logo 和猫咪图片（身体、尾巴两层）
 assets/img/covers/      书籍封面（来自豆瓣，仅作原型展示）
+assets/img/doodles/     人物插画（Open Doodles，CC0）
+assets/img/sketch/      手绘图标（Streamline Freehand，CC BY 4.0）
+assets/img/map-nunawading.webp  场馆地图（OpenStreetMap）
+CREDITS.md              所有素材的来源和授权
 tools/cut_cat.py        从会员设计稿里抠出猫咪（身体和尾巴分两层）
 tools/build_single.py   打包成单个 HTML 文件，输出到 dist/
 ```
