@@ -80,34 +80,58 @@ $('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article cla
 
 $('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.type} · ${e.t} · ${e.place}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div><span class="chip ${sc}">${sl}</span></article>`}).join('');
 
+/* real covers, from 豆瓣 (Chinese editions) */
+const CV=n=>`assets/img/covers/${n}.webp`;
+const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><span class="book__back"></span><span class="book__pages"></span><div class="book__page"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div><span class="book__ribbon"></span><div class="book__cover"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div></div>`;
 const BOOKS=[
-  ['边城','沈从文','#6B7756',15],['活着','余华','#3A4A36',16],['许三观卖血记','余华','#A2AC87',18,'#2B3326'],['倾城之恋','张爱玲','#8E6F3E',16],['金锁记','张爱玲','#C9B98F',14,'#2B3326'],['呼兰河传','萧红','#3A4A36',17],['额尔古纳河右岸','迟子建','#7C5A34',19]];
-$('#shelf').innerHTML=BOOKS.map(([t,a,c,h,tc])=>`<div class="spine" style="--bk:${c};--sh:${h}em;${tc?'--bt:'+tc:''}" title="${t} · ${a}"><b>${t}</b><span>${a}</span></div>`).join('');
+  ['biancheng','边城','沈从文','2025 秋 · 创社第一本','茶峒的渡船和翠翠，是我们的第一张长桌。','#4D5A3E'],
+  ['huozhe','活着','余华','2026 春 · 两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
+  ['xusan','许三观卖血记','余华','2026 春 · 线下读书会','笑着读完，回家路上才难过。','#1E1E1E'],
+  ['qingcheng','倾城之恋','张爱玲','2026 冬 · 第一场讲座','白流苏到底赢了没有？争了一下午。','#26324A'],
+  ['jinsuo','金锁记','张爱玲','2026 冬 · 线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
+  ['hulanhe','呼兰河传','萧红','2026 秋 · 正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
+  ['eergu','额尔古纳河右岸','迟子建','2026 秋 · 11 月 28 日','一个人讲完一个民族的百年。','#5B4A2E']];
+$('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
 const TERMS=[
-  {id:'t3',books:[['呼兰河传','萧红','#3A4A36'],['额尔古纳河右岸','迟子建','#7C5A34']],cap:['春夜朗读','呼兰河传 · 上','学期照片'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，学期结束后补充回顾与照片。',list:EV.map(e=>[fmt(e.d),e.type,e.title])},
-  {id:'t2',books:[['倾城之恋','张爱玲','#8E6F3E'],['金锁记','张爱玲','#6B7756']],cap:['冬夜朗读','线上讲座','金锁记读书会'],name:'2026 年第二学期',theme:'张爱玲的城',intro:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题是：白流苏到底赢了没有。',list:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']]},
-  {id:'t1',books:[['活着','余华','#3A4A36'],['许三观卖血记','余华','#8E9A72']],cap:['开学书单交换','活着 · 上','学期末合影'],name:'2026 年第一学期',theme:'从人物出发',intro:'第一次以学期为单位读书。两本余华，从福贵读到许三观，很多人说第一次在读书会上哭。',list:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']]},
-  {id:'t0',books:[['边城','沈从文','#6B7756']],cap:['第一次读书会','朗读会','长桌'],name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
+  {id:'t3',tf:'#C9DEE3',books:['hulanhe','eergu'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后补充回顾与照片。',kv:[['书目','《呼兰河传》《额尔古纳河右岸》'],['活动','6 场，全部免费'],['状态','进行中']],list:EV.map(e=>[fmt(e.d),e.type,e.title])},
+  {id:'t2',tf:'#E7CFC4',books:['qingcheng','jinsuo'],name:'2026 年第二学期',theme:'张爱玲的城',intro:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题是：白流苏到底赢了没有。',kv:[['书目','《倾城之恋》《金锁记》'],['活动','4 场，含首场线上讲座'],['人次','约 120 人次（示例）']],list:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']]},
+  {id:'t1',tf:'#E9DCB5',books:['huozhe','xusan'],name:'2026 年第一学期',theme:'从人物出发',intro:'第一次以学期为单位读书。两本余华，从福贵读到许三观，很多人说第一次在读书会上哭。',kv:[['书目','《活着》《许三观卖血记》'],['活动','4 场'],['人次','约 80 人次（示例）']],list:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']]},
+  {id:'t0',tf:'#C6CBA8',books:['biancheng'],name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',kv:[['书目','《边城》'],['活动','2 场'],['地点','成员家中']],list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
 const TYPES=['全部','线下读书会','文学夜','线上讨论','嘉宾讲座'];
-const PP=[['#C6CBA8','#A2AC87'],['#E6E1CC','#C9B98F'],['#DEDAC1','#8E9A72']];
-$('#terms').innerHTML=TERMS.map((t,i)=>`<article class="term2" id="${t.id}"><div class="stack"><span class="label">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><div class="list" style="width:100%">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div><div class="polas" aria-label="学期照片占位">${t.cap.map((c,k)=>`<figure class="pola" style="--r:${[-5,4,-1.5][k]+(i%2?2:0)}deg;--a:${PP[(k+i)%3][0]};--b:${PP[(k+i)%3][1]}"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div></article>`).join('');
+const bkOf=c=>(BOOKS.find(b=>b[0]===c)||[])[5]||'#2B3326';
+$('#terms').innerHTML=TERMS.map(t=>`<article class="tfeat" id="${t.id}" style="--tf:${t.tf}"><div class="tfeat__books">${t.books.map(c=>{const b=BOOKS.find(x=>x[0]===c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],alt:`《${b[1]}》封面`});}).join('')}</div><div class="tfeat__txt"><span class="chip">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><dl class="kv">${t.kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><div class="list">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div></article>`).join('');
 $('#termlist').innerHTML=TERMS.map((t,i)=>`<li data-i="${i}"><a href="#${t.id}">${t.theme}<small>${t.name}</small></a></li>`).join('');
-(function(){const sec=$('#termsec'),covs=$$('.tcov',sec);
-  $$('#termlist li').forEach(li=>li.addEventListener('pointerenter',()=>{if(!DESK())return;const t=TERMS[+li.dataset.i];$$('#termlist li').forEach(x=>x.classList.toggle('on',x===li));
-    const a=$('a',li),lr=a.getBoundingClientRect(),sr=sec.getBoundingClientRect(),cy=lr.top-sr.top+lr.height/2,pos=[[-1,-.3],[1,-.5],[1,.45]];
-    covs.forEach((c,k)=>{const bk=t.books[k];if(!bk){c.classList.remove('show');return;}c.innerHTML=`<b>${bk[0]}</b><span>${bk[1]}</span>`;c.style.setProperty('--tc',bk[2]);const w=c.offsetWidth,h=c.offsetHeight;
-      const x=lr.left-sr.left+(pos[k][0]<0?-w-30:lr.width+30);c.style.left=x+'px';c.style.top=(cy+pos[k][1]*h-h/2)+'px';c.style.rotate=(pos[k][0]*6)+'deg';c.classList.add('show');});
-    sec.dataset.active='true';}));
-  $('#termlist').addEventListener('pointerleave',()=>{sec.dataset.active='false';$$('#termlist li').forEach(x=>x.classList.remove('on'));});})();
 $('#filters').innerHTML=TYPES.map((t,i)=>`<button type="button" aria-pressed="${i===0}" data-f="${t}">${t}</button>`).join('');
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
   $$('#terms .r').forEach(r=>r.hidden=f!=='全部'&&r.dataset.type!==f);
-  $$('#terms .term2').forEach(t=>t.hidden=f!=='全部'&&!$$('.r',t).some(r=>!r.hidden));
+  $$('#terms .tfeat').forEach(t=>t.hidden=f!=='全部'&&!$$('.r',t).some(r=>!r.hidden));
   if(ST)ScrollTrigger.refresh();});
 
-const GEN=[['中文原著',['活着','余华'],['倾城之恋','张爱玲'],['边城','沈从文'],['呼兰河传','萧红']],['世界译作',['百年孤独','马尔克斯'],['变形记','卡夫卡'],['局外人','加缪'],['雪国','川端康成']],['莎士比亚',['哈姆雷特','莎士比亚'],['麦克白','莎士比亚'],['暴风雨','莎士比亚'],['十四行诗','莎士比亚']],['诗歌与散文',['我与地坛','史铁生'],['飞鸟集','泰戈尔'],['背影','朱自清'],['瓦尔登湖','梭罗']],['科幻与推理',['三体','刘慈欣'],['白夜行','东野圭吾'],['沙丘','赫伯特'],['北京折叠','郝景芳']],['历史与非虚构',['万历十五年','黄仁宇'],['江城','何伟'],['巨流河','齐邦媛'],['人类简史','赫拉利']]];
+const GEN=[['中文原著','huozhe','qingcheng','biancheng','hulanhe'],['世界译作','bainian','bianxing','juwai','xueguo'],['莎士比亚','hamlet','macbeth','tempest','sonnets'],['诗歌与散文','ditan','feiniao','beiying','walden'],['科幻与推理','santi','baiye','dune','gudu'],['历史与非虚构','wanli','jiangcheng','juliu','renlei']];
 $('#glist').innerHTML=GEN.map((g,i)=>`<li data-i="${i}">${g[0]}</li>`).join('');
+/* preload every cover once so the hover never waits on the network */
+[...new Set(GEN.flatMap(g=>g.slice(1)))].forEach(c=>{const i=new Image();i.src=CV(c);});
+
+/* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
+function coverFollow(sec,list,items,getCovers,offsets){
+  const covs=$$('.fcov',sec);if(!G||!covs.length)return;
+  const q=covs.map((c,k)=>({x:gsap.quickTo(c,'x',{duration:.55+k*.14,ease:'power3'}),y:gsap.quickTo(c,'y',{duration:.55+k*.14,ease:'power3'})}));
+  let on=false,cur=-1;
+  const place=e=>{const r=sec.getBoundingClientRect();covs.forEach((c,k)=>{const o=offsets[k];q[k].x(e.clientX-r.left+o[0]*c.offsetWidth-c.offsetWidth/2);q[k].y(e.clientY-r.top+o[1]*c.offsetHeight-c.offsetHeight/2);});};
+  sec.addEventListener('pointermove',e=>{if(on)place(e);});
+  $$(items,list).forEach((li,i)=>li.addEventListener('pointerenter',e=>{if(!DESK())return;
+    $$(items,list).forEach(x=>x.classList.toggle('on',x===li));sec.dataset.active='true';
+    const cs=getCovers(i);
+    if(!on){const r=sec.getBoundingClientRect();covs.forEach((c,k)=>{const o=offsets[k];gsap.set(c,{x:e.clientX-r.left+o[0]*c.offsetWidth-c.offsetWidth/2,y:e.clientY-r.top+o[1]*c.offsetHeight-c.offsetHeight/2});});}
+    on=true;if(cur===i)return;cur=i;
+    covs.forEach((c,k)=>{const src=cs[k];gsap.killTweensOf(c,'scale,rotation,opacity');
+      if(!src){gsap.to(c,{scale:.4,opacity:0,duration:.3,ease:'power2.in'});return;}
+      gsap.to(c,{scale:.6,opacity:0,duration:.14,ease:'power2.in',onComplete:()=>{$('img',c).src=CV(src);gsap.fromTo(c,{scale:.55,rotation:offsets[k][2]*2.2,opacity:0},{scale:1,rotation:offsets[k][2],opacity:1,duration:.75,delay:k*.05,ease:'back.out(1.8)'});}});});}));
+  list.addEventListener('pointerleave',()=>{on=false;cur=-1;sec.dataset.active='false';$$(items,list).forEach(x=>x.classList.remove('on'));
+    covs.forEach((c,k)=>gsap.to(c,{scale:.5,opacity:0,rotation:0,duration:.35,delay:k*.03,ease:'power2.in'}));});}
+coverFollow($('#genre'),$('#glist'),'li',i=>GEN[i].slice(1),[[-1.15,-.55,-9],[1.15,-.6,7],[-1.05,.6,6],[1.1,.55,-8]]);
+coverFollow($('#termsec'),$('#termlist'),'li',i=>TERMS[i].books,[[-1.2,-.1,-8],[1.2,-.05,7]]);
 
 /* manifesto phrases */
 $$('[data-manifesto]').forEach(m=>{m.innerHTML=m.textContent.split(/(?<=[，。、])/).map(t=>`<span class="ph${RM?'':' dim'}">${t}</span>`).join('');});
@@ -125,7 +149,7 @@ function initSlider(name){const vp=$(`[data-slider="${name}"]`),track=$('.track'
   addEventListener('pointerup',()=>{if(!down)return;o.tx=Math.max(-o.max,Math.min(0,o.tx));upd();setTimeout(()=>down=null,0);});
   o.tick=()=>{if(!DESK()){track.style.transform='';return;}o.x+=(o.tx-o.x)*.12;track.style.transform=`translate3d(${o.x.toFixed(2)}px,0,0)`;};
   o.measure=()=>{measure();upd();};measure();upd();sliders.push(o);}
-initSlider('term');initSlider('hist');addEventListener('resize',()=>sliders.forEach(s=>s.measure()));
+initSlider('term');addEventListener('resize',()=>sliders.forEach(s=>s.measure()));
 (function loop(){sliders.forEach(s=>s.tick());requestAnimationFrame(loop);})();
 
 /* calendar */
@@ -134,11 +158,12 @@ function renderCal(){const m=months[mi],first=new Date(2026,m,1),n=new Date(2026
   $('#mTitle').textContent=`${m+1} 月`;$('#prevM').classList.toggle('off',mi===0);$('#nextM').classList.toggle('off',mi===months.length-1);
   let h='';for(let i=0;i<off;i++)h+='<div class="day blank"></div>';
   for(let d=1;d<=n;d++){const dt=new Date(2026,m,d),ev=EV.find(e=>+e.d===+dt),c=['day'];if(dt>=T0&&dt<=T1)c.push('in');
-    if(ev){c.push('ev');if(ev===sel)c.push('sel');h+=`<button type="button" class="${c.join(' ')}" data-t="${+dt}" aria-label="${fmt(dt)} ${ev.title}">${d}</button>`;}else h+=`<div class="${c.join(' ')}">${d}</div>`;}
+    if(ev){c.push('has');if(ev===sel)c.push('sel');h+=`<button type="button" class="${c.join(' ')}" data-t="${+dt}" aria-label="${fmt(dt)} ${ev.title}">${d}</button>`;}else h+=`<div class="${c.join(' ')}">${d}</div>`;}
   $('#days').innerHTML=h;}
-function renderDetail(){const e=sel,[sc,sl]=status(e);$('#detail').innerHTML=`<div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><span class="chip ${sc}" style="align-self:flex-start">${sl}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}<br>${e.type} · ${e.place}</p><p class="t-small">${e.desc}</p>`;
-  if(G&&!RM)gsap.from('#detail > *',{opacity:0,y:'.6em',duration:.4,stagger:.04,ease:EN});}
-$('#days').addEventListener('click',ev=>{const b=ev.target.closest('.day.ev');if(!b)return;sel=EV.find(e=>+e.d===+b.dataset.t);$$('.day.ev').forEach(x=>x.classList.toggle('sel',x===b));renderDetail();});
+function renderDetail(anim){const e=sel,[sc,sl]=status(e);$('#detail').innerHTML=`<span class="stampin">${e.type}</span><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><span class="chip ${sc}" style="align-self:flex-start">${sl}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}<br>${e.type} · ${e.place}</p><p class="t-small">${e.desc}</p>`;
+  if(G&&!RM&&anim){gsap.killTweensOf('#detail *');gsap.fromTo('#detail > :not(.stampin)',{opacity:0,y:'.8em'},{opacity:1,y:0,duration:.5,stagger:.05,ease:EN});
+    gsap.fromTo('#detail .stampin',{scale:2.4,opacity:0,rotation:-20},{scale:1,opacity:1,rotation:-6,duration:.45,ease:'power4.in',onComplete:()=>gsap.fromTo('#detail',{x:-3},{x:0,duration:.35,ease:'elastic.out(1,.3)'})});}}
+$('#days').addEventListener('click',ev=>{const b=ev.target.closest('.day.has');if(!b)return;sel=EV.find(e=>+e.d===+b.dataset.t);$$('.day.has').forEach(x=>x.classList.toggle('sel',x===b));renderDetail(true);});
 $('#prevM').onclick=()=>{if(mi>0){mi--;renderCal();}};$('#nextM').onclick=()=>{if(mi<2){mi++;renderCal();}};
 renderCal();renderDetail();
 $$('[data-tab]').forEach(b=>b.addEventListener('click',()=>{$$('[data-tab]').forEach(x=>x.setAttribute('aria-selected',x===b));$$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==b.dataset.tab);
@@ -202,6 +227,119 @@ const CITIES=[[139.69,35.69],[121.47,31.23],[116.4,39.9],[103.82,1.35],[106.85,-
     ctx.fillStyle='#FAF6EC';ctx.font=`700 ${Math.max(13,S/22)}px "Noto Serif SC",serif`;ctx.fillText('Nunawading',c,c+S*.1);}
   requestAnimationFrame(f);})();
 
+
+/* ---------- signature hovers ----------
+   Everything below animates transforms only, through GSAP, so hovers stay at 60fps. */
+const FINE=matchMedia('(hover:hover) and (pointer:fine)').matches;
+const MOTION=G&&!RM;
+function inkPrep(svg){$$('path,circle,rect,ellipse,line,polyline',svg).forEach(el=>{if(el.getAttribute('stroke')==='none')return;el.setAttribute('pathLength','1');el.style.strokeDasharray='1 1';el.style.strokeDashoffset='0';});}
+function inkDraw(svg,dur=1.2){if(!MOTION||!svg)return;gsap.fromTo($$('[pathLength]',svg),{strokeDashoffset:1},{strokeDashoffset:0,duration:dur,stagger:.06,ease:'power2.inOut',overwrite:true});}
+function tilt(el,max,target){if(!MOTION||!FINE)return;target=target||el;gsap.set(target,{transformPerspective:1200});
+  const rx=gsap.quickTo(target,'rotationX',{duration:.9,ease:'power3'}),ry=gsap.quickTo(target,'rotationY',{duration:.9,ease:'power3'});
+  el.addEventListener('pointermove',e=>{const r=el.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry((px-.5)*max*2);rx(-(py-.5)*max*2);el.style.setProperty('--mx',(px*100).toFixed(1)+'%');el.style.setProperty('--my',(py*100).toFixed(1)+'%');});
+  el.addEventListener('pointerleave',()=>{rx(0);ry(0);});}
+const rOf=el=>parseFloat(getComputedStyle(el).getPropertyValue('--r'))||0;
+function adoptRotation(el){const r=rOf(el);if(MOTION){el.style.rotate='0deg';gsap.set(el,{rotation:r});}return r;}
+
+/* illustrated cards: ghost character, dot texture, rotating badge, ink redraw, 3D tilt */
+$$('.icard').forEach(c=>{
+  const d=document.createElement('span');d.className='dots';c.prepend(d);
+  if(c.dataset.ghost){const g=document.createElement('span');g.className='ghost';g.textContent=c.dataset.ghost;g.setAttribute('aria-hidden','true');c.prepend(g);}
+  if(c.classList.contains('leaf')){const r=document.createElement('span');r.className='ring';r.setAttribute('aria-hidden','true');const id='rg'+Math.random().toString(36).slice(2,7);
+    r.innerHTML=`<svg viewBox="0 0 100 100"><defs><path id="${id}" d="M50 50m-38 0a38 38 0 1 1 76 0a38 38 0 1 1-76 0"/></defs><text><textPath href="#${id}">莎士比亚的猫 · READ TOGETHER · 一起读 · </textPath></text></svg>`;c.appendChild(r);}
+  const ill=$('.ill',c);if(ill)inkPrep(ill);
+  tilt(c,5);
+  if(MOTION&&FINE){const g=$('.ghost',c);
+    c.addEventListener('pointerenter',()=>{inkDraw(ill);if(g)gsap.to(g,{x:-18,y:-10,rotation:-6,duration:1.2,ease:'power3.out'});});
+    c.addEventListener('pointerleave',()=>{if(g)gsap.to(g,{x:0,y:0,rotation:0,duration:1.2,ease:'power3.out'});});}});
+$$('svg.ink').forEach(svg=>{inkPrep(svg);if(MOTION&&ST)ScrollTrigger.create({trigger:svg,start:'top 85%',onEnter:()=>inkDraw(svg,1.6)});});
+
+/* real 3D books: follow the pointer, cover swings open (CSS), tap toggles on touch */
+$$('[data-book]').forEach(b=>{const inn=$('.book__in',b);
+  if(MOTION&&FINE){gsap.set(inn,{rotationY:-24,rotationX:6});const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
+    b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(-8+(px-.5)*26);rx(4-(py-.5)*14);});
+    b.addEventListener('pointerenter',()=>gsap.to(b,{y:-10,duration:.8,ease:'back.out(2)'}));
+    b.addEventListener('pointerleave',()=>{ry(-24);rx(6);gsap.to(b,{y:0,duration:.8,ease:'power3.out'});});}
+  else b.addEventListener('click',()=>b.classList.toggle('open'));});
+
+/* postage stamps: lift, straighten, postmark lands */
+$$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);const r=adoptRotation(f);inkPrep($('svg',f));
+  if(!MOTION||!FINE)return;
+  st.addEventListener('pointerenter',()=>{gsap.to(f,{y:-16,rotation:0,scale:1.06,duration:.8,ease:'back.out(2.2)'});inkDraw($('svg',f),.9);
+    gsap.fromTo(pm,{opacity:0,scale:1.9,rotation:-34},{opacity:.92,scale:1,rotation:-18,duration:.36,delay:.18,ease:'power4.in',onComplete:()=>gsap.fromTo(f,{x:-3},{x:0,duration:.4,ease:'elastic.out(1,.3)'})});});
+  st.addEventListener('pointerleave',()=>{gsap.to(f,{y:0,rotation:r,scale:1,duration:.8,ease:'power3.out'});gsap.to(pm,{opacity:0,duration:.35});});});
+
+/* library cards: pulled out of the pocket, then stamped */
+$$('.lib').forEach(l=>{const c=$('.lib__card',l),sp=$('.lib__stamp',l),pk=$('.lib__pocket',l);c.appendChild(sp);const r=adoptRotation(c);
+  if(!MOTION)return;let open=false;
+  const pull=()=>{if(open)return;open=true;gsap.to(c,{yPercent:-34,rotation:r*-1.5,duration:1,ease:'elastic.out(1,.7)'});
+    gsap.fromTo(sp,{opacity:0,scale:2.4,rotation:-30},{opacity:1,scale:1,rotation:-12,duration:.34,delay:.32,ease:'power4.in',onComplete:()=>gsap.fromTo(l,{y:4},{y:0,duration:.5,ease:'elastic.out(1,.35)'})});
+    gsap.to(pk,{y:6,duration:.5,ease:'power2.out'});};
+  const push=()=>{if(!open)return;open=false;gsap.to(c,{yPercent:0,rotation:r,duration:.8,ease:'power3.out'});gsap.to(sp,{opacity:0,duration:.25});gsap.to(pk,{y:0,duration:.6,ease:'power3.out'});};
+  if(FINE){l.addEventListener('pointerenter',pull);l.addEventListener('pointerleave',push);}else l.addEventListener('click',e=>{if(e.target.closest('a'))return;open?push():pull();});});
+
+/* hanging bookmarks: a damped swing, the tassel lags behind */
+$$('.mark').forEach(m=>{const t=$('.mark__tassel',m);if(!MOTION)return;let busy=false;
+  const swing=dir=>{if(busy)return;busy=true;const a=8*dir;
+    gsap.to(m,{keyframes:{rotation:[a,-a*.62,a*.36,-a*.18,a*.07,0],easeEach:'sine.inOut'},duration:2.2,onComplete:()=>busy=false});
+    gsap.to(t,{keyframes:{rotation:[-a*1.6,a*1.1,-a*.6,a*.3,0],easeEach:'sine.inOut'},duration:2.4,delay:.06});
+    gsap.fromTo(m,{y:0},{y:8,duration:.25,yoyo:true,repeat:1,ease:'power2.out'});};
+  m.addEventListener('pointerenter',e=>{const r=m.getBoundingClientRect();swing(e.clientX<r.left+r.width/2?-1:1);});
+  m.addEventListener('click',()=>swing(1));});
+
+/* envelopes: flap opens, letter slides out */
+$$('.env').forEach(v=>{const fl=$('.env__flap',v),lt=$('.env__letter',v);if(!MOTION)return;
+  const tl=gsap.timeline({paused:true,defaults:{ease:'power2.inOut'}})
+    .to(fl,{rotationX:-178,duration:.42,ease:'power2.in'})
+    .set(fl,{zIndex:0},.22)
+    .to(lt,{yPercent:-64,duration:.8,ease:'back.out(1.5)'},.3)
+    .to(v,{y:-6,duration:.6,ease:'power2.out'},0);
+  if(FINE){v.addEventListener('pointerenter',()=>tl.timeScale(1).play());v.addEventListener('pointerleave',()=>tl.timeScale(1.6).reverse());}
+  else v.addEventListener('click',()=>tl.reversed()||tl.progress()===0?tl.play():tl.reverse());});
+
+/* polaroids straighten and lift toward the pointer */
+$$('.pola').forEach(pl=>{const r=adoptRotation(pl);if(!MOTION||!FINE)return;
+  pl.addEventListener('pointerenter',()=>{gsap.to(pl,{rotation:0,scale:1.07,y:-8,zIndex:6,duration:.7,ease:'back.out(2)'});});
+  pl.addEventListener('pointerleave',()=>{gsap.to(pl,{rotation:r,scale:1,y:0,zIndex:1,duration:.8,ease:'power3.out'});});});
+
+/* HMS-style timeline */
+const ILL={
+  house:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M60 180V96l90-62 90 62v84z" fill="#E9DCB5"/><path d="M40 108l110-80 110 80"/><rect x="128" y="120" width="44" height="60" fill="#FAF6EC"/><rect x="80" y="110" width="32" height="28" fill="#C9DEE3"/><rect x="188" y="110" width="32" height="28" fill="#C9DEE3"/><path d="M20 180h260"/><path d="M196 52V30h18v34" fill="#FAF6EC"/><path d="M204 22c-6-8 4-12-2-20" stroke="#B8412F"/></svg>',
+  cat:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="70" y="40" width="160" height="120" rx="10" fill="#FAF6EC"/><path d="M90 70h70M90 92h120M90 114h96"/><circle cx="214" cy="68" r="12" fill="#B8412F" stroke="#B8412F"/><path d="M96 160c0-24 10-36 26-36s26 12 26 36"/><path d="M104 130l-4-12 12 7M140 130l4-12-12 7" fill="#C6CBA8"/><path d="M148 156q30 4 34-18" /><path d="M20 180h260"/></svg>',
+  calendar:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="70" y="36" width="160" height="140" rx="10" fill="#FAF6EC"/><path d="M70 72h160M108 24v24M192 24v24"/><path d="M96 98h20M140 98h20M184 98h20M96 126h20M140 126h20M184 126h20M96 152h20"/><circle cx="150" cy="126" r="16" stroke="#B8412F"/><path d="M230 150q30-6 40-34" stroke="#6B7756"/><path d="M262 112l8 4 4-8" stroke="#6B7756"/></svg>',
+  mic:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="40" y="40" width="150" height="100" rx="8" fill="#C9DEE3"/><path d="M30 150h170l-12 16H42z" fill="#FAF6EC"/><rect x="214" y="40" width="30" height="62" rx="15" fill="#FAF6EC"/><path d="M200 84a29 29 0 0 0 58 0M229 114v26M210 146h38"/><path d="M80 78q35-30 70 0" stroke="#B8412F"/><circle cx="115" cy="98" r="10"/></svg>',
+  globe:'<svg viewBox="0 0 300 200" fill="none" stroke="#2B3326" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="150" cy="100" r="76" fill="#C9DEE3"/><path d="M74 100h152M150 24c-40 40-40 112 0 152M150 24c40 40 40 112 0 152"/><path d="M96 58q54 20 108 0M96 142q54-20 108 0"/><path d="M174 128l58-70" stroke="#B8412F" stroke-dasharray="6 7"/><circle cx="174" cy="128" r="6" fill="#B8412F" stroke="#B8412F"/></svg>'};
+const HIST=[
+  {y:'2025',s:'秋',h:'第一次读书会',p:'几位朋友在家里读沈从文《边城》。没有主持人，也没有讨论提纲，一直聊到很晚。',ill:'house'},
+  {y:'2025',s:'冬',h:'有了名字',p:'建立微信群和公众号，取名「莎士比亚的猫」。第一次公开朗读会，来了二十多人。',ill:'cat'},
+  {y:'2026',s:'春',h:'以学期为单位读书',p:'第一学期读余华。读书会搬进 Nunawading Community Hub，有了固定的长桌。',ill:'calendar'},
+  {y:'2026',s:'冬',h:'第一场线上讲座',p:'读张爱玲《倾城之恋》。悉尼和布里斯班的读者第一次和我们坐在同一张「桌」前。',ill:'mic'},
+  {y:'2026',s:'秋',h:'官网上线',p:'第三学期「故乡与远方」开始，同时筹备青少年与长者阅读推广。',ill:'globe'}];
+(function(){const ticks=$('#tlTicks');if(!ticks)return;let ti=HIST.length-1;
+  ticks.innerHTML=HIST.map((h,i)=>`<button type="button" data-i="${i}">${h.y} ${h.s}</button>`).join('');
+  const bs=$$('button',ticks),fill=$('#tlFill'),tx=$('#tlText'),il=$('#tlIll');
+  const paint=()=>{const c=b=>b.offsetLeft+b.offsetWidth/2;fill.style.left=c(bs[0])+'px';fill.style.width=(c(bs[ti])-c(bs[0]))+'px';bs.forEach((b,i)=>b.setAttribute('aria-current',i===ti));$('#tlPrev').classList.toggle('off',ti===0);$('#tlNext').classList.toggle('off',ti===HIST.length-1);};
+  const fillIn=()=>{const h=HIST[ti];tx.innerHTML=`<span class="when">${h.y}<small style="font-size:.38em;margin-left:.2em">${h.s}</small></span><h3>${h.h}</h3><p>${h.p}</p>`;il.innerHTML=ILL[h.ill];inkPrep($('svg',il));};
+  const show=(i,anim)=>{if(i<0||i>=HIST.length)return;ti=i;paint();
+    if(!MOTION||!anim){fillIn();return;}
+    gsap.to([tx,il],{opacity:0,y:-14,duration:.22,ease:'power2.in',onComplete:()=>{fillIn();gsap.fromTo(tx.children,{opacity:0,y:18},{opacity:1,y:0,duration:.6,stagger:.06,ease:EN});gsap.set([tx,il],{opacity:1,y:0});inkDraw($('svg',il),1.3);}});};
+  bs.forEach((b,i)=>b.addEventListener('click',()=>show(i,true)));$('#tlPrev').onclick=()=>show(ti-1,true);$('#tlNext').onclick=()=>show(ti+1,true);
+  addEventListener('resize',paint);show(ti,false);
+  if(MOTION&&ST)ScrollTrigger.create({trigger:'#tl',start:'top 75%',once:true,onEnter:()=>inkDraw($('svg',il),1.6)});
+  window.__tlPaint=paint;})();
+
+/* the cat yawns now and then */
+(function(){const head=$('#catHead'),mouth=$('#catMouth');if(!head||!MOTION)return;gsap.set(mouth,{scaleX:.2,scaleY:0,opacity:0});
+  const yawn=()=>{gsap.timeline({onComplete:()=>gsap.delayedCall(6+Math.random()*6,yawn)})
+    .to(head,{rotation:-7,y:-3,duration:1,ease:'sine.inOut'})
+    .to(mouth,{opacity:1,scaleX:1,scaleY:1,duration:.9,ease:'power2.out'},.2)
+    .to(head,{rotation:-8.5,duration:.9,ease:'sine.inOut'})
+    .to(mouth,{scaleX:.85,scaleY:.15,duration:.45,ease:'power2.in'})
+    .to(mouth,{opacity:0,duration:.12})
+    .to(head,{rotation:0,y:0,duration:1.1,ease:'sine.inOut'},'-=.35')
+    .to(head,{rotation:1.2,duration:.25,yoyo:true,repeat:1,ease:'sine.inOut'});};
+  gsap.delayedCall(4.2,yawn);})();
+
 /* scroll animations */
 let ctxPage=null;
 function rise(els,trig){els=els.filter(Boolean);trig=typeof trig==='string'?$(trig):(trig||els[0]);
@@ -214,15 +352,14 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     $$('[data-split]',page).forEach(h=>{const ch=splitChars(h);gsap.fromTo(ch,{yPercent:30,opacity:0},{yPercent:0,opacity:1,duration:.7,stagger:.04,ease:EN,scrollTrigger:{trigger:h,start:'top 88%',once:true}});});
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
-    [['.route','li'],['.slider[data-slider=hist] .track','.hcard'],['.roles','.role'],['.clock','li'],['.bento','div'],['.flow','li'],['.amp',':scope > *'],['.qs','li']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
-    $$('.bfeat,.term2,.stepcards,.letter,.phone,.bigrow,.polas',page).forEach(el=>rise([el],el));
+    [['.icards','.icard'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
+    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
+    $$('.stats b[data-count]',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}
 function home(page){
   const bind=!page.dataset.bound;page.dataset.bound=1;
   rise($$('#termTrack .ecard'),'#termTrack');
-  rise($$('#trio .fcard'),'#trio');
-  rise($$('.duo .pcard',page),$('.duo',page));
   const tl=gsap.timeline({scrollTrigger:{trigger:'#boxSec',start:'top top',end:'bottom bottom',scrub:.6}});
   gsap.set('#boxContent > *',{opacity:0,y:'2em'});
   tl.fromTo('#book3d',{rotateX:18,rotateZ:-8,scale:.9,y:'4em'},{rotateX:0,rotateZ:0,scale:1,y:0,duration:.25,ease:'none'})
@@ -230,14 +367,6 @@ function home(page){
     .to('#book3d',{scale:()=>DESK()?5.4:4.2,duration:.35,ease:'power2.in'},.42)
     .to('#boxContent > *',{opacity:1,y:0,stagger:.04,duration:.2,ease:'none'},.68).to({},{duration:.12});
   rise($$('#glist li'),'#glist');
-  const sec=$('#genre'),boxes=$$('.gbox',sec),GC=[['#3A4A36','#FAF6EC'],['#FAF6EC','#2B3326'],['#8E6F3E','#FAF6EC'],['#E6E1CC','#2B3326']];
-  if(bind){$$('#glist li').forEach(li=>li.addEventListener('pointerenter',()=>{if(!DESK())return;const g=GEN[+li.dataset.i];$$('#glist li').forEach(x=>x.classList.toggle('on',x===li));
-      const lr=li.getBoundingClientRect(),sr=sec.getBoundingClientRect(),cy=lr.top-sr.top+lr.height/2,cx=lr.left-sr.left+lr.width/2,pos=[[-1,-1],[1,-1],[-1,1],[1,1]];
-      boxes.forEach((b,k)=>{const[t,a]=g[k+1];b.innerHTML=`<b>${t}</b><span>${a}</span>`;b.style.setProperty('--gc',GC[k][0]);b.style.setProperty('--gt',GC[k][1]);const bw=b.offsetWidth,bh=b.offsetHeight;
-        b.style.left=(cx+pos[k][0]*(lr.width/2+bw*.45)-bw/2)+'px';b.style.top=(cy+pos[k][1]*bh*.55-bh/2)+'px';b.style.rotate=(pos[k][0]*pos[k][1]*-4)+'deg';});
-      sec.dataset.active='true';}));
-    $('#glist').addEventListener('pointerleave',()=>{sec.dataset.active='false';$$('#glist li').forEach(x=>x.classList.remove('on'));});
-    sec.addEventListener('pointermove',e=>{if(sec.dataset.active!=='true')return;const r=sec.getBoundingClientRect(),px=(e.clientX-r.left)/r.width-.5,py=(e.clientY-r.top)/r.height-.5;boxes.forEach((b,k)=>b.style.translate=`${px*(16+k*5)}px ${py*(16+k*5)}px`);});}
   gsap.to('#globeBox',{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 }
 /* accordions (all pages) */
@@ -258,7 +387,7 @@ function showPage(r){$$('.page').forEach(p=>p.classList.toggle('on',p.dataset.pa
   $$('#nav [data-r]').forEach(a=>a.dataset.r===r&&!a.classList.contains('btn')?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   const page=$(`[data-page="${r}"]`);
   $('#main').classList.add('ready');toTop();initButtons(page);initButtons(hdr);sliders.forEach(s=>s.measure());
-  requestAnimationFrame(()=>{if(ST)ScrollTrigger.refresh();pageAnimations(page);if(ST)ScrollTrigger.refresh();});return page;}
+  requestAnimationFrame(()=>{window.__tlPaint&&window.__tlPaint();if(ST)ScrollTrigger.refresh();pageAnimations(page);if(ST)ScrollTrigger.refresh();});return page;}
 function intro(page,tl,at){const it=$('[data-intro]',page);if(!it)return;
   const bg=$('[data-intro-bg]',it),title=$('[data-intro-title]',it),paras=$$('[data-intro-para]',it),btn=$('[data-intro-btn]',it),vis=$('[data-intro-visual]',it),content=$('[data-intro-content]',page),ch=splitChars(title),cat=$('.cat',it);
   if(DESK())tl.set(bg,{clipPath:'ellipse(20% 0% at 100% 100%)'},0);

@@ -22,6 +22,9 @@ def build(artifact=False):
     for js in ('assets/js/land.js', 'assets/js/main.js'):
         code = (ROOT / js).read_text(encoding='utf-8')
         html = html.replace(f'<script src="{js}"></script>', f'<script>\n{code}\n</script>')
+    covers = {f.stem: data_uri(f'assets/img/covers/{f.name}') for f in sorted((ROOT / 'assets/img/covers').glob('*.webp'))}
+    import json
+    html = html.replace('const CV=n=>`assets/img/covers/${n}.webp`;', 'const COVERS=' + json.dumps(covers) + ';const CV=n=>COVERS[n];')
     html = re.sub(r'(src|href)="(assets/img/[^"]+)"', lambda m: f'{m.group(1)}="{data_uri(m.group(2))}"', html)
     if artifact:
         head = html[html.index('<title>'):html.index('</head>')]

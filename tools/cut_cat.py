@@ -33,3 +33,9 @@ def save(m, name, box):
 save(body, 'cat-body.webp', (0, 0, W*K, 150*K))
 save(tail, 'cat-tail.webp', (272*K, (PIV-8)*K, 310*K, 184*K))
 print('ok', Z.size)
+
+# head layer, used for the yawn (tilts back slightly while the mouth opens)
+HEAD = [(18,52),(30,50),(45,50),(56,45),(66,40),(70,32),(73,22),(78,14),(81,13),(88,22),(94,36),(100,40),(108,46),(112,60),(112,80),(108,94),(98,102),(80,104),(60,101),(44,97),(36,92),(30,80),(22,62)]
+hm = Image.new('L', Z.size, 0); ImageDraw.Draw(hm).polygon([(x*K, y*K) for x, y in chaikin(HEAD, 2)], fill=255)
+hm = hm.filter(ImageFilter.GaussianBlur(1.6))
+save(hm, 'cat-head.webp', (14*K, 10*K, 116*K, 108*K))
