@@ -73,6 +73,8 @@ const EV=[
 const fmt=d=>`${d.getMonth()+1}月${d.getDate()}日`;
 const next=EV.find(e=>e.d>=today);
 const status=e=>e.d<today?['done','已结束']:e===next?['open','报名中']:['','即将开放'];
+const tk=next||EV[EV.length-1];
+$('#ticket').innerHTML=`<div class="ticket__main"><span class="chip open">下一场 · ${status(tk)[1]}</span><span class="num">${tk.d.getMonth()+1}/${tk.d.getDate()}</span><h3>${tk.title}</h3><p class="t-small">周${wd[tk.d.getDay()]} ${tk.t} · ${tk.type}<br>${tk.place}</p></div><div class="ticket__stub">入场券<small>免费 · FREE</small></div>`;
 const CB=['#EAE4D2','#DEDAC1','#E6E1CC','#D3D6B9','#EDE8D8','#C6CBA8'];
 $('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article class="ecard ${hot?'dark':''}" style="--cb:${CB[i]}"><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what">${hot?'<span class="chip" style="align-self:flex-start;background:var(--paper)">下一场</span>':''}<h3 class="t-h3">${e.title}</h3><p class="meta">${e.type} · ${e.place}</p></div></article>`}).join('');
 
@@ -83,20 +85,32 @@ const BOOKS=[
 $('#shelf').innerHTML=BOOKS.map(([t,a,c,h,tc])=>`<div class="spine" style="--bk:${c};--sh:${h}em;${tc?'--bt:'+tc:''}" title="${t} · ${a}"><b>${t}</b><span>${a}</span></div>`).join('');
 
 const TERMS=[
-  {name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，学期结束后补充回顾与照片。',list:EV.map(e=>[fmt(e.d),e.type,e.title])},
-  {name:'2026 年第二学期',theme:'张爱玲的城',intro:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题是：白流苏到底赢了没有。',list:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']]},
-  {name:'2026 年第一学期',theme:'从人物出发',intro:'第一次以学期为单位读书。两本余华，从福贵读到许三观，很多人说第一次在读书会上哭。',list:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']]},
-  {name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
+  {id:'t3',books:[['呼兰河传','萧红','#3A4A36'],['额尔古纳河右岸','迟子建','#7C5A34']],cap:['春夜朗读','呼兰河传 · 上','学期照片'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，学期结束后补充回顾与照片。',list:EV.map(e=>[fmt(e.d),e.type,e.title])},
+  {id:'t2',books:[['倾城之恋','张爱玲','#8E6F3E'],['金锁记','张爱玲','#6B7756']],cap:['冬夜朗读','线上讲座','金锁记读书会'],name:'2026 年第二学期',theme:'张爱玲的城',intro:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题是：白流苏到底赢了没有。',list:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']]},
+  {id:'t1',books:[['活着','余华','#3A4A36'],['许三观卖血记','余华','#8E9A72']],cap:['开学书单交换','活着 · 上','学期末合影'],name:'2026 年第一学期',theme:'从人物出发',intro:'第一次以学期为单位读书。两本余华，从福贵读到许三观，很多人说第一次在读书会上哭。',list:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']]},
+  {id:'t0',books:[['边城','沈从文','#6B7756']],cap:['第一次读书会','朗读会','长桌'],name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
 const TYPES=['全部','线下读书会','文学夜','线上讨论','嘉宾讲座'];
-$('#terms').innerHTML=TERMS.map((t,i)=>`<div class="term"><div class="bh"><span class="label">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2></div><p class="t-body prose">${t.intro}</p><div class="list">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div>${i<3?'<div class="photos"><div class="photo">学期照片</div><div class="photo">学期照片</div><div class="photo">学期照片</div></div>':''}</div>`).join('');
+const PP=[['#C6CBA8','#A2AC87'],['#E6E1CC','#C9B98F'],['#DEDAC1','#8E9A72']];
+$('#terms').innerHTML=TERMS.map((t,i)=>`<article class="term2" id="${t.id}"><div class="stack"><span class="label">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><div class="list" style="width:100%">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div><div class="polas" aria-label="学期照片占位">${t.cap.map((c,k)=>`<figure class="pola" style="--r:${[-5,4,-1.5][k]+(i%2?2:0)}deg;--a:${PP[(k+i)%3][0]};--b:${PP[(k+i)%3][1]}"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div></article>`).join('');
+$('#termlist').innerHTML=TERMS.map((t,i)=>`<li data-i="${i}"><a href="#${t.id}">${t.theme}<small>${t.name}</small></a></li>`).join('');
+(function(){const sec=$('#termsec'),covs=$$('.tcov',sec);
+  $$('#termlist li').forEach(li=>li.addEventListener('pointerenter',()=>{if(!DESK())return;const t=TERMS[+li.dataset.i];$$('#termlist li').forEach(x=>x.classList.toggle('on',x===li));
+    const a=$('a',li),lr=a.getBoundingClientRect(),sr=sec.getBoundingClientRect(),cy=lr.top-sr.top+lr.height/2,pos=[[-1,-.3],[1,-.5],[1,.45]];
+    covs.forEach((c,k)=>{const bk=t.books[k];if(!bk){c.classList.remove('show');return;}c.innerHTML=`<b>${bk[0]}</b><span>${bk[1]}</span>`;c.style.setProperty('--tc',bk[2]);const w=c.offsetWidth,h=c.offsetHeight;
+      const x=lr.left-sr.left+(pos[k][0]<0?-w-30:lr.width+30);c.style.left=x+'px';c.style.top=(cy+pos[k][1]*h-h/2)+'px';c.style.rotate=(pos[k][0]*6)+'deg';c.classList.add('show');});
+    sec.dataset.active='true';}));
+  $('#termlist').addEventListener('pointerleave',()=>{sec.dataset.active='false';$$('#termlist li').forEach(x=>x.classList.remove('on'));});})();
 $('#filters').innerHTML=TYPES.map((t,i)=>`<button type="button" aria-pressed="${i===0}" data-f="${t}">${t}</button>`).join('');
 $('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
   $$('#terms .r').forEach(r=>r.hidden=f!=='全部'&&r.dataset.type!==f);
-  $$('#terms .term').forEach(t=>t.hidden=f!=='全部'&&!$$('.r',t).some(r=>!r.hidden));
+  $$('#terms .term2').forEach(t=>t.hidden=f!=='全部'&&!$$('.r',t).some(r=>!r.hidden));
   if(ST)ScrollTrigger.refresh();});
 
 const GEN=[['中文原著',['活着','余华'],['倾城之恋','张爱玲'],['边城','沈从文'],['呼兰河传','萧红']],['世界译作',['百年孤独','马尔克斯'],['变形记','卡夫卡'],['局外人','加缪'],['雪国','川端康成']],['莎士比亚',['哈姆雷特','莎士比亚'],['麦克白','莎士比亚'],['暴风雨','莎士比亚'],['十四行诗','莎士比亚']],['诗歌与散文',['我与地坛','史铁生'],['飞鸟集','泰戈尔'],['背影','朱自清'],['瓦尔登湖','梭罗']],['科幻与推理',['三体','刘慈欣'],['白夜行','东野圭吾'],['沙丘','赫伯特'],['北京折叠','郝景芳']],['历史与非虚构',['万历十五年','黄仁宇'],['江城','何伟'],['巨流河','齐邦媛'],['人类简史','赫拉利']]];
 $('#glist').innerHTML=GEN.map((g,i)=>`<li data-i="${i}">${g[0]}</li>`).join('');
+
+/* manifesto phrases */
+$$('[data-manifesto]').forEach(m=>{m.innerHTML=m.textContent.split(/(?<=[，。、])/).map(t=>`<span class="ph${RM?'':' dim'}">${t}</span>`).join('');});
 
 /* slider */
 const sliders=[];
@@ -111,7 +125,7 @@ function initSlider(name){const vp=$(`[data-slider="${name}"]`),track=$('.track'
   addEventListener('pointerup',()=>{if(!down)return;o.tx=Math.max(-o.max,Math.min(0,o.tx));upd();setTimeout(()=>down=null,0);});
   o.tick=()=>{if(!DESK()){track.style.transform='';return;}o.x+=(o.tx-o.x)*.12;track.style.transform=`translate3d(${o.x.toFixed(2)}px,0,0)`;};
   o.measure=()=>{measure();upd();};measure();upd();sliders.push(o);}
-initSlider('term');addEventListener('resize',()=>sliders.forEach(s=>s.measure()));
+initSlider('term');initSlider('hist');addEventListener('resize',()=>sliders.forEach(s=>s.measure()));
 (function loop(){sliders.forEach(s=>s.tick());requestAnimationFrame(loop);})();
 
 /* calendar */
@@ -171,18 +185,38 @@ const CITIES=[[139.69,35.69],[121.47,31.23],[116.4,39.9],[103.82,1.35],[106.85,-
   box.addEventListener('pointermove',e=>{if(!drag)return;lam=drag.l+(e.clientX-drag.x)*.4;phi=Math.max(-50,Math.min(50,drag.p-(e.clientY-drag.y)*.3));});
   ['pointerup','pointercancel'].forEach(t=>box.addEventListener(t,()=>drag=null));})();
 
+/* pin map on the events page: Nunawading as the centre of a few dashed rings */
+(function(){const cv=$('#pinmap');if(!cv||!cv.getContext)return;const ctx=cv.getContext('2d');let S=0,dpr=1,vis=false;
+  const size=()=>{dpr=Math.min(2,devicePixelRatio||1);S=cv.getBoundingClientRect().width;cv.width=S*dpr;cv.height=S*dpr;};
+  new ResizeObserver(size).observe(cv);new IntersectionObserver(es=>vis=es[0].isIntersecting).observe(cv);size();
+  const t0=performance.now();
+  const ro=new ResizeObserver(()=>{size();draw(0);});ro.observe(cv);
+  function f(now){requestAnimationFrame(f);if(vis&&S)draw(RM?0:(now-t0)/1000);}
+  function draw(t){if(!S)return;const c=S/2;ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,S,S);
+    ctx.lineWidth=1.5;[.18,.3,.42].forEach((r,i)=>{ctx.beginPath();ctx.setLineDash([6,8]);ctx.lineDashOffset=-t*(6+i*3)*(i%2?1:-1);ctx.arc(c,c,S*r,0,Math.PI*2);ctx.strokeStyle='rgba(250,246,236,.32)';ctx.stroke();});
+    ctx.setLineDash([]);ctx.strokeStyle='rgba(250,246,236,.2)';ctx.beginPath();ctx.moveTo(c,S*.04);ctx.lineTo(c,S*.96);ctx.moveTo(S*.04,c);ctx.lineTo(S*.96,c);ctx.stroke();
+    ctx.fillStyle='rgba(250,246,236,.7)';ctx.font=`500 ${Math.max(11,S/34)}px "Noto Sans SC",sans-serif`;ctx.textAlign='center';ctx.fillText('N',c,S*.03+S/34);
+    ctx.textAlign='left';ctx.fillText('← 墨尔本 CBD 约 20 公里',S*.06,c-10);ctx.textAlign='center';
+    const k=RM?0:(t*14)%(S*.08);ctx.beginPath();ctx.arc(c,c,S*.03+k,0,Math.PI*2);ctx.strokeStyle=`rgba(184,65,47,${1-k/(S*.08)})`;ctx.lineWidth=2;ctx.stroke();
+    ctx.beginPath();ctx.arc(c,c,S*.03,0,Math.PI*2);ctx.fillStyle='#B8412F';ctx.fill();ctx.lineWidth=3;ctx.strokeStyle='#FAF6EC';ctx.stroke();
+    ctx.fillStyle='#FAF6EC';ctx.font=`700 ${Math.max(13,S/22)}px "Noto Serif SC",serif`;ctx.fillText('Nunawading',c,c+S*.1);}
+  requestAnimationFrame(f);})();
+
 /* scroll animations */
 let ctxPage=null;
 function rise(els,trig){els=els.filter(Boolean);trig=typeof trig==='string'?$(trig):(trig||els[0]);
   els.forEach(e=>{e.style.transition='';e.style.translate='';e.style.opacity='';});
   if(!trig||trig.getBoundingClientRect().top<innerHeight*.88)return;
   els.forEach(e=>{e.style.transition='none';e.style.translate='0 2.5em';e.style.opacity='0';});
-  ScrollTrigger.create({trigger:trig,start:'top 90%',once:true,onEnter:()=>els.forEach((e,i)=>{e.style.transition=`translate .9s cubic-bezier(.2,.8,.2,1) ${i*.06}s, opacity .6s ease ${i*.06}s, transform .5s var(--ease)`;e.style.translate='0 0';e.style.opacity='1';})});}
+  ScrollTrigger.create({trigger:trig,start:'top 90%',once:true,onEnter:()=>els.forEach((e,i)=>{e.style.transition=`translate .9s cubic-bezier(.2,.8,.2,1) ${i*.06}s, opacity .6s ease ${i*.06}s, transform .5s var(--ease)`;e.style.translate='0 0';e.style.opacity='1';setTimeout(()=>{e.style.transition='';e.style.translate='';e.style.opacity='';},1400+i*60);})});}
 function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
   ctxPage=gsap.context(()=>{
     $$('[data-split]',page).forEach(h=>{const ch=splitChars(h);gsap.fromTo(ch,{yPercent:30,opacity:0},{yPercent:0,opacity:1,duration:.7,stagger:.04,ease:EN,scrollTrigger:{trigger:h,start:'top 88%',once:true}});});
     if(page.dataset.page==='home')home(page);
-    $$('.blk,.term,.notice,.wx,.lede',page).forEach(b=>rise([...b.children].length?[...b.children]:[b],b));
+    $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
+    [['.route','li'],['.slider[data-slider=hist] .track','.hcard'],['.roles','.role'],['.clock','li'],['.bento','div'],['.flow','li'],['.amp',':scope > *'],['.qs','li']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
+    $$('.bfeat,.term2,.stepcards,.letter,.phone,.bigrow,.polas',page).forEach(el=>rise([el],el));
+    $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}
 function home(page){
   const bind=!page.dataset.bound;page.dataset.bound=1;
