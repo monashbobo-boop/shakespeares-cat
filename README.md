@@ -30,6 +30,7 @@
 
 | 版本 | 日期 | 主要变化 |
 | --- | --- | --- |
+| v9 | 2026-10-21 | 重做猫打哈欠；hover 离开即收回；导航栏上滑显示；页脚导航 |
 | v8 | 2026-10-21 | 图标换成手绘风；标题改成一句话；去掉卡片上的装饰；修猫打哈欠 |
 | v7 | 2026-10-20 | 修复卡片截断、封面遮字、立体书白板；真实地图；插画和图标换成开源素材 |
 | v6 | 2026-10-20 | 真实封面的立体书；卡片换成邮票、借书卡、书签、信封；猫会打哈欠 |
@@ -53,6 +54,7 @@ assets/img/sketch/      手绘图标（Streamline Freehand，CC BY 4.0）
 assets/img/map-nunawading.webp  场馆地图（OpenStreetMap）
 CREDITS.md              所有素材的来源和授权
 tools/cut_cat.py        从会员设计稿里抠出猫咪（身体和尾巴分两层）
+tools/cat_yawn.py       在猫的原画上画出两帧打哈欠的嘴
 tools/build_single.py   打包成单个 HTML 文件，输出到 dist/
 ```
 

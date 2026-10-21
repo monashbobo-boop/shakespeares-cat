@@ -1046,3 +1046,29 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .t-h2{font-size:4.2em}
 .blk .t-h2,.tfeat__txt .t-h2{font-size:3.4em}
 @media (max-width:991px){.t-h2{font-size:1.9em}}
+
+/* v9 cat yawn: painted patches over the body layer */
+.cat__mouth{display:none}
+.cat__yawn{position:absolute;z-index:3;left:20.625%;top:53.333%;width:10.625%;height:17.333%;opacity:0;pointer-events:none}
+
+/* v9 fixes */
+.icard.leaf .go{right:auto;left:2em}
+@media (max-width:991px){.icard.leaf .go{left:1.4em}}
+.libs{padding-top:12em}
+@media (max-width:991px){.libs{padding-top:8em;gap:8em}}
+.amp{grid-template-columns:1fr 1fr;gap:6em}
+/* header: slides away on scroll down, returns on scroll up or when the pointer nears the top */
+.hdr{transition:transform .55s var(--ease)}
+.hdr.away{transform:translateY(-130%)}
+.hdr.solid .nav .pill:not([aria-current]){--pill:rgba(250,246,236,.92);backdrop-filter:blur(6px)}
+.hdr[data-scrolled="true"] .logo{transform:none;opacity:1;pointer-events:auto}
+.hdr.solid .logo{background:rgba(250,246,236,.92);padding:.3em .9em .3em .3em;border-radius:3em;backdrop-filter:blur(6px)}
+/* footer nav */
+.ft__nav{display:flex;flex-wrap:wrap;gap:.6em;padding-block:0 3em}
+.ft__nav .pill{--pill:rgba(250,246,236,.1);color:var(--paper);box-shadow:inset 0 0 0 1px rgba(250,246,236,.18)}
+.ft__nav .pill:hover{--pill:var(--paper);color:var(--ink)}
+@media (max-width:991px){.ft__nav{justify-content:center;padding-block:0 2em}.ft__nav .pill{height:2.8em}.ft__nav .pill span{font-size:.9em}}
+/* GSAP owns .hdr transform (page transitions and hide/show), so CSS stays out of it */
+.hdr,.hdr.away{transition:none}
+.hdr.away{transform:none}
+@media (max-width:991px){.hdr.away{transform:none}}

@@ -84,7 +84,7 @@ $('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article cla
 $('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.type} · ${e.t} · ${e.place}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div><span class="chip ${sc}">${sl}</span></article>`}).join('');
 
 /* real covers, from 豆瓣 (Chinese editions) */
-const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div><div class="book__slip"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div><div class="book__face book__spine"><b>${(o.title||note[0]).replace(/[《》]/g,'')}</b><i></i></div><div class="book__face book__front"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div><span class="book__shadow"></span></div>`;
+const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div>${o.noSlip?'':`<div class="book__slip"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div>`}<div class="book__face book__spine"><b>${(o.title||note[0]).replace(/[《》]/g,'')}</b><i></i></div><div class="book__face book__front"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div><span class="book__shadow"></span></div>`;
 const BOOKS=[
   ['biancheng','边城','沈从文','2025 秋 · 创社第一本','茶峒的渡船和翠翠，是我们的第一张长桌。','#4D5A3E'],
   ['huozhe','活着','余华','2026 春 · 两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
@@ -93,7 +93,7 @@ const BOOKS=[
   ['jinsuo','金锁记','张爱玲','2026 冬 · 线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
   ['hulanhe','呼兰河传','萧红','2026 秋 · 正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
   ['eergu','额尔古纳河右岸','迟子建','2026 秋 · 11 月 28 日','一个人讲完一个民族的百年。','#5B4A2E']];
-$('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
+$('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,noSlip:true,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
 const TERMS=[
   {id:'t3',tf:'#C9DEE3',books:['hulanhe','eergu'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后补充回顾与照片。',kv:[['书目','《呼兰河传》《额尔古纳河右岸》'],['活动','6 场，全部免费'],['状态','进行中']],list:EV.map(e=>[fmt(e.d),e.type,e.title])},
@@ -236,36 +236,53 @@ $$('.icard').forEach(c=>{const ill=$('.ill',c);
   if(MOTION&&FINE&&ill){c.addEventListener('pointerenter',()=>gsap.fromTo(ill,{scaleY:1,scaleX:1,transformOrigin:'50% 100%'},{keyframes:{scaleY:[.95,1.04,1],scaleX:[1.03,.99,1]},duration:.8,ease:'sine.out'}));}});
 $$('svg.ink').forEach(svg=>{inkPrep(svg);if(MOTION&&ST)ScrollTrigger.create({trigger:svg,start:'top 85%',onEnter:()=>inkDraw(svg,1.6)});});
 
-/* 3D books: turn toward the pointer (always showing the spine side), lift, and a reading slip rises out of the pages */
+/* Hover helper: every hover effect is one paused timeline that plays forward on enter and reverses on leave,
+   so a quick pass over several items can never leave one stuck half-open. While the page scrolls under a still
+   pointer, items the pointer is no longer over are closed too. */
+const HOV=new Set();let PX=-1,PY=-1;
+addEventListener('pointermove',e=>{PX=e.clientX;PY=e.clientY;},{passive:true});
+function hoverTL(el,tl,{onEnter,onLeave,speed=1.35}={}){tl.pause(0);const o={el,on:false,
+  open(){if(o.on)return;o.on=true;HOV.add(o);tl.timeScale(1).play();onEnter&&onEnter();},
+  close(){if(!o.on)return;o.on=false;HOV.delete(o);tl.timeScale(speed).reverse();onLeave&&onLeave();}};
+  if(FINE){el.addEventListener('pointerenter',o.open);el.addEventListener('pointerleave',o.close);}
+  else el.addEventListener('click',e=>{if(e.target.closest('a'))return;o.on?o.close():o.open();});
+  return o;}
+const sweepHover=()=>{if(!HOV.size||PX<0)return;const t=document.elementFromPoint(PX,PY);HOV.forEach(o=>{if(!t||!o.el.contains(t))o.close();});};
+if(lenis)lenis.on('scroll',sweepHover);addEventListener('scroll',sweepHover,{passive:true});
+document.addEventListener('pointerleave',()=>HOV.forEach(o=>o.close()));
+
+/* 3D books: turn toward the pointer (spine side stays visible), lift; books that carry a reading slip raise it */
 $$('[data-book]').forEach(b=>{const inn=$('.book__in',b),slip=$('.book__slip',b),sh=$('.book__shadow',b);
-  if(!MOTION){return;}
-  gsap.set(inn,{rotationY:28,rotationX:4});gsap.set(slip,{y:0,z:0});
+  if(!MOTION)return;
+  gsap.set(inn,{rotationY:28,rotationX:4});
   const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
-  const open=()=>{gsap.to(b,{y:-12,duration:.8,ease:'back.out(2)'});gsap.to(sh,{scaleX:.85,opacity:.6,duration:.8});gsap.to(slip,{yPercent:-52,duration:.9,delay:.1,ease:'back.out(1.4)'});};
-  const close=()=>{ry(28);rx(4);gsap.to(b,{y:0,duration:.8,ease:'power3.out'});gsap.to(sh,{scaleX:1,opacity:1,duration:.8});gsap.to(slip,{yPercent:0,duration:.6,ease:'power3.inOut'});};
-  if(FINE){b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(18+(1-px)*22);rx(6-(py-.5)*12);});
-    b.addEventListener('pointerenter',open);b.addEventListener('pointerleave',close);}
-  else{let on=false;b.addEventListener('click',()=>{on=!on;on?open():close();});}});
+  const tl=gsap.timeline({paused:true}).to(b,{y:-12,duration:.6,ease:'power3.out'},0).to(sh,{scaleX:.85,opacity:.6,duration:.6},0);
+  if(slip&&!b.closest('.realshelf'))tl.fromTo(slip,{yPercent:0},{yPercent:-52,duration:.7,ease:'back.out(1.3)'},.05);
+  hoverTL(b,tl,{onLeave:()=>{ry(28);rx(4);}});
+  if(FINE)b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(18+(1-px)*22);rx(6-(py-.5)*12);});});
 
 /* postmarks drawn in the same round brush line as the stamp icons */
 $$('.stamp__pm').forEach((pm,i)=>{const t=pm.textContent.trim();const pts=[];for(let k=0;k<=40;k++){const a=k/40*Math.PI*2,r=17+Math.sin(a*3+i)*.5+Math.cos(a*5+i*2)*.4;pts.push((22+Math.cos(a)*r).toFixed(1)+' '+(22+Math.sin(a)*r).toFixed(1));}
   const waves=[30,34,38].map(y=>`M40 ${y} q4 -2.6 8 0 t8 0 t8 0 t8 0`).join(' ');
   pm.innerHTML=`<svg viewBox="0 0 76 44" aria-hidden="true"><path d="M${pts.join(' L')}"/><path d="M${pts.map(p=>p.split(' ').map((v,j)=>((+v-22)*.78+22).toFixed(1)).join(' ')).join(' L')}" stroke-width="1"/><text x="22" y="21" text-anchor="middle">${t}</text><text x="22" y="30.5" text-anchor="middle" style="font-size:5.4px;font-weight:700">墨尔本 2026</text><path d="${waves}"/></svg>`;});
-/* postage stamps: lift, straighten, postmark lands */
+/* postage stamps: lift, straighten, postmark lands; all reverses on leave */
 $$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);const r=adoptRotation(f);
-  if(!MOTION||!FINE)return;
-  st.addEventListener('pointerenter',()=>{gsap.to(f,{y:-16,rotation:0,scale:1.06,duration:.8,ease:'back.out(2.2)'});gsap.fromTo($('.stamp__ic',f),{rotation:-12,scale:.85},{rotation:0,scale:1,duration:.9,ease:'elastic.out(1,.5)'});
-    gsap.fromTo(pm,{opacity:0,scale:1.9,rotation:-34},{opacity:.92,scale:1,rotation:-18,duration:.36,delay:.18,ease:'power4.in',onComplete:()=>gsap.fromTo(f,{x:-3},{x:0,duration:.4,ease:'elastic.out(1,.3)'})});});
-  st.addEventListener('pointerleave',()=>{gsap.to(f,{y:0,rotation:r,scale:1,duration:.8,ease:'power3.out'});gsap.to(pm,{opacity:0,duration:.35});});});
+  if(!MOTION)return;gsap.set(pm,{opacity:0,scale:1.9,rotation:-34});
+  const tl=gsap.timeline({paused:true})
+    .to(f,{y:-16,rotation:0,scale:1.06,duration:.55,ease:'power3.out'},0)
+    .fromTo($('.stamp__ic',f),{rotation:-10,scale:.9},{rotation:0,scale:1,duration:.55,ease:'back.out(2)'},0)
+    .to(pm,{opacity:.92,scale:1,rotation:-18,duration:.3,ease:'power4.in'},.15)
+    .to(f,{x:-3,duration:.06,yoyo:true,repeat:1},.45);
+  hoverTL(st,tl,{speed:1.6});});
 
-/* library cards: pulled out of the pocket, then stamped */
+/* library cards: pulled a little out of the pocket and stamped; slides back on leave */
 $$('.lib').forEach(l=>{const c=$('.lib__card',l),sp=$('.lib__stamp',l),pk=$('.lib__pocket',l);c.appendChild(sp);const r=adoptRotation(c);
-  if(!MOTION)return;let open=false;
-  const pull=()=>{if(open)return;open=true;gsap.to(c,{yPercent:-34,rotation:r*-1.5,duration:1,ease:'elastic.out(1,.7)'});
-    gsap.fromTo(sp,{opacity:0,scale:2.4,rotation:-30},{opacity:1,scale:1,rotation:-12,duration:.34,delay:.32,ease:'power4.in',onComplete:()=>gsap.fromTo(l,{y:4},{y:0,duration:.5,ease:'elastic.out(1,.35)'})});
-    gsap.to(pk,{y:6,duration:.5,ease:'power2.out'});};
-  const push=()=>{if(!open)return;open=false;gsap.to(c,{yPercent:0,rotation:r,duration:.8,ease:'power3.out'});gsap.to(sp,{opacity:0,duration:.25});gsap.to(pk,{y:0,duration:.6,ease:'power3.out'});};
-  if(FINE){l.addEventListener('pointerenter',pull);l.addEventListener('pointerleave',push);}else l.addEventListener('click',e=>{if(e.target.closest('a'))return;open?push():pull();});});
+  if(!MOTION)return;gsap.set(sp,{opacity:0,scale:2.2,rotation:-30});
+  const tl=gsap.timeline({paused:true})
+    .to(c,{yPercent:-16,rotation:r*-1.2,duration:.6,ease:'power3.out'},0)
+    .to(pk,{y:5,duration:.4,ease:'power2.out'},0)
+    .to(sp,{opacity:1,scale:1,rotation:-12,duration:.28,ease:'power4.in'},.3);
+  hoverTL(l,tl,{speed:1.5});});
 
 /* hanging bookmarks: a damped swing, the tassel lags behind */
 $$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElement('i');e.className='mark__eyelet';$('.mark__body',m).before(e);if(!MOTION)return;let busy=false;
@@ -276,20 +293,17 @@ $$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElem
   m.addEventListener('pointerenter',e=>{const r=m.getBoundingClientRect();swing(e.clientX<r.left+r.width/2?-1:1);});
   m.addEventListener('click',()=>swing(1));});
 
-/* envelopes: the envelope dips and straightens, the letter slides up from behind */
+/* envelopes: the letter rises from behind and drops back on leave */
 $$('.env').forEach(v=>{const lt=$('.env__letter',v),img=$('.env__img',v);const r=adoptRotation(v);if(!MOTION)return;
   const tl=gsap.timeline({paused:true})
-    .to(v,{rotation:0,duration:.6,ease:'power3.out'},0)
-    .to(img,{y:8,duration:.25,ease:'power2.out'},0).to(img,{y:0,duration:.6,ease:'elastic.out(1,.4)'},.25)
-    .to(lt,{yPercent:-108,duration:.9,ease:'back.out(1.5)'},.12)
-    .fromTo($('.env__ic',v),{rotation:-20,scale:.6},{rotation:0,scale:1,duration:.8,ease:'back.out(2.4)'},.45);
-  if(FINE){v.addEventListener('pointerenter',()=>tl.timeScale(1).play());v.addEventListener('pointerleave',()=>tl.timeScale(1.5).reverse());}
-  else v.addEventListener('click',()=>tl.progress()<.5?tl.play():tl.reverse());});
+    .to(v,{rotation:0,duration:.5,ease:'power3.out'},0)
+    .to(lt,{yPercent:-92,duration:.65,ease:'back.out(1.3)'},.08)
+    .fromTo($('.env__ic',v),{rotation:-16,scale:.7},{rotation:0,scale:1,duration:.5,ease:'back.out(2)'},.3);
+  hoverTL(v,tl,{speed:1.6});});
 
-/* polaroids straighten and lift toward the pointer */
+/* polaroids straighten and lift */
 $$('.pola').forEach(pl=>{const r=adoptRotation(pl);if(!MOTION||!FINE)return;
-  pl.addEventListener('pointerenter',()=>{gsap.to(pl,{rotation:0,scale:1.07,y:-8,zIndex:6,duration:.7,ease:'back.out(2)'});});
-  pl.addEventListener('pointerleave',()=>{gsap.to(pl,{rotation:r,scale:1,y:0,zIndex:1,duration:.8,ease:'power3.out'});});});
+  hoverTL(pl,gsap.timeline({paused:true}).to(pl,{rotation:0,scale:1.07,y:-8,zIndex:6,duration:.5,ease:'power3.out'}),{speed:1.3});});
 
 /* HMS-style timeline */
 const ILL={house:'home',cat:'cat',calendar:'calendar',mic:'podcast',globe:'globe'};
@@ -311,16 +325,15 @@ const HIST=[
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
 
-/* the cat yawns now and then: the mouth opens under the nose and the whole cat stretches a little (no separate head layer, so nothing doubles up) */
-(function(){const cat=$('#cat'),mouth=$('#catMouth');if(!cat||!mouth||!MOTION)return;gsap.set(mouth,{scaleX:.3,scaleY:0,opacity:0,transformOrigin:'50% 15%'});gsap.set(cat,{transformOrigin:'50% 100%'});
+/* the cat yawns now and then: two frames painted onto the cat's own pixels cross-fade, so the mouth matches the drawing */
+(function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
   const yawn=()=>{gsap.timeline({onComplete:()=>gsap.delayedCall(7+Math.random()*6,yawn)})
-    .to(cat,{scaleY:1.035,scaleX:.99,duration:1.1,ease:'sine.inOut'})
-    .to(mouth,{opacity:1,duration:.15},.25)
-    .to(mouth,{scaleX:1,scaleY:1,duration:1,ease:'power2.out'},.25)
-    .to(mouth,{scaleY:.9,duration:.6,yoyo:true,repeat:1,ease:'sine.inOut'})
-    .to(mouth,{scaleX:.5,scaleY:0,duration:.4,ease:'power2.in'})
-    .to(mouth,{opacity:0,duration:.1})
-    .to(cat,{scaleY:1,scaleX:1,duration:1,ease:'sine.inOut'},'-=.5');};
+    .to(cat,{scaleY:1.03,scaleX:.992,duration:1.2,ease:'sine.inOut'},0)
+    .to(y1,{opacity:1,duration:.35,ease:'sine.inOut'},.25)
+    .to(y2,{opacity:1,duration:.45,ease:'sine.inOut'},.55)
+    .to(y2,{opacity:0,duration:.45,ease:'sine.inOut'},2.1)
+    .to(y1,{opacity:0,duration:.4,ease:'sine.inOut'},2.45)
+    .to(cat,{scaleY:1,scaleX:1,duration:1,ease:'sine.inOut'},2.1);};
   gsap.delayedCall(4.2,yawn);})();
 
 /* 阅读，也是一种连接: real covers drift in from the edges and get tied to the centre with dashed thread */
@@ -371,7 +384,11 @@ $$('.acc details').forEach(d=>{const s=$('summary',d),a=$('.ans',d);s.addEventLi
   if(d.open)gsap.to(a,{height:0,opacity:0,duration:.45,onComplete:()=>{d.open=false;gsap.set(a,{clearProps:'all'});if(ST)ScrollTrigger.refresh();}});else{d.open=true;gsap.from(a,{height:0,opacity:0,duration:.55,clearProps:'all',onComplete:()=>ST&&ScrollTrigger.refresh()});}});});
 
 /* header + menu */
-const hdr=$('#hdr');let lastY=0;const onS=y=>{hdr.dataset.scrolled=String(y>50);hdr.classList.toggle('away',y>lastY&&y>120);lastY=y;};
+const hdr=$('#hdr');let lastY=0,peek=false;
+let hid=false;const setHid=h=>{if(h===hid||busy)return;hid=h;hdr.classList.toggle('away',h);if(G)gsap.to(hdr,{yPercent:h?-130:0,duration:.55,ease:EN,overwrite:'auto'});else hdr.style.transform=h?'translateY(-130%)':'';};
+const onS=y=>{hdr.dataset.scrolled=String(y>50);if(Math.abs(y-lastY)>2)setHid(y>lastY&&y>160&&!peek);hdr.classList.toggle('solid',y>160);lastY=y;};
+addEventListener('pointermove',e=>{const n=e.clientY<110;if(n!==peek){peek=n;if(n)setHid(false);}},{passive:true});
+hdr.addEventListener('focusin',()=>setHid(false));
 if(lenis)lenis.on('scroll',({scroll})=>onS(scroll));else addEventListener('scroll',()=>onS(scrollY),{passive:true});
 const menu=$('#menu'),mb=$('#menuBtn');
 function setMenu(o){menu.classList.toggle('open',o);menu.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);if(lenis)o?lenis.stop():lenis.start();}
@@ -403,7 +420,7 @@ function enter(page){const tl=gsap.timeline();tl.set(trPath,{drawSVG:'0% 100%',s
   intro(page,tl,.4);
   tl.to(trPath,{keyframes:{'95%':{strokeWidth:'8%',ease:'circ.out'},'100%':{drawSVG:'100% 100%'}},duration:1.25},0);
   tl.to(trLogo,{scale:0,rotate:64,autoAlpha:0,duration:.45,ease:'elastic.in(1,0.72)'},0);
-  tl.to(hdr,{yPercent:0,duration:.5,delay:.5,ease:EN},.4);return tl;}
+  tl.to(hdr,{yPercent:0,duration:.5,delay:.5,ease:EN,onStart:()=>{hid=false;hdr.classList.remove('away');}},.4);return tl;}
 const CAN=G&&!RM&&!!window.DrawSVGPlugin;
 function go(r,first){if(!routes.includes(r))r='home';
   if(r===cur&&!first){lenis?lenis.scrollTo(0):window.scrollTo({top:0,behavior:'smooth'});return;}
