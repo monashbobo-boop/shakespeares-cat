@@ -52,11 +52,7 @@ Reply "ready" and wait for my first frame.
 
 ### 放进网站
 
-1. 把 16 张图存成 `assets/img/cat/frames/01.png` 到 `16.png`（同一画布、同一位置）。
-2. 运行 `python3 tools/cat_tween.py`。它会在相邻两帧之间用光流自动补出中间帧，一共一百多帧，生成 `assets/img/cat/cat-anim.webp`、`cat-still.webp` 和 `assets/js/cat-anim.js`。需要先装 OpenCV：`pip install opencv-python-headless`。
-3. 刷新网页，猫按 24 帧每秒播放：睡着摆尾巴，抬头打哈欠，伸懒腰，往左爬，转身爬回来，趴下闭眼。
-4. 节奏、每段补几帧、往哪边走多远，都在 `tools/cat_tween.py` 顶部的 `PLAN` 里改，改完重新运行一次。
-5. 光流只能补小动作。伸懒腰、站起来、转身这种大动作，想要更顺，需要让 ChatGPT 多画几张过渡姿势，加进 `frames/` 再写进 `PLAN`。
+现在网页只用其中两张：`01.png`（闭眼睡着）和 `15.png`（同一姿势，眼睛睁开一条缝）。运行 `python3 tools/cat_rig.py`（需要 `pip install opencv-python-headless`），它会把猫拆成身体、尾巴、两只耳朵和眼睛几层，生成到 `assets/img/cat/rig/`。如果以后换了猫图，尾巴、耳朵、眼睛的位置在脚本顶部改。
 
 ---
 

@@ -30,6 +30,7 @@
 
 | 版本 | 日期 | 主要变化 |
 | --- | --- | --- |
+| v14 | 2026-10-21 | 猫改成单张图拆层：呼吸、尾巴摆动、耳朵抖、眯眼 |
 | v13 | 2026-10-21 | 猫动画光流补帧，24 帧每秒连续播放；窄屏不显示书里的便签 |
 | v12 | 2026-10-21 | 猫动画交叉淡入、呼吸和缓动；标签纸去掉图标；修首页书脊残影、手机导航与卡片、FAQ 动画 |
 | v11 | 2026-10-21 | 完整 16 帧猫动画与六色真实纸标签；单文件版本内嵌新素材 |
@@ -58,9 +59,8 @@ assets/img/sketch/      手绘图标（Streamline Freehand，CC BY 4.0）
 assets/img/map-nunawading.webp  场馆地图（OpenStreetMap）
 CREDITS.md              所有素材的来源和授权
 tools/cut_cat.py        从会员设计稿里抠出猫咪（身体和尾巴分两层）
-tools/cat_yawn.py       在猫的原画上画出两帧打哈欠的嘴
 tools/build_single.py   打包成单个 HTML 文件，输出到 dist/
-tools/cat_tween.py  在 ChatGPT 生成的 16 帧猫之间用光流补帧，生成连续动画
+tools/cat_rig.py    把趴着睡觉的猫拆成身体、尾巴、耳朵、眼睛几层，网页用 canvas 让它轻轻动
 tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 ```
@@ -69,6 +69,6 @@ docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 - **换猫咪原图**：现在的猫是从会员设计稿截图里抠出来的，分辨率有限。拿到原图后，导出两张透明背景图替换 `assets/img/cat-body.webp`（身体）和 `assets/img/cat-tail.webp`（尾巴，单独一层才能摆动）。
 - **本地预览**：在仓库目录运行 `python3 -m http.server`，打开 http://localhost:8000 。
 - **重新打包单文件**：`python3 tools/build_single.py`。
-- **本批生成素材**：16 张猫帧在 `assets/img/cat/frames/`（1280 × 640），六张标签原图在 `assets/img/tags/src/`（800 × 2000），均为透明 PNG。猫帧共用画布，运行 `python3 tools/cat_tween.py` 生成动画；标签使用 `python3 tools/build_tags.py`。完整提示词保存在 `docs/generated-assets-prompts.json`。
+- **本批生成素材**：16 张猫帧在 `assets/img/cat/frames/`（1280 × 640），六张标签原图在 `assets/img/tags/src/`（800 × 2000），均为透明 PNG。猫帧共用画布，网页只用其中的 01（闭眼）和 15（眯眼），运行 `python3 tools/cat_rig.py` 生成图层；标签使用 `python3 tools/build_tags.py`。完整提示词保存在 `docs/generated-assets-prompts.json`。
 
 字体用的是 Google Fonts 的思源宋体（Noto Serif SC）和思源黑体（Noto Sans SC），动画用 GSAP、Lenis，地球用 D3。

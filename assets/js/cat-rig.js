@@ -1,0 +1,2 @@
+/* 由 tools/cat_rig.py 生成，不要手改。每层：[x, y, 宽, 高, (转轴)]，坐标按 640 × 320 */
+window.CAT_RIG={"w": 640, "h": 320, "body": [18.0, 64.0, 593, 223], "tail": [561.0, 193.0, 72, 124], "ear1": [108.0, 35.5, 111, 78, [164.06, 105.23]], "ear2": [32.0, 103.5, 67, 76, [86.76, 134.32]], "eyes": [89.0, 124.5, 104, 70], "src": {"body": "assets/img/cat/rig/body.webp", "tail": "assets/img/cat/rig/tail.webp", "ear1": "assets/img/cat/rig/ear1.webp", "ear2": "assets/img/cat/rig/ear2.webp", "eyes": "assets/img/cat/rig/eyes.webp"}};

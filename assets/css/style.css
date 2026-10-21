@@ -1170,8 +1170,8 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 @media (max-width:991px){.mark.has-tag .mark__body{padding:84% .7em 40%}}
 .mark.has-tag p{color:var(--ink);opacity:.72}
 
-/* ===== v13 ===== */
-/* cat: a canvas plays the in-betweened frames; the box has headroom above the lying pose for the standing ones */
-.cat__seq{aspect-ratio:1280/816}
+/* ===== v13/v14 ===== */
+/* cat: a canvas redraws the cut-up still each frame; it is a bit wider and taller than the still, for the tail swing and the breathing */
+.cat__seq{width:calc(var(--cat-w) * 680 / 640);aspect-ratio:680/344}
 .cat__seq canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .cat__f{display:none}

@@ -327,37 +327,45 @@ const HIST=[
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
 
-/* Frame-by-frame cat. tools/cat_tween.py turns the 16 ChatGPT frames into ~130 frames (optical-flow in-betweens)
-   and writes the sheet plus the play order (assets/js/cat-anim.js). A canvas plays them at 24 fps; while the sheet
-   loads, the first frame is shown. If neither image is there, the layered cat with its painted yawn keeps running. */
-const CAT_SHEET='assets/img/cat/cat-anim.webp';
-const CAT_STILL='assets/img/cat/cat-still.webp';
-(function(){const cat=$('#cat'),box=$('#catSeq'),A=window.CAT_ANIM;if(!cat||!box||!A)return;
-  const cv=document.createElement('canvas');cv.width=A.cw;cv.height=A.ch;box.appendChild(cv);const ctx=cv.getContext('2d');
-  const still=new Image();still.onload=()=>{if(sheet.complete&&sheet.naturalWidth)return;cat.classList.add('has-seq');ctx.drawImage(still,0,0);};still.src=CAT_STILL;
-  const sheet=new Image();sheet.onload=start;sheet.src=CAT_SHEET;
-  const draw=c=>{ctx.clearRect(0,0,A.cw,A.ch);ctx.drawImage(sheet,(c%A.cols)*A.cw,Math.floor(c/A.cols)*A.ch,A.cw,A.ch,0,0,A.cw,A.ch);};
-  function start(){cat.classList.add('has-seq');draw(A.seq[0][0]);if(!MOTION)return;
-    // the whole cat breathes a little; the walking travel is carried by the frames' dx values
-    gsap.to(box,{scaleY:1.012,transformOrigin:'50% 100%',duration:1.7,ease:'sine.inOut',yoyo:true,repeat:-1});
-    let i=0,t0=performance.now(),x=0,last=-1,vis=true;
-    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)t0=performance.now()-0;}).observe(cat);
-    const tick=now=>{requestAnimationFrame(tick);if(!vis||document.hidden){t0=now;return;}
-      let st=A.seq[i];while(now-t0>=st[1]*1000){t0+=st[1]*1000;x+=st[2];i++;if(i>=A.seq.length){i=0;x=0;}st=A.seq[i];}
-      if(st[0]!==last){draw(st[0]);last=st[0];}
-      const k=Math.min(1,(now-t0)/(st[1]*1000));gsap.set(box,{xPercent:x+st[2]*k});};
+/* The sleeping cat, alive in small ways: tools/cat_rig.py cuts one still into body, tail, two ears and a pair of
+   half-open eyes (assets/js/cat-rig.js). A canvas puts them back together every frame: the body breathes, the tail
+   bends and sways (each row shifted a little more towards the tip), an ear twitches now and then, and once in a while
+   the cat opens its eyes a crack and closes them again. */
+(function(){const cat=$('#cat'),box=$('#catSeq'),R=window.CAT_RIG;if(!cat||!box||!R)return;
+  const PR=40,PT=24,W=R.w+PR,H=R.h+PT;
+  const cv=document.createElement('canvas');cv.width=W;cv.height=H;box.appendChild(cv);const ctx=cv.getContext('2d');
+  const im={};let left=0;
+  Object.entries(R.src).forEach(([k,src])=>{left++;const i=new Image();i.onload=()=>{if(--left===0)ready();};i.src=src;im[k]=i;});
+  const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
+  // events: [start time, kind]; scheduled forward as the clock runs
+  let flick=-99,ear1=-99,ear2=-99,peek=-99,nFlick=rnd(3,6),nEar=rnd(4,8),nPeek=rnd(6,10),blink=false;
+  const earAng=tau=>tau<0||tau>1.4?0:.1*Math.exp(-tau/.28)*Math.sin(TAU*tau/.26);
+  const eyeAmt=tau=>{if(tau<0)return 0;const sm=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
+    let v=sm(tau/1.1)*(1-sm((tau-2.9)/.9));if(blink&&tau>1.5&&tau<2.1)v*=1-Math.sin(Math.PI*(tau-1.5)/.6);return v*.95;};
+  function draw(t){
+    ctx.clearRect(0,0,W,H);ctx.save();ctx.translate(0,PT);
+    const br=Math.sin(TAU*t/3.8);ctx.translate(R.w*.55,R.h);ctx.scale(1-.003*br,1+.013*br);ctx.translate(-R.w*.55,-R.h);
+    const[bx,by]=R.body;ctx.drawImage(im.body,bx,by);
+    // tail: a slow sway plus an occasional flick that travels down to the tip
+    const[tx,ty,tw,th]=R.tail,ft=t-flick;
+    for(let r=0;r<th;r++){const s=r/th,k=Math.pow(s,1.7);
+      let off=k*(5*Math.sin(TAU*t/4.6-1.4*s)+1.5*Math.sin(TAU*t/2.1-2*s));
+      if(ft>=0&&ft<2.6)off+=k*13*Math.exp(-ft/.7)*Math.sin(TAU*ft/.9-2.6*s);
+      ctx.drawImage(im.tail,0,r*im.tail.naturalHeight/th,im.tail.naturalWidth,im.tail.naturalHeight/th,tx+off,ty+r,tw,1);}
+    [['ear1',ear1,1],['ear2',ear2,-1]].forEach(([k,t0,dir])=>{const[x,y,w,h,[px,py]]=R[k],a=earAng(t-t0)*dir;
+      if(!a){ctx.drawImage(im[k],x,y,w,h);return;}ctx.save();ctx.translate(px,py);ctx.rotate(a);ctx.translate(-px,-py);ctx.drawImage(im[k],x,y,w,h);ctx.restore();});
+    const e=eyeAmt(t-peek);if(e>.01){const[x,y,w,h]=R.eyes;ctx.globalAlpha=e;ctx.drawImage(im.eyes,x,y,w,h);ctx.globalAlpha=1;}
+    ctx.restore();}
+  cat._rig={draw,set:o=>{if('flick'in o)flick=o.flick;if('ear1'in o)ear1=o.ear1;if('ear2'in o)ear2=o.ear2;if('peek'in o){peek=o.peek;blink=!!o.blink;}}};   // for checking single moves
+  function ready(){cat.classList.add('has-seq');draw(0);if(!MOTION)return;
+    let vis=true,t=0,last=performance.now();
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;}).observe(cat);
+    const tick=now=>{requestAnimationFrame(tick);const dt=Math.min(.1,(now-last)/1000);last=now;if(!vis||document.hidden)return;t+=dt;
+      if(t>nFlick){flick=t;nFlick=t+rnd(4,9);}
+      if(t>nEar){const r=Math.random();if(r<.5)ear1=t;else if(r<.85)ear2=t;else{ear1=t;ear2=t+.12;}nEar=t+rnd(5,11);}
+      if(t>nPeek){peek=t;blink=Math.random()<.4;nPeek=t+rnd(10,16);}
+      draw(t);};
     requestAnimationFrame(tick);}})();
-
-/* the cat yawns now and then: two frames painted onto the cat's own pixels cross-fade, so the mouth matches the drawing */
-(function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;if(cat.classList.contains('has-seq'))return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
-  const yawn=()=>{if(cat.classList.contains('has-seq'))return;gsap.timeline({onComplete:()=>gsap.delayedCall(7+Math.random()*6,yawn)})
-    .to(cat,{scaleY:1.03,scaleX:.992,duration:1.2,ease:'sine.inOut'},0)
-    .to(y1,{opacity:1,duration:.35,ease:'sine.inOut'},.25)
-    .to(y2,{opacity:1,duration:.45,ease:'sine.inOut'},.55)
-    .to(y2,{opacity:0,duration:.45,ease:'sine.inOut'},2.1)
-    .to(y1,{opacity:0,duration:.4,ease:'sine.inOut'},2.45)
-    .to(cat,{scaleY:1,scaleX:1,duration:1,ease:'sine.inOut'},2.1);};
-  gsap.delayedCall(4.2,yawn);})();
 
 /* 阅读，也是一种连接: real covers drift in from the edges and get tied to the centre with dashed thread */
 const LINK=[['huozhe',.13,.2,-9,9],['qingcheng',.84,.16,8,8.5],['bainian',.08,.62,6,8],['hulanhe',.9,.6,-7,9],['santi',.26,.86,4,7],['xueguo',.72,.88,-5,7.5],['hamlet',.3,.08,5,6.5],['ditan',.66,.1,-4,6.5],['eergu',.03,.4,-3,6],['walden',.97,.38,4,6]];
