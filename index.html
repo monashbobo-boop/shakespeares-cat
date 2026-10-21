@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=11">
+<link rel="stylesheet" href="assets/css/style.css?v=12">
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
 <body>
@@ -30,7 +30,7 @@
       <li><a class="pill" href="#join" data-r="join"><span>加入我们</span></a></li>
       <li><a class="btn" href="#partner" data-r="partner" data-btn><span class="bt"><span>合作与联系</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
     </ul>
-    <button class="btn menu-btn" id="menuBtn" aria-expanded="false" aria-controls="menu" style="height:3em"><span class="bt" style="font-size:1.05em">菜单</span><span class="bi" style="width:3em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span></button>
+    <button class="btn menu-btn" id="menuBtn" aria-label="打开菜单" aria-expanded="false" aria-controls="menu" style="height:3em"><span class="bt" style="font-size:1.05em">菜单</span><span class="bi" style="width:3em"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h10"/></svg></span></button>
   </div>
 </header>
 <div class="menu" id="menu" aria-hidden="true">
@@ -357,7 +357,7 @@
     <section class="plain" id="join-group"><div class="wrap split2">
       <figure class="scene" aria-label="插画：躺着看手机的人">
         <img class="ill doodle" src="assets/img/doodles/Laying.svg" alt="" loading="lazy">
-        <span class="bub b1">入群</span><span class="bub b2 me">欢迎！明天拉你进群</span><img class="sk scene__ic" src="assets/img/sketch/chat.svg" alt="">
+        <img class="sk scene__ic" src="assets/img/sketch/chat.svg" alt="">
       </figure>
       <div class="stack">
         <span class="label">加入社群</span>
@@ -371,12 +371,12 @@
     <section class="band dark" id="join-vol"><div class="wrap">
       <div class="shead"><div><span class="label">成为志愿者</span><h2 class="t-h2">我们现在需要这些帮手</h2><p class="t-body">在公众号留言「志愿者」和想做的岗位，我们约你聊十五分钟。碰一下书签试试。</p></div></div>
       <div class="marks">
-        <div class="mark" style="--mc:#FAF6EC"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/clipboard.svg" alt=""><b>活动组织</b><p>订场地、签到、控制流程</p><span>每月 4 至 6 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#C6CBA8"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/mic.svg" alt=""><b>讨论主持</b><p>提前读书，准备三个好问题</p><span>每场约 5 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#E9DCB5"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/palette.svg" alt=""><b>宣传设计</b><p>海报、公众号排版、小红书</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#C9DEE3"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/camera.svg" alt=""><b>摄影记录</b><p>现场拍照，征得同意后发布</p><span>每场 2 至 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#E7CFC4"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/typewriter.svg" alt=""><b>内容整理</b><p>写活动回顾，整理往期档案</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#DEDAC1"><div class="mark__body"><img class="sk mark__ic" src="assets/img/sketch/laptop.svg" alt=""><b>技术支持</b><p>网站、报名表、线上会议</p><span>按需</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#FAF6EC"><div class="mark__body"><b>活动组织</b><p>订场地、签到、控制流程</p><span>每月 4 至 6 小时</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#C6CBA8"><div class="mark__body"><b>讨论主持</b><p>提前读书，准备三个好问题</p><span>每场约 5 小时</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#E9DCB5"><div class="mark__body"><b>宣传设计</b><p>海报、公众号排版、小红书</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#C9DEE3"><div class="mark__body"><b>摄影记录</b><p>现场拍照，征得同意后发布</p><span>每场 2 至 3 小时</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#E7CFC4"><div class="mark__body"><b>内容整理</b><p>写活动回顾，整理往期档案</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
+        <div class="mark" style="--mc:#DEDAC1"><div class="mark__body"><b>技术支持</b><p>网站、报名表、线上会议</p><span>按需</span></div><i class="mark__tassel"></i></div>
       </div>
     </div></section>
 
@@ -481,7 +481,7 @@
   <nav class="wrap ft__nav" aria-label="页脚导航">
     <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v11，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v12，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -491,6 +491,6 @@
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="assets/js/land.js"></script>
-<script src="assets/js/main.js?v=11"></script>
+<script src="assets/js/main.js?v=12"></script>
 </body>
 </html>

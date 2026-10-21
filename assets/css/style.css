@@ -1133,7 +1133,39 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 /* real paper tags */
 .mark.has-tag .mark__body{background:var(--tag) center/100% 100% no-repeat;clip-path:none;border-radius:0;padding:3.4em 1.4em 3.2em}
 .mark.has-tag .mark__eyelet,.mark.has-tag .mark__tassel{display:none}
-.mark.has-tag .mark__ic{visibility:hidden}
 .marks:has(.has-tag){align-items:stretch}
 .mark.has-tag .mark__body{height:100%}
 .mark.has-tag::before{top:-2.6em;height:3.6em}
+
+/* ===== v12 ===== */
+/* cat: two frame layers that cross-fade */
+.cat__seq{background:none}
+.cat__f{position:absolute;inset:0;display:block;background:no-repeat 0 0/400% 400%;will-change:opacity,transform}
+/* link scene: the spine highlight lives on the same layer as the cover, so they move together */
+.lcov::after{content:none}
+.lcov__in{position:absolute;inset:0;will-change:transform}
+.lcov__in::after{content:"";position:absolute;inset:0;border-radius:.2em .45em .45em .2em;background:linear-gradient(90deg,rgba(0,0,0,.25),rgba(255,255,255,.2) 4%,transparent 10%);pointer-events:none}
+@media (max-width:991px){.lcov:nth-child(9),.lcov:nth-child(10){display:none}}
+/* phones: the menu button is just the icon */
+@media (max-width:991px){.menu-btn .bt{display:none}}
+/* phones: event cards a little narrower than the screen, with room after the last one */
+@media (max-width:991px){
+  .ecard{flex-basis:min(80vw,19em);min-height:21em}
+  .slider[data-slider="term"]{scroll-padding-inline:16px}
+  .slider[data-slider="term"] .track::after{content:"";flex:0 0 1px}
+}
+/* phones: reading slips stay inside the books */
+@media (hover:none),(pointer:coarse){.tfeat .book__slip,.bfeat .book__slip{display:none}}
+/* FAQ */
+.acc .ans{padding:0;overflow:hidden}
+.acc .ans__in{padding:0 1.6em 1.6em}
+.acc details.closing summary i::after{transform:rotate(90deg)}
+.acc summary{transition:background-color .3s ease}
+.acc summary:hover{background:rgba(58,74,54,.05)}
+@media (max-width:991px){.acc .ans{padding:0}.acc .ans__in{padding:0 1.1em 1.1em}}
+@media (max-width:600px){.marks{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* real paper tags keep the photo's proportions, so the brass eyelet always sits in the same place and the text starts below it */
+.marks:has(.has-tag){align-items:start}
+.mark.has-tag .mark__body{height:auto;min-height:0;aspect-ratio:373/1100;padding:84% 1.2em 40%;overflow:hidden}
+@media (max-width:991px){.mark.has-tag .mark__body{padding:84% .7em 40%}}
+.mark.has-tag p{color:var(--ink);opacity:.72}

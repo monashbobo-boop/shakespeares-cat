@@ -254,7 +254,7 @@ document.addEventListener('pointerleave',()=>HOV.forEach(o=>o.close()));
 /* 3D books: turn toward the pointer (spine side stays visible), lift; books that carry a reading slip raise it */
 $$('[data-book]').forEach(b=>{const inn=$('.book__in',b),slip=$('.book__slip',b),sh=$('.book__shadow',b);
   if(!MOTION)return;
-  gsap.set(inn,{rotationY:28,rotationX:4});
+  gsap.set(inn,{rotationY:28,rotationX:4});if(!FINE)return;
   const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
   const tl=gsap.timeline({paused:true}).to(b,{y:-12,duration:.6,ease:'power3.out'},0).to(sh,{scaleX:.85,opacity:.6,duration:.6},0);
   if(slip&&!b.closest('.realshelf'))tl.fromTo(slip,{yPercent:0},{yPercent:-52,duration:.7,ease:'back.out(1.3)'},.05);
@@ -334,22 +334,41 @@ const CAT_SHEET='assets/img/cat/cat-sheet.webp';
 // The sleeping cat's paws/tail hang over the title. Standing poses need their
 // supporting paws lifted to that same ledge; translate stays separate from GSAP's x movement.
 const CAT_LIFT={8:-23,9:-12,10:-12,11:-25,12:-12,13:-12,14:-7};
+// Each step: f = frame, d = how long it is held (s), x = where the cat should be by the end of the step (% of its width),
+// fade = cross-fade into this frame (s). Consecutive frames overlap, so poses melt into each other instead of cutting.
 const CAT_SEQ=[
-  {f:1,d:2600},{f:2,d:320},{f:3,d:320},{f:2,d:320},{f:3,d:320},{f:1,d:900},     // 睡着，摆尾巴
-  {f:4,d:500},{f:5,d:300},{f:6,d:1200},{f:7,d:450},{f:8,d:800},                 // 抬头，打哈欠，伸懒腰
-  {f:9,d:240,dx:-7},{f:10,d:240,dx:-7},{f:9,d:240,dx:-7},{f:10,d:240,dx:-7},    // 往左爬
-  {f:11,d:420},                                                                  // 转身
-  {f:12,d:240,dx:7},{f:13,d:240,dx:7},{f:12,d:240,dx:7},{f:13,d:240,dx:7},      // 爬回来
-  {f:14,d:450},{f:15,d:700},{f:16,d:900}];                                       // 趴下，闭眼
+  {f:1,d:2.4},{f:2,d:.5,fade:.32},{f:3,d:.5,fade:.32},{f:2,d:.5,fade:.32},{f:3,d:.5,fade:.32},{f:1,d:1.2,fade:.4},   // 睡着，摆尾巴
+  {f:4,d:.8,fade:.45},{f:5,d:.5,fade:.3},{f:6,d:1.3,fade:.28},{f:7,d:.6,fade:.35},{f:8,d:1.2,fade:.3},             // 抬头，打哈欠，伸懒腰
+  {f:9,d:.34,fade:.22,x:-3},{f:10,d:.34,fade:.14,x:-8},{f:9,d:.34,fade:.14,x:-13},{f:10,d:.34,fade:.14,x:-18},
+  {f:9,d:.34,fade:.14,x:-23},{f:10,d:.4,fade:.14,x:-26},                                                          // 往左爬
+  {f:11,d:.75,fade:.2},                                                                                           // 转身
+  {f:12,d:.34,fade:.2,x:-23},{f:13,d:.34,fade:.14,x:-18},{f:12,d:.34,fade:.14,x:-13},{f:13,d:.34,fade:.14,x:-8},
+  {f:12,d:.34,fade:.14,x:-3},{f:13,d:.4,fade:.14,x:0},                                                            // 爬回来
+  {f:14,d:.7,fade:.25},{f:15,d:1,fade:.45},{f:16,d:1.6,fade:.5}];                                                 // 趴下，闭眼
 (function(){const cat=$('#cat'),seq=$('#catSeq');if(!cat||!seq)return;
-  const probe=new Image();probe.onload=()=>{cat.classList.add('has-seq');seq.style.backgroundImage=`url("${probe.src}")`;run();};probe.src=CAT_SHEET;
-  const show=f=>{const i=f-1;seq.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;seq.style.translate=`0 ${CAT_LIFT[f]||0}%`;};
-  function run(){show(1);if(!MOTION)return;let k=0,x=0;
-    const step=()=>{const s=CAT_SEQ[k];show(s.f);
-      if(s.dx){x+=s.dx;gsap.to(seq,{xPercent:x,duration:s.d/1000,ease:'none'});}
-      k=(k+1)%CAT_SEQ.length;if(k===0){x=0;gsap.set(seq,{xPercent:0});}
-      setTimeout(step,s.d);};
-    step();}})();
+  const probe=new Image();probe.onload=()=>build(probe.src);probe.src=CAT_SHEET;
+  function build(src){cat.classList.add('has-seq');seq.innerHTML='<i class="cat__f"></i><i class="cat__f"></i>';
+    const L=$$('.cat__f',seq);L.forEach(l=>l.style.backgroundImage=`url("${src}")`);
+    const paint=(l,f)=>{const i=f-1;l.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;gsap.set(l,{yPercent:CAT_LIFT[f]||0});};
+    paint(L[0],1);gsap.set(L[0],{opacity:1,zIndex:2});gsap.set(L[1],{opacity:0,zIndex:1});
+    if(!MOTION)return;
+    let top=0;
+    const swap=(f,fade)=>{const cur=L[top],nxt=L[1-top];top=1-top;paint(nxt,f);gsap.killTweensOf([cur,nxt],'opacity');
+      gsap.set(nxt,{zIndex:2,opacity:0});gsap.set(cur,{zIndex:1});
+      gsap.to(nxt,{opacity:1,duration:fade,ease:'sine.inOut'});
+      gsap.to(cur,{opacity:0,duration:fade*.6,delay:fade*.4,ease:'sine.in'});};
+    // the whole cat body: slow breathing while lying, a small bob on every step while creeping
+    const body=gsap.to(seq,{scaleY:1.014,scaleX:.997,transformOrigin:'50% 100%',duration:1.7,ease:'sine.inOut',yoyo:true,repeat:-1});
+    const tl=gsap.timeline({repeat:-1,delay:.6});let t=0,run=null;
+    const flush=()=>{if(run){tl.to(seq,{xPercent:run.x,duration:run.d,ease:'sine.inOut'},run.t);run=null;}};
+    CAT_SEQ.forEach((s,i)=>{if(i>0)tl.call(swap,[s.f,s.fade??.3],t);
+      if(s.x!==undefined){if(!run)run={t,d:0,x:0};run.d+=s.d;run.x=s.x;
+        tl.to(seq,{y:'-1.2%',duration:s.d/2,ease:'sine.out',yoyo:true,repeat:1},t);
+        if(CAT_SEQ[i+1]?.f===11)flush();}else flush();
+      t+=s.d;});flush();
+    tl.call(swap,[1,.6],t-.6);
+    tl.eventCallback('onRepeat',()=>gsap.set(seq,{xPercent:0,y:0}));
+    body.play();}})();
 
 /* the cat yawns now and then: two frames painted onto the cat's own pixels cross-fade, so the mouth matches the drawing */
 (function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;if(cat.classList.contains('has-seq'))return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
@@ -364,10 +383,10 @@ const CAT_SEQ=[
 
 /* 阅读，也是一种连接: real covers drift in from the edges and get tied to the centre with dashed thread */
 const LINK=[['huozhe',.13,.2,-9,9],['qingcheng',.84,.16,8,8.5],['bainian',.08,.62,6,8],['hulanhe',.9,.6,-7,9],['santi',.26,.86,4,7],['xueguo',.72,.88,-5,7.5],['hamlet',.3,.08,5,6.5],['ditan',.66,.1,-4,6.5],['eergu',.03,.4,-3,6],['walden',.97,.38,4,6]];
-(function(){const box=$('#linkCovers');if(!box)return;box.innerHTML=LINK.map(([c,,,,w])=>`<div class="lcov" style="--cw:${w}em"><img src="${CV(c)}" alt=""></div>`).join('');})();
+(function(){const box=$('#linkCovers');if(!box)return;box.innerHTML=LINK.map(([c,,,,w])=>`<div class="lcov" style="--cw:${w}em"><div class="lcov__in"><img src="${CV(c)}" alt=""></div></div>`).join('');})();
 function linkLayout(t){const el=$('.link__el'),covs=$$('.lcov'),svg=$('#linkThreads');if(!el)return;const W=el.clientWidth,H=el.clientHeight,cx=W/2,cy=H/2;
   svg.setAttribute('viewBox',`0 0 ${W} ${H}`);let d='';
-  covs.forEach((c,i)=>{const[,fx,fy,rot]=LINK[i];const w=c.offsetWidth,h=c.offsetHeight;
+  covs.forEach((c,i)=>{const[,fx,fy,rot]=LINK[i];const w=c.offsetWidth,h=c.offsetHeight;if(!w)return;
     const ex=fx*W,ey=fy*H,sx=cx+(fx-.5)*W*2.2,sy=cy+(fy-.5)*H*2.2;const k=Math.min(1,Math.max(0,t*1.25-i*.025)),e=1-Math.pow(1-k,3);
     const x=sx+(ex-sx)*e,y=sy+(ey-sy)*e;gsap.set(c,{x:x-w/2,y:y-h/2,rotation:rot*(2.5-1.5*e),opacity:Math.min(1,k*1.6)});
     const tk=Math.min(1,Math.max(0,(t-.45)/.45));if(tk>0){const mx=(x+cx)/2+(y-cy)*.18,my=(y+cy)/2-(x-cx)*.18,qx=cx+(x-cx)*.28,qy=cy+(y-cy)*.28;
@@ -379,7 +398,7 @@ function linkScene(){const st=LST;st.t=0;linkLayout(0);
   gsap.timeline({scrollTrigger:{trigger:'#linkSec',start:'top 70%',end:'bottom bottom',scrub:.8}})
     .to(st,{t:1,duration:.75,ease:'none',onUpdate:()=>linkLayout(st.t)})
     .to('#linkContent > *',{opacity:1,y:0,stagger:.05,duration:.2,ease:'none'},.45).to({},{duration:.1});
-  const le=$('.link__el');if(FINE&&!le.dataset.pm){le.dataset.pm=1;le.addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;$$('.lcov').forEach((c,i)=>gsap.to($('img',c),{x:dx*(10+i*2),y:dy*(10+i*2),duration:1,ease:'power3.out',overwrite:'auto'}));});}}
+  const le=$('.link__el');if(FINE&&!le.dataset.pm){le.dataset.pm=1;le.addEventListener('pointermove',e=>{const r=e.currentTarget.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;$$('.lcov').forEach((c,i)=>gsap.to($('.lcov__in',c),{x:dx*(10+i*2),y:dy*(10+i*2),duration:1,ease:'power3.out',overwrite:'auto'}));});}}
 
 /* scroll animations */
 let ctxPage=null;
@@ -394,7 +413,7 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
     [['.icards','.icard'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
-    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
+    $$(DESK()?'.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more':'.bfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
     $$('.stats b[data-count]',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}
@@ -406,8 +425,18 @@ function home(page){
   gsap.to('#globeBox',{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 }
 /* accordions (all pages) */
-$$('.acc details').forEach(d=>{const s=$('summary',d),a=$('.ans',d);s.addEventListener('click',e=>{if(!G||RM)return;e.preventDefault();
-  if(d.open)gsap.to(a,{height:0,opacity:0,duration:.45,onComplete:()=>{d.open=false;gsap.set(a,{clearProps:'all'});if(ST)ScrollTrigger.refresh();}});else{d.open=true;gsap.from(a,{height:0,opacity:0,duration:.55,clearProps:'all',onComplete:()=>ST&&ScrollTrigger.refresh()});}});});
+/* FAQ: the answer box grows to its measured height while the text fades up a beat later; clicks mid-way reverse smoothly */
+$$('.acc details').forEach(d=>{const s=$('summary',d),a=$('.ans',d);if(!a)return;
+  const inn=document.createElement('div');inn.className='ans__in';while(a.firstChild)inn.appendChild(a.firstChild);a.appendChild(inn);
+  let open=d.open;
+  s.addEventListener('click',e=>{if(!G||RM)return;e.preventDefault();gsap.killTweensOf([a,inn]);
+    const from=d.open?a.offsetHeight:0;
+    if(open){open=false;d.classList.add('closing');
+      gsap.to(inn,{opacity:0,y:-6,duration:.28,ease:'power2.in'});
+      gsap.fromTo(a,{height:from},{height:0,duration:.5,ease:'power3.inOut',onComplete:()=>{d.open=false;d.classList.remove('closing');gsap.set([a,inn],{clearProps:'height,opacity,transform'});ST&&ScrollTrigger.refresh();}});}
+    else{open=true;d.classList.remove('closing');d.open=true;
+      gsap.fromTo(a,{height:from},{height:inn.offsetHeight,duration:.6,ease:'power3.inOut',onComplete:()=>{gsap.set(a,{clearProps:'height'});ST&&ScrollTrigger.refresh();}});
+      gsap.fromTo(inn,{opacity:0,y:12},{opacity:1,y:0,duration:.5,delay:.12,ease:'power2.out'});}});});
 
 /* header + menu */
 const hdr=$('#hdr');let lastY=0,peek=false;
