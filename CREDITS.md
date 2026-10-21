@@ -9,3 +9,5 @@
 | 地图（`assets/img/map-nunawading.webp`） | 本学期活动页的地点 | © [OpenStreetMap](https://www.openstreetmap.org/copyright) contributors，重新调色 | ODbL，需保留署名 |
 | 书籍封面（`assets/img/covers/`） | 立体书、书架、封面弹出 | 豆瓣读书上的中文版封面 | 版权归各出版社，仅作原型展示 |
 | 猫（`assets/img/cat-*.webp`） | 首页标题 | 文学社会员的设计稿 | 文学社内部 |
+| 猫的 16 帧动画（`assets/img/cat/`） | 首页标题逐帧动画 | 以原会员猫图为参考，使用 OpenAI 内置 image_gen 逐帧生成，2026-10-21 | 原设计归属不变；生成提示词见 `docs/generated-assets-prompts.json` |
+| 六色纸标签（`assets/img/tags/`） | 加入我们页志愿者岗位 | 使用 OpenAI 内置 image_gen 生成，2026-10-21 | 生成素材；纸面无文字，岗位内容由网页叠加 |

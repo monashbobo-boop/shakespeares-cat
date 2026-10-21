@@ -27,6 +27,15 @@ def build(artifact=False):
     html = html.replace('const CV=n=>`assets/img/covers/${n}.webp`;', 'const COVERS=' + json.dumps(covers) + ';const CV=n=>COVERS[n];')
     sketches = {f.stem: data_uri(f'assets/img/sketch/{f.name}') for f in sorted((ROOT / 'assets/img/sketch').glob('*.svg'))}
     html = html.replace('const SK=n=>`assets/img/sketch/${n}.svg`;', 'const SKETCH=' + json.dumps(sketches) + ';const SK=n=>SKETCH[n];')
+    # These optional images are loaded by JavaScript rather than src attributes.
+    cat_sheet = 'assets/img/cat/cat-sheet.webp'
+    if (ROOT / cat_sheet).exists():
+        html = html.replace("const CAT_SHEET='" + cat_sheet + "';", 'const CAT_SHEET=' + json.dumps(data_uri(cat_sheet)) + ';')
+    tags = {str(i): data_uri(f'assets/img/tags/tag-{i}.webp') for i in range(1, 7)
+            if (ROOT / f'assets/img/tags/tag-{i}.webp').exists()}
+    if tags:
+        html = html.replace('im.src=`assets/img/tags/tag-${i+1}.webp`;',
+                            'im.src=(' + json.dumps(tags) + ')[i+1]||`assets/img/tags/tag-${i+1}.webp`;')
     html = re.sub(r'(src|href)="(assets/img/[^"]+)"', lambda m: f'{m.group(1)}="{data_uri(m.group(2))}"', html)
     if artifact:
         head = html[html.index('<title>'):html.index('</head>')]

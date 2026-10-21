@@ -331,6 +331,9 @@ const HIST=[
    looping sequence below plays and the layered cat is hidden; otherwise the layered cat with its painted yawn keeps running.
    Each step: f = frame 1-16, d = how long it stays (ms), dx = how far the cat moves while on it (% of its own width). */
 const CAT_SHEET='assets/img/cat/cat-sheet.webp';
+// The sleeping cat's paws/tail hang over the title. Standing poses need their
+// supporting paws lifted to that same ledge; translate stays separate from GSAP's x movement.
+const CAT_LIFT={8:-23,9:-12,10:-12,11:-25,12:-12,13:-12,14:-7};
 const CAT_SEQ=[
   {f:1,d:2600},{f:2,d:320},{f:3,d:320},{f:2,d:320},{f:3,d:320},{f:1,d:900},     // 睡着，摆尾巴
   {f:4,d:500},{f:5,d:300},{f:6,d:1200},{f:7,d:450},{f:8,d:800},                 // 抬头，打哈欠，伸懒腰
@@ -340,7 +343,7 @@ const CAT_SEQ=[
   {f:14,d:450},{f:15,d:700},{f:16,d:900}];                                       // 趴下，闭眼
 (function(){const cat=$('#cat'),seq=$('#catSeq');if(!cat||!seq)return;
   const probe=new Image();probe.onload=()=>{cat.classList.add('has-seq');seq.style.backgroundImage=`url("${probe.src}")`;run();};probe.src=CAT_SHEET;
-  const show=f=>{const i=f-1;seq.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;};
+  const show=f=>{const i=f-1;seq.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;seq.style.translate=`0 ${CAT_LIFT[f]||0}%`;};
   function run(){show(1);if(!MOTION)return;let k=0,x=0;
     const step=()=>{const s=CAT_SEQ[k];show(s.f);
       if(s.dx){x+=s.dx;gsap.to(seq,{xPercent:x,duration:s.d/1000,ease:'none'});}

@@ -30,6 +30,7 @@
 
 | 版本 | 日期 | 主要变化 |
 | --- | --- | --- |
+| v11 | 2026-10-21 | 完整 16 帧猫动画与六色真实纸标签；单文件版本内嵌新素材 |
 | v10 | 2026-10-21 | 卡片和按钮留白；手机端借书卡、信封完整显示；猫逐帧动画与真实标签纸的接口 |
 | v9 | 2026-10-21 | 重做猫打哈欠；hover 离开即收回；导航栏上滑显示；页脚导航 |
 | v8 | 2026-10-21 | 图标换成手绘风；标题改成一句话；去掉卡片上的装饰；修猫打哈欠 |
@@ -66,5 +67,6 @@ docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 - **换猫咪原图**：现在的猫是从会员设计稿截图里抠出来的，分辨率有限。拿到原图后，导出两张透明背景图替换 `assets/img/cat-body.webp`（身体）和 `assets/img/cat-tail.webp`（尾巴，单独一层才能摆动）。
 - **本地预览**：在仓库目录运行 `python3 -m http.server`，打开 http://localhost:8000 。
 - **重新打包单文件**：`python3 tools/build_single.py`。
+- **本批生成素材**：16 张猫帧在 `assets/img/cat/frames/`（1280 × 640），六张标签原图在 `assets/img/tags/src/`（800 × 2000），均为透明 PNG。猫帧共用画布，使用 `python3 tools/build_cat_sheet.py --keep`；标签使用 `python3 tools/build_tags.py`。完整提示词保存在 `docs/generated-assets-prompts.json`。
 
 字体用的是 Google Fonts 的思源宋体（Noto Serif SC）和思源黑体（Noto Sans SC），动画用 GSAP、Lenis，地球用 D3。

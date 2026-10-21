@@ -1133,4 +1133,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 /* real paper tags */
 .mark.has-tag .mark__body{background:var(--tag) center/100% 100% no-repeat;clip-path:none;border-radius:0;padding:3.4em 1.4em 3.2em}
 .mark.has-tag .mark__eyelet,.mark.has-tag .mark__tassel{display:none}
+.mark.has-tag .mark__ic{visibility:hidden}
+.marks:has(.has-tag){align-items:stretch}
+.mark.has-tag .mark__body{height:100%}
 .mark.has-tag::before{top:-2.6em;height:3.6em}
