@@ -57,7 +57,7 @@
       <div class="hero__text">
         <div class="titlebox">
           <h1 class="t-display" data-intro-title>莎士比亚的猫<br>文学社</h1>
-          <div class="cat" id="cat" aria-hidden="true"><img class="cat__tail" src="assets/img/cat-tail.webp" alt=""><img class="cat__body" src="assets/img/cat-body.webp" alt=""><img class="cat__yawn" id="catYawn1" src="assets/img/cat-yawn-1.webp" alt=""><img class="cat__yawn" id="catYawn2" src="assets/img/cat-yawn-2.webp" alt=""></div>
+          <div class="cat" id="cat" aria-hidden="true"><div class="cat__seq" id="catSeq"></div><img class="cat__tail" src="assets/img/cat-tail.webp" alt=""><img class="cat__body" src="assets/img/cat-body.webp" alt=""><img class="cat__yawn" id="catYawn1" src="assets/img/cat-yawn-1.webp" alt=""><img class="cat__yawn" id="catYawn2" src="assets/img/cat-yawn-2.webp" alt=""></div>
         </div>
         <p class="t-body" data-intro-para>立足墨尔本的公益中文文学社群。以读者为中心，有温度，<br class="dk">也有深度。</p>
         <div data-intro-btn><a class="btn" href="#join" data-btn><span class="bt"><span>加入我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
@@ -82,15 +82,15 @@
     <div class="wrap layer">
       <div class="head"><h2 class="t-h2" data-split>我们平时有三种活动</h2><p class="t-body">每学期六场左右，全部免费。</p></div>
       <div class="icards" id="trio">
-        <article class="icard arch has-go" style="--ic:#F0CF72" data-tilt data-ghost="夜"><h3>文学夜</h3><p>晚上的轻松聚会。每人朗读一段喜欢的文字，聊最近在读的书，交换书单。</p>
+        <article class="icard arch" style="--ic:#F0CF72" data-tilt data-ghost="夜"><h3>文学夜</h3><p>晚上的轻松聚会。每人朗读一段喜欢的文字，聊最近在读的书，交换书单。</p>
           <img class="ill doodle" src="assets/img/doodles/Coffee.svg" alt="" loading="lazy">
-          <div class="meta"><span>约 2 小时</span><span>15 至 25 人</span><span>线下</span></div><a class="go" href="#events" aria-label="查看文学夜安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>
-        <article class="icard notch has-go" style="--ic:#B5C48F" data-tilt data-ghost="读"><h3>线下读书会</h3><p>围绕一部作品，分组讨论人物、命运与选择，再回到大组交换看法。</p>
+          <div class="icard__foot"><div class="meta"><span>约 2 小时</span><span>15 至 25 人</span><span>线下</span></div><a class="go" href="#events" aria-label="查看文学夜安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+        <article class="icard notch" style="--ic:#B5C48F" data-tilt data-ghost="读"><h3>线下读书会</h3><p>围绕一部作品，分组讨论人物、命运与选择，再回到大组交换看法。</p>
           <img class="ill doodle" src="assets/img/doodles/ReadingSide.svg" alt="" loading="lazy">
-          <div class="meta"><span>约 2.5 小时</span><span>10 至 20 人</span><span>Nunawading</span></div><a class="go" href="#events" aria-label="查看读书会安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>
-        <article class="icard leaf has-go" style="--ic:#A9D0DB" data-tilt data-ghost="讲"><h3>嘉宾讲座</h3><p>请作家、译者和学者聊阅读与写作。线上举办，不在墨尔本也能听。</p>
+          <div class="icard__foot"><div class="meta"><span>约 2.5 小时</span><span>10 至 20 人</span><span>Nunawading</span></div><a class="go" href="#events" aria-label="查看读书会安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
+        <article class="icard leaf" style="--ic:#A9D0DB" data-tilt data-ghost="讲"><h3>嘉宾讲座</h3><p>请作家、译者和学者聊阅读与写作。线上举办，不在墨尔本也能听。</p>
           <img class="ill doodle" src="assets/img/doodles/Groovy.svg" alt="" loading="lazy">
-          <div class="meta"><span>约 1.5 小时</span><span>人数不限</span><span>Zoom</span></div><a class="go" href="#events" aria-label="查看讲座安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></article>
+          <div class="icard__foot"><div class="meta"><span>约 1.5 小时</span><span>人数不限</span><span>Zoom</span></div><a class="go" href="#events" aria-label="查看讲座安排"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></div></article>
       </div>
     </div>
   </section>
@@ -108,7 +108,7 @@
   </section>
 
   <section class="genre sec" id="genre">
-    <div class="wrap head"><h2 class="t-h2" data-split>我们都读些什么</h2><p class="t-body">以中文原著为主，也读世界各地的译作。把鼠标移到类别上，看看读过和想读的书。</p></div>
+    <div class="wrap head"><h2 class="t-h2" data-split>我们都读些什么</h2><p class="t-body">以中文原著为主，也读世界各地的译作。<span class="hint">把鼠标移到类别上，看看读过和想读的书。</span></p></div>
     <ul class="glist" id="glist"></ul>
     <div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div>
   </section>
@@ -241,7 +241,7 @@
   <div data-intro-content>
     <section class="band" style="--bb:var(--w1)"><svg class="waves" data-wave="panel2" aria-hidden="true"></svg>
       <div class="wrap layer">
-        <div class="shead"><div><span class="label">本学期书单</span><h2 class="t-h2">这学期读两本写故乡的小说</h2><p class="t-body">离开家的人，读起写故乡的书来总是格外认真。这学期读两位东北女作家。把鼠标放在书上，可以看到读书会笔记。</p></div></div>
+        <div class="shead"><div><span class="label">本学期书单</span><h2 class="t-h2">这学期读两本写故乡的小说</h2><p class="t-body">离开家的人，读起写故乡的书来总是格外认真。这学期读两位东北女作家。<span class="hint">把鼠标放在书上，可以看到读书会笔记。</span></p></div></div>
         <div class="bfeat">
           <div class="book" data-book style="--w:20em;--t:2.4em;--bk:#3F5A58"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div><div class="book__slip"><b>读书会笔记</b><span>10 月 10 日 · 第一至四章<br>11 月 7 日 · 第五至七章</span><i>莎士比亚的猫 · 第三学期</i></div><div class="book__face book__spine"><b>呼兰河传</b><i></i></div><div class="book__face book__front"><img src="assets/img/covers/hulanhe.webp" alt="《呼兰河传》封面" loading="lazy"></div></div><span class="book__shadow"></span></div>
           <div class="stack">
@@ -330,7 +330,7 @@
     <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>加入我们</h1><p class="t-body" data-intro-para>读得多还是少、快还是慢，十几岁还是七十岁，都有适合你的方式。</p></div></section>
   <div data-intro-content>
     <section class="plain"><div class="wrap">
-      <div class="shead"><div><h2 class="t-mega" data-split>有三种方式可以加入</h2><p class="t-body">从最轻的开始就好。不用入会，也不用交会费。把鼠标放在书袋上，抽出借书卡。</p></div>
+      <div class="shead"><div><h2 class="t-mega" data-split>有三种方式可以加入</h2><p class="t-body">从最轻的开始就好。不用入会，也不用交会费。</p></div>
         <a class="btn" href="#events" data-btn><span class="bt"><span>看本学期活动</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
       <div class="libs">
         <article class="lib" style="--r:-2deg;--pk:#C6CBA8"><div class="lib__card"><div class="no"><span>借书卡 No.01</span><span>莎士比亚的猫</span></div><h3>参加一场活动</h3><p>挑一场感兴趣的，在公众号报名。读没读完都欢迎，来了先听也行。</p></div><span class="lib__stamp">欢迎</span>
@@ -414,7 +414,7 @@
     <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>合作与联系</h1><p class="t-body" data-intro-para>文学社是公益社群，合作以公益与文化交流为出发点。</p></div></section>
   <div data-intro-content>
     <section class="plain"><div class="wrap">
-      <div class="shead"><div><span class="label">合作方向</span><h2 class="t-h2" data-split>我们可以一起做这些事</h2><p class="t-body">把鼠标放在信封上，看看信里写了什么。</p></div></div>
+      <div class="shead"><div><span class="label">合作方向</span><h2 class="t-h2" data-split>我们可以一起做这些事</h2><p class="t-body">同城的读书会、出版社、学校、图书馆和文化机构，都欢迎来信。</p></div></div>
       <div class="envs">
         <div class="env" style="--r:-4deg"><div class="env__letter"><img class="sk env__ic" src="assets/img/sketch/shelf.svg" alt=""><b>读书会</b><p>联合选书，轮流主持，互相开放活动名额。同城的中文、英文读书会都欢迎。</p></div><img class="sk env__img" src="assets/img/sketch/envelope.svg" alt=""><span class="env__to">致 读书会</span></div>
         <div class="env" style="--r:3deg"><div class="env__letter"><img class="sk env__ic" src="assets/img/sketch/feather.svg" alt=""><b>作家与出版</b><p>新书分享、译者对谈、读者见面会。</p></div><img class="sk env__img" src="assets/img/sketch/envelope.svg" alt=""><span class="env__to">致 作家与出版</span></div>
@@ -481,7 +481,7 @@
   <nav class="wrap ft__nav" aria-label="页脚导航">
     <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v9，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v10，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>

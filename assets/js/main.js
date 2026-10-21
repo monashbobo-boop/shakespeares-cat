@@ -277,13 +277,15 @@ $$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);con
 
 /* library cards: pulled a little out of the pocket and stamped; slides back on leave */
 $$('.lib').forEach(l=>{const c=$('.lib__card',l),sp=$('.lib__stamp',l),pk=$('.lib__pocket',l);c.appendChild(sp);const r=adoptRotation(c);
-  if(!MOTION)return;gsap.set(sp,{opacity:0,scale:2.2,rotation:-30});
+  if(!MOTION||!DESK())return;gsap.set(sp,{opacity:0,scale:2.2,rotation:-30});
   const tl=gsap.timeline({paused:true})
     .to(c,{yPercent:-16,rotation:r*-1.2,duration:.6,ease:'power3.out'},0)
     .to(pk,{y:5,duration:.4,ease:'power2.out'},0)
     .to(sp,{opacity:1,scale:1,rotation:-12,duration:.28,ease:'power4.in'},.3);
   hoverTL(l,tl,{speed:1.5});});
 
+/* real paper tags (ChatGPT, see docs): used when assets/img/tags/tag-N.webp exist, else the drawn bookmark stays */
+$$('.mark').forEach((m,i)=>{const im=new Image();im.onload=()=>{m.classList.add('has-tag');$('.mark__body',m).style.setProperty('--tag',`url("${im.src}")`);};im.src=`assets/img/tags/tag-${i+1}.webp`;});
 /* hanging bookmarks: a damped swing, the tassel lags behind */
 $$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElement('i');e.className='mark__eyelet';$('.mark__body',m).before(e);if(!MOTION)return;let busy=false;
   const swing=dir=>{if(busy)return;busy=true;const a=8*dir;
@@ -294,10 +296,10 @@ $$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElem
   m.addEventListener('click',()=>swing(1));});
 
 /* envelopes: the letter rises from behind and drops back on leave */
-$$('.env').forEach(v=>{const lt=$('.env__letter',v),img=$('.env__img',v);const r=adoptRotation(v);if(!MOTION)return;
+$$('.env').forEach(v=>{const lt=$('.env__letter',v),img=$('.env__img',v);const r=adoptRotation(v);if(!MOTION||!DESK())return;
   const tl=gsap.timeline({paused:true})
     .to(v,{rotation:0,duration:.5,ease:'power3.out'},0)
-    .to(lt,{yPercent:-92,duration:.65,ease:'back.out(1.3)'},.08)
+    .to(lt,{y:()=>-(v.offsetHeight*.9),duration:.65,ease:'back.out(1.3)'},.08)
     .fromTo($('.env__ic',v),{rotation:-16,scale:.7},{rotation:0,scale:1,duration:.5,ease:'back.out(2)'},.3);
   hoverTL(v,tl,{speed:1.6});});
 
@@ -325,9 +327,30 @@ const HIST=[
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
 
+/* Frame-by-frame cat (ChatGPT frames, see docs/给ChatGPT的提示词.md). If assets/img/cat/cat-sheet.webp exists the
+   looping sequence below plays and the layered cat is hidden; otherwise the layered cat with its painted yawn keeps running.
+   Each step: f = frame 1-16, d = how long it stays (ms), dx = how far the cat moves while on it (% of its own width). */
+const CAT_SHEET='assets/img/cat/cat-sheet.webp';
+const CAT_SEQ=[
+  {f:1,d:2600},{f:2,d:320},{f:3,d:320},{f:2,d:320},{f:3,d:320},{f:1,d:900},     // 睡着，摆尾巴
+  {f:4,d:500},{f:5,d:300},{f:6,d:1200},{f:7,d:450},{f:8,d:800},                 // 抬头，打哈欠，伸懒腰
+  {f:9,d:240,dx:-7},{f:10,d:240,dx:-7},{f:9,d:240,dx:-7},{f:10,d:240,dx:-7},    // 往左爬
+  {f:11,d:420},                                                                  // 转身
+  {f:12,d:240,dx:7},{f:13,d:240,dx:7},{f:12,d:240,dx:7},{f:13,d:240,dx:7},      // 爬回来
+  {f:14,d:450},{f:15,d:700},{f:16,d:900}];                                       // 趴下，闭眼
+(function(){const cat=$('#cat'),seq=$('#catSeq');if(!cat||!seq)return;
+  const probe=new Image();probe.onload=()=>{cat.classList.add('has-seq');seq.style.backgroundImage=`url("${probe.src}")`;run();};probe.src=CAT_SHEET;
+  const show=f=>{const i=f-1;seq.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;};
+  function run(){show(1);if(!MOTION)return;let k=0,x=0;
+    const step=()=>{const s=CAT_SEQ[k];show(s.f);
+      if(s.dx){x+=s.dx;gsap.to(seq,{xPercent:x,duration:s.d/1000,ease:'none'});}
+      k=(k+1)%CAT_SEQ.length;if(k===0){x=0;gsap.set(seq,{xPercent:0});}
+      setTimeout(step,s.d);};
+    step();}})();
+
 /* the cat yawns now and then: two frames painted onto the cat's own pixels cross-fade, so the mouth matches the drawing */
-(function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
-  const yawn=()=>{gsap.timeline({onComplete:()=>gsap.delayedCall(7+Math.random()*6,yawn)})
+(function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;if(cat.classList.contains('has-seq'))return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
+  const yawn=()=>{if(cat.classList.contains('has-seq'))return;gsap.timeline({onComplete:()=>gsap.delayedCall(7+Math.random()*6,yawn)})
     .to(cat,{scaleY:1.03,scaleX:.992,duration:1.2,ease:'sine.inOut'},0)
     .to(y1,{opacity:1,duration:.35,ease:'sine.inOut'},.25)
     .to(y2,{opacity:1,duration:.45,ease:'sine.inOut'},.55)

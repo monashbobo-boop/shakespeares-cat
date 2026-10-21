@@ -1078,3 +1078,59 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .transition.boot .transition__logo{opacity:1}
 .transition.boot{animation:trBoot .5s ease 6s forwards}
 @keyframes trBoot{to{opacity:0;visibility:hidden}}
+
+/* ===== v10 layout fixes ===== */
+/* cards: footer row holds the chips and the arrow, so nothing is squeezed into a corner */
+.icard{padding:3.2em 3.2em 2.8em}
+.icard.leaf{border-radius:9em 2.4em 9em 2.4em;padding:5.5em 3.6em 3em 3.4em}
+.icard.arch{padding-top:6.5em}
+.icard__foot{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:1.2em;margin-top:1.6em}
+.icard.arch .icard__foot{justify-content:center;flex-wrap:wrap}
+.icard__foot .meta{margin:0}
+.icard .go,.icard.leaf .go{position:static;flex:none;width:3.8em;height:3.8em}
+.icard .ill.doodle{margin-top:auto}
+@media (max-width:991px){
+  .icard{padding:2.2em 1.6em 1.8em}
+  .icard.leaf{border-radius:5em 1.6em 5em 1.6em;padding:3.6em 1.8em 1.8em}
+  .icard.arch{padding-top:3.8em}
+  .icard__foot{margin-top:1.1em;gap:.8em}
+  .icard .go,.icard.leaf .go{width:3.2em;height:3.2em}
+}
+/* buttons: roomier text area, especially on phones */
+.btn .bt{padding:0 1.6em}
+@media (max-width:991px){
+  .btn{height:3.4em}
+  .btn .bt{padding:0 1.5em;font-size:1.05em}
+  .btn .bi{width:3.4em}
+  .menu-btn .bt{padding:0 1.1em}
+}
+/* phones have no hover: library cards and envelopes show their content up front, nothing slides behind anything */
+@media (max-width:991px){
+  .libs{padding-top:1em;gap:1.4em}
+  .lib{height:auto;display:flex;flex-direction:column}
+  .lib__card{position:relative;inset:auto;top:auto;left:auto;right:auto;height:auto;padding:1.2em 1.2em 1.4em;margin:0 6%;transform:none!important;rotate:0deg!important;z-index:1}
+  .lib__pocket{position:relative;height:auto;min-height:7.5em;margin-top:-1.4em;padding:2em 1.2em 1.2em}
+  .lib__stamp{display:none}
+  .envs{grid-template-columns:1fr;padding-top:1em;row-gap:1.2em}
+  .env{aspect-ratio:auto;display:grid;grid-template-columns:7.5em 1fr;gap:1.2em;align-items:center;rotate:0deg!important;transform:none!important}
+  .env__img{position:relative;inset:auto;width:7.5em;height:5.5em;grid-row:1/3}
+  .env__letter{position:relative;inset:auto!important;top:auto!important;left:auto!important;right:auto!important;height:auto!important;transform:none!important;box-shadow:none;background:transparent;padding:0;overflow:visible}
+  .env__letter .env__ic{display:none}
+  .env__letter b{font-size:1.2em}
+  .env__letter p{font-size:.95em}
+  .env__to{display:none}
+}
+@media (min-width:992px){.env__letter .env__ic{display:none}.env__letter b{font-size:1.5em}.env__letter p{font-size:1.1em}.envs{padding-top:13em}}
+@media (max-width:991px){.lib__card{padding-bottom:2.8em}.lib__pocket::before{display:none}}
+@media (hover:none),(max-width:991px){.hint{display:none}}
+@media (min-width:992px){.env__letter{top:auto!important;bottom:12%!important;height:auto!important;max-height:86%}.env__letter p{line-height:1.5}}
+
+/* frame-by-frame cat: tweak --cat-x / --cat-y / --cat-w once the real frames are in */
+.cat{--cat-x:0%;--cat-y:0%;--cat-w:100%}
+.cat__seq{position:absolute;z-index:4;left:var(--cat-x);bottom:var(--cat-y);width:var(--cat-w);aspect-ratio:2/1;background:no-repeat 0 0/400% 400%;display:none;pointer-events:none;will-change:transform}
+.cat.has-seq .cat__seq{display:block}
+.cat.has-seq > img{display:none}
+/* real paper tags */
+.mark.has-tag .mark__body{background:var(--tag) center/100% 100% no-repeat;clip-path:none;border-radius:0;padding:3.4em 1.4em 3.2em}
+.mark.has-tag .mark__eyelet,.mark.has-tag .mark__tassel{display:none}
+.mark.has-tag::before{top:-2.6em;height:3.6em}
