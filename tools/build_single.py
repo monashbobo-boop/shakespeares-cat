@@ -31,7 +31,7 @@ def build(artifact=False):
     html = html.replace('const SK=n=>`assets/img/sketch/${n}.svg`;', 'const SKETCH=' + json.dumps(sketches) + ';const SK=n=>SKETCH[n];')
     # These optional images are loaded by JavaScript rather than src attributes.
     # the cat's layers are loaded by JavaScript rather than src attributes
-    html = re.sub(r'"(assets/img/cat/rig/[a-z0-9]+\.webp)"', lambda m: json.dumps(data_uri(m.group(1))), html)
+    html = re.sub(r'"(assets/img/cat/rig/[a-z0-9]+\.webp)(?:\?v=[0-9a-f]+)?"', lambda m: json.dumps(data_uri(m.group(1))), html)
     tags = {str(i): data_uri(f'assets/img/tags/tag-{i}.webp') for i in range(1, 7)
             if (ROOT / f'assets/img/tags/tag-{i}.webp').exists()}
     if tags:

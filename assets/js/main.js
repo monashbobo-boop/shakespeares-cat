@@ -336,8 +336,13 @@ const HIST=[
   const cv=document.createElement('canvas');cv.width=W;cv.height=H;box.appendChild(cv);const ctx=cv.getContext('2d');
   // the tail is bent row by row on its own canvas, at 1:1, so the breathing scale can't open gaps between the rows
   const[tx,ty,tw,th]=R.tail,TM=24,tc=document.createElement('canvas');tc.width=tw+TM*2;tc.height=th;const tctx=tc.getContext('2d');
-  const im={};let left=0;
-  Object.entries(R.src).forEach(([k,src])=>{left++;const i=new Image();i.onload=()=>{if(--left===0)ready();};i.src=src;im[k]=i;});
+  // every picture must match the sizes in cat-rig.js; a stale cached copy is fetched again once, and if it still
+  // doesn't match the canvas stays empty and the plain fallback cat shows instead of a wrongly assembled one
+  const im={},want=k=>k==='yawn'?R.yawn.cols*R.yawn.cw:R[k][2];let left=0;
+  Object.entries(R.src).forEach(([k,src])=>{left++;const i=new Image();let retried=false;
+    i.onload=()=>{if(i.naturalWidth!==want(k)){if(retried){left=-1;return;}retried=true;i.src=src+(src.includes('?')?'&':'?')+'r='+Date.now();return;}
+      if(--left===0)ready();};
+    i.src=src;im[k]=i;});
   const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a),Y=R.yawn,YT=Y.seq.reduce((s,x)=>s+x[1],0);
   let flick=-99,ear1=-99,ear2=-99,yawn=-99,nFlick=rnd(3,6),nEar=rnd(3,6),nYawn=rnd(6,9);
   const earAng=tau=>tau<0||tau>1.4?0:.1*Math.exp(-tau/.28)*Math.sin(TAU*tau/.26);

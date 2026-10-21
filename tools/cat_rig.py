@@ -122,7 +122,10 @@ def main():
     for i, c in enumerate(cells): sheet.alpha_composite(c, ((i % cols) * cw, (i // cols) * ch))
     sheet.save(OUT / 'yawn.webp', quality=76, method=6)
     meta['yawn'] = {'cols': cols, 'cw': cw, 'ch': ch, 'x': 0, 'y': 0, 'seq': [[c, round(d, 3)] for c, d in seq[1:]]}
-    meta['src'] = {k: f'assets/img/cat/rig/{k}.webp' for k in ('body', 'head', 'tail', 'ear1', 'ear2', 'yawn')}
+    # each file name carries a hash of its content, so a browser never pairs a cached old picture with new positions
+    import hashlib
+    meta['src'] = {k: f'assets/img/cat/rig/{k}.webp?v=' + hashlib.md5((OUT / f'{k}.webp').read_bytes()).hexdigest()[:8]
+                   for k in ('body', 'head', 'tail', 'ear1', 'ear2', 'yawn')}
     for old in ('eyes.webp',):
         (OUT / old).unlink(missing_ok=True)
     (ROOT / 'assets/js/cat-rig.js').write_text('/* 由 tools/cat_rig.py 生成，不要手改。每层：[x, y, 宽, 高, (转轴)]，坐标按 640 × 320 */\nwindow.CAT_RIG=' + json.dumps(meta, ensure_ascii=False) + ';\n')
