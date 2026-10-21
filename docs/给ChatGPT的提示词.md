@@ -52,7 +52,7 @@ Reply "ready" and wait for my first frame.
 
 ### 放进网站
 
-现在网页只用其中两张：`01.png`（闭眼睡着）和 `15.png`（同一姿势，眼睛睁开一条缝）。运行 `python3 tools/cat_rig.py`（需要 `pip install opencv-python-headless`），它会把猫拆成身体、尾巴、两只耳朵和眼睛几层，生成到 `assets/img/cat/rig/`。如果以后换了猫图，尾巴、耳朵、眼睛的位置在脚本顶部改。
+现在网页用其中六张：`01`（闭眼睡着，底图）、`04` 到 `07`（抬头、张嘴、打哈欠、合嘴）和 `15`（眼睛半闭）。运行 `python3 tools/cat_rig.py`（需要 `pip install opencv-python-headless`），它会把猫拆成身体、头、两只耳朵和尾巴几层，并把打哈欠的头部画面补成连续的一串，生成到 `assets/img/cat/rig/`。打哈欠的节奏在脚本顶部的 `YAWN` 里改。如果以后换了猫图，尾巴、耳朵、眼睛的位置在脚本顶部改。
 
 ---
 

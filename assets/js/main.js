@@ -327,45 +327,50 @@ const HIST=[
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
 
-/* The sleeping cat, alive in small ways: tools/cat_rig.py cuts one still into body, tail, two ears and a pair of
-   half-open eyes (assets/js/cat-rig.js). A canvas puts them back together every frame: the body breathes, the tail
-   bends and sways (each row shifted a little more towards the tip), an ear twitches now and then, and once in a while
-   the cat opens its eyes a crack and closes them again. */
+/* The sleeping cat, alive in place: tools/cat_rig.py cuts the still into body, head, two ears and the tail, plus a
+   strip of head frames for a yawn (assets/js/cat-rig.js). A canvas puts them back together every frame: the body
+   breathes, the tail bends and sways, an ear twitches now and then, and every so often the cat opens its eyes, yawns
+   and goes back to sleep. Body and head masks add up to one, so they are drawn additively and meet without a seam. */
 (function(){const cat=$('#cat'),box=$('#catSeq'),R=window.CAT_RIG;if(!cat||!box||!R)return;
   const PR=40,PT=24,W=R.w+PR,H=R.h+PT;
   const cv=document.createElement('canvas');cv.width=W;cv.height=H;box.appendChild(cv);const ctx=cv.getContext('2d');
+  // the tail is bent row by row on its own canvas, at 1:1, so the breathing scale can't open gaps between the rows
+  const[tx,ty,tw,th]=R.tail,TM=24,tc=document.createElement('canvas');tc.width=tw+TM*2;tc.height=th;const tctx=tc.getContext('2d');
   const im={};let left=0;
   Object.entries(R.src).forEach(([k,src])=>{left++;const i=new Image();i.onload=()=>{if(--left===0)ready();};i.src=src;im[k]=i;});
-  const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a);
-  // events: [start time, kind]; scheduled forward as the clock runs
-  let flick=-99,ear1=-99,ear2=-99,peek=-99,nFlick=rnd(3,6),nEar=rnd(4,8),nPeek=rnd(6,10),blink=false;
+  const TAU=Math.PI*2,rnd=(a,b)=>a+Math.random()*(b-a),Y=R.yawn,YT=Y.seq.reduce((s,x)=>s+x[1],0);
+  let flick=-99,ear1=-99,ear2=-99,yawn=-99,nFlick=rnd(3,6),nEar=rnd(3,6),nYawn=rnd(6,9);
   const earAng=tau=>tau<0||tau>1.4?0:.1*Math.exp(-tau/.28)*Math.sin(TAU*tau/.26);
-  const eyeAmt=tau=>{if(tau<0)return 0;const sm=x=>x<=0?0:x>=1?1:x*x*(3-2*x);
-    let v=sm(tau/1.1)*(1-sm((tau-2.9)/.9));if(blink&&tau>1.5&&tau<2.1)v*=1-Math.sin(Math.PI*(tau-1.5)/.6);return v*.95;};
-  function draw(t){
-    ctx.clearRect(0,0,W,H);ctx.save();ctx.translate(0,PT);
-    const br=Math.sin(TAU*t/3.8);ctx.translate(R.w*.55,R.h);ctx.scale(1-.003*br,1+.013*br);ctx.translate(-R.w*.55,-R.h);
-    const[bx,by]=R.body;ctx.drawImage(im.body,bx,by);
-    // tail: a slow sway plus an occasional flick that travels down to the tip
-    const[tx,ty,tw,th]=R.tail,ft=t-flick;
+  function bendTail(t){tctx.clearRect(0,0,tc.width,th);const ft=t-flick;
     for(let r=0;r<th;r++){const s=r/th,k=Math.pow(s,1.7);
       let off=k*(5*Math.sin(TAU*t/4.6-1.4*s)+1.5*Math.sin(TAU*t/2.1-2*s));
       if(ft>=0&&ft<2.6)off+=k*13*Math.exp(-ft/.7)*Math.sin(TAU*ft/.9-2.6*s);
-      ctx.drawImage(im.tail,0,r*im.tail.naturalHeight/th,im.tail.naturalWidth,im.tail.naturalHeight/th,tx+off,ty+r,tw,1);}
-    [['ear1',ear1,1],['ear2',ear2,-1]].forEach(([k,t0,dir])=>{const[x,y,w,h,[px,py]]=R[k],a=earAng(t-t0)*dir;
+      tctx.drawImage(im.tail,0,r,tw,1,TM+off,r,tw,1);}}
+  function yawnCell(t){let u=t-yawn;if(u<0||u>=YT)return-1;for(const[c,d]of Y.seq){if(u<d)return c;u-=d;}return-1;}
+  function draw(t){bendTail(t);
+    ctx.clearRect(0,0,W,H);ctx.save();ctx.translate(0,PT);
+    const br=Math.sin(TAU*t/3.8);ctx.translate(R.w*.55,R.h);ctx.scale(1-.003*br,1+.013*br);ctx.translate(-R.w*.55,-R.h);
+    const[bx,by]=R.body;ctx.drawImage(im.body,bx,by);
+    const yc=yawnCell(t);ctx.globalCompositeOperation='lighter';
+    if(yc>=0)ctx.drawImage(im.yawn,(yc%Y.cols)*Y.cw,Math.floor(yc/Y.cols)*Y.ch,Y.cw,Y.ch,Y.x,Y.y,Y.cw,Y.ch);
+    else{const[hx,hy]=R.head;ctx.drawImage(im.head,hx,hy);}
+    ctx.globalCompositeOperation='source-over';
+    if(yc<0)[['ear1',ear1,1],['ear2',ear2,-1]].forEach(([k,t0,dir])=>{const[x,y,w,h,[px,py]]=R[k],a=earAng(t-t0)*dir;
       if(!a){ctx.drawImage(im[k],x,y,w,h);return;}ctx.save();ctx.translate(px,py);ctx.rotate(a);ctx.translate(-px,-py);ctx.drawImage(im[k],x,y,w,h);ctx.restore();});
-    const e=eyeAmt(t-peek);if(e>.01){const[x,y,w,h]=R.eyes;ctx.globalAlpha=e;ctx.drawImage(im.eyes,x,y,w,h);ctx.globalAlpha=1;}
+    ctx.drawImage(tc,tx-TM,ty);
     ctx.restore();}
-  cat._rig={draw,set:o=>{if('flick'in o)flick=o.flick;if('ear1'in o)ear1=o.ear1;if('ear2'in o)ear2=o.ear2;if('peek'in o){peek=o.peek;blink=!!o.blink;}}};   // for checking single moves
   function ready(){cat.classList.add('has-seq');draw(0);if(!MOTION)return;
     let vis=true,t=0,last=performance.now();
     new IntersectionObserver(es=>{vis=es[0].isIntersecting;}).observe(cat);
+    const busy=()=>t-yawn<YT+.3;
     const tick=now=>{requestAnimationFrame(tick);const dt=Math.min(.1,(now-last)/1000);last=now;if(!vis||document.hidden)return;t+=dt;
       if(t>nFlick){flick=t;nFlick=t+rnd(4,9);}
-      if(t>nEar){const r=Math.random();if(r<.5)ear1=t;else if(r<.85)ear2=t;else{ear1=t;ear2=t+.12;}nEar=t+rnd(5,11);}
-      if(t>nPeek){peek=t;blink=Math.random()<.4;nPeek=t+rnd(10,16);}
+      if(t>nEar){if(!busy()){const r=Math.random();if(r<.5)ear1=t;else if(r<.85)ear2=t;else{ear1=t;ear2=t+.12;}}nEar=t+rnd(4,9);}
+      if(t>nYawn&&t-Math.max(ear1,ear2)>1.5){yawn=t;nYawn=t+YT+rnd(9,15);}
       draw(t);};
-    requestAnimationFrame(tick);}})();
+    requestAnimationFrame(tick);}
+  cat._rig={draw,set:o=>{if('flick'in o)flick=o.flick;if('ear1'in o)ear1=o.ear1;if('ear2'in o)ear2=o.ear2;if('yawn'in o)yawn=o.yawn;}};   // for checking single moves
+})();
 
 /* 阅读，也是一种连接: real covers drift in from the edges and get tied to the centre with dashed thread */
 const LINK=[['huozhe',.13,.2,-9,9],['qingcheng',.84,.16,8,8.5],['bainian',.08,.62,6,8],['hulanhe',.9,.6,-7,9],['santi',.26,.86,4,7],['xueguo',.72,.88,-5,7.5],['hamlet',.3,.08,5,6.5],['ditan',.66,.1,-4,6.5],['eergu',.03,.4,-3,6],['walden',.97,.38,4,6]];
