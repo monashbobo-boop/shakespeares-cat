@@ -1072,3 +1072,9 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .hdr,.hdr.away{transition:none}
 .hdr.away{transform:none}
 @media (max-width:991px){.hdr.away{transform:none}}
+
+/* first paint: the transition ribbon starts as a full cover with the logo, so the page never flashes a half-drawn ribbon
+   while scripts load. If scripts never take over, it fades away on its own. */
+.transition.boot .transition__logo{opacity:1}
+.transition.boot{animation:trBoot .5s ease 6s forwards}
+@keyframes trBoot{to{opacity:0;visibility:hidden}}
