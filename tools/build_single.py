@@ -18,10 +18,12 @@ def data_uri(rel):
 def build(artifact=False):
     html = (ROOT / 'index.html').read_text(encoding='utf-8')
     css = (ROOT / 'assets/css/style.css').read_text(encoding='utf-8')
-    html = html.replace('<link rel="stylesheet" href="assets/css/style.css">', f'<style>\n{css}\n</style>')
+    html = re.sub(r'<link rel="stylesheet" href="assets/css/style\.css(?:\?[^\"]*)?">',
+                  lambda m: f'<style>\n{css}\n</style>', html)
     for js in ('assets/js/land.js', 'assets/js/main.js'):
         code = (ROOT / js).read_text(encoding='utf-8')
-        html = html.replace(f'<script src="{js}"></script>', f'<script>\n{code}\n</script>')
+        html = re.sub(r'<script src="' + re.escape(js) + r'(?:\?[^\"]*)?"></script>',
+                      lambda m: f'<script>\n{code}\n</script>', html)
     covers = {f.stem: data_uri(f'assets/img/covers/{f.name}') for f in sorted((ROOT / 'assets/img/covers').glob('*.webp'))}
     import json
     html = html.replace('const CV=n=>`assets/img/covers/${n}.webp`;', 'const COVERS=' + json.dumps(covers) + ';const CV=n=>COVERS[n];')
