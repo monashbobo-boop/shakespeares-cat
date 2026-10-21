@@ -1155,7 +1155,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   .slider[data-slider="term"] .track::after{content:"";flex:0 0 1px}
 }
 /* phones: reading slips stay inside the books */
-@media (hover:none),(pointer:coarse){.tfeat .book__slip,.bfeat .book__slip{display:none}}
+@media (max-width:991px),(hover:none),(pointer:coarse){.book__slip{display:none!important}}
 /* FAQ */
 .acc .ans{padding:0;overflow:hidden}
 .acc .ans__in{padding:0 1.6em 1.6em}
@@ -1169,3 +1169,9 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .mark.has-tag .mark__body{height:auto;min-height:0;aspect-ratio:373/1100;padding:84% 1.2em 40%;overflow:hidden}
 @media (max-width:991px){.mark.has-tag .mark__body{padding:84% .7em 40%}}
 .mark.has-tag p{color:var(--ink);opacity:.72}
+
+/* ===== v13 ===== */
+/* cat: a canvas plays the in-betweened frames; the box has headroom above the lying pose for the standing ones */
+.cat__seq{aspect-ratio:1280/816}
+.cat__seq canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.cat__f{display:none}

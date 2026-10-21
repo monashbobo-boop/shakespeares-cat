@@ -327,48 +327,26 @@ const HIST=[
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
 
-/* Frame-by-frame cat (ChatGPT frames, see docs/给ChatGPT的提示词.md). If assets/img/cat/cat-sheet.webp exists the
-   looping sequence below plays and the layered cat is hidden; otherwise the layered cat with its painted yawn keeps running.
-   Each step: f = frame 1-16, d = how long it stays (ms), dx = how far the cat moves while on it (% of its own width). */
-const CAT_SHEET='assets/img/cat/cat-sheet.webp';
-// The sleeping cat's paws/tail hang over the title. Standing poses need their
-// supporting paws lifted to that same ledge; translate stays separate from GSAP's x movement.
-const CAT_LIFT={8:-23,9:-12,10:-12,11:-25,12:-12,13:-12,14:-7};
-// Each step: f = frame, d = how long it is held (s), x = where the cat should be by the end of the step (% of its width),
-// fade = cross-fade into this frame (s). Consecutive frames overlap, so poses melt into each other instead of cutting.
-const CAT_SEQ=[
-  {f:1,d:2.4},{f:2,d:.5,fade:.32},{f:3,d:.5,fade:.32},{f:2,d:.5,fade:.32},{f:3,d:.5,fade:.32},{f:1,d:1.2,fade:.4},   // 睡着，摆尾巴
-  {f:4,d:.8,fade:.45},{f:5,d:.5,fade:.3},{f:6,d:1.3,fade:.28},{f:7,d:.6,fade:.35},{f:8,d:1.2,fade:.3},             // 抬头，打哈欠，伸懒腰
-  {f:9,d:.34,fade:.22,x:-3},{f:10,d:.34,fade:.14,x:-8},{f:9,d:.34,fade:.14,x:-13},{f:10,d:.34,fade:.14,x:-18},
-  {f:9,d:.34,fade:.14,x:-23},{f:10,d:.4,fade:.14,x:-26},                                                          // 往左爬
-  {f:11,d:.75,fade:.2},                                                                                           // 转身
-  {f:12,d:.34,fade:.2,x:-23},{f:13,d:.34,fade:.14,x:-18},{f:12,d:.34,fade:.14,x:-13},{f:13,d:.34,fade:.14,x:-8},
-  {f:12,d:.34,fade:.14,x:-3},{f:13,d:.4,fade:.14,x:0},                                                            // 爬回来
-  {f:14,d:.7,fade:.25},{f:15,d:1,fade:.45},{f:16,d:1.6,fade:.5}];                                                 // 趴下，闭眼
-(function(){const cat=$('#cat'),seq=$('#catSeq');if(!cat||!seq)return;
-  const probe=new Image();probe.onload=()=>build(probe.src);probe.src=CAT_SHEET;
-  function build(src){cat.classList.add('has-seq');seq.innerHTML='<i class="cat__f"></i><i class="cat__f"></i>';
-    const L=$$('.cat__f',seq);L.forEach(l=>l.style.backgroundImage=`url("${src}")`);
-    const paint=(l,f)=>{const i=f-1;l.style.backgroundPosition=`${(i%4)*100/3}% ${Math.floor(i/4)*100/3}%`;gsap.set(l,{yPercent:CAT_LIFT[f]||0});};
-    paint(L[0],1);gsap.set(L[0],{opacity:1,zIndex:2});gsap.set(L[1],{opacity:0,zIndex:1});
-    if(!MOTION)return;
-    let top=0;
-    const swap=(f,fade)=>{const cur=L[top],nxt=L[1-top];top=1-top;paint(nxt,f);gsap.killTweensOf([cur,nxt],'opacity');
-      gsap.set(nxt,{zIndex:2,opacity:0});gsap.set(cur,{zIndex:1});
-      gsap.to(nxt,{opacity:1,duration:fade,ease:'sine.inOut'});
-      gsap.to(cur,{opacity:0,duration:fade*.6,delay:fade*.4,ease:'sine.in'});};
-    // the whole cat body: slow breathing while lying, a small bob on every step while creeping
-    const body=gsap.to(seq,{scaleY:1.014,scaleX:.997,transformOrigin:'50% 100%',duration:1.7,ease:'sine.inOut',yoyo:true,repeat:-1});
-    const tl=gsap.timeline({repeat:-1,delay:.6});let t=0,run=null;
-    const flush=()=>{if(run){tl.to(seq,{xPercent:run.x,duration:run.d,ease:'sine.inOut'},run.t);run=null;}};
-    CAT_SEQ.forEach((s,i)=>{if(i>0)tl.call(swap,[s.f,s.fade??.3],t);
-      if(s.x!==undefined){if(!run)run={t,d:0,x:0};run.d+=s.d;run.x=s.x;
-        tl.to(seq,{y:'-1.2%',duration:s.d/2,ease:'sine.out',yoyo:true,repeat:1},t);
-        if(CAT_SEQ[i+1]?.f===11)flush();}else flush();
-      t+=s.d;});flush();
-    tl.call(swap,[1,.6],t-.6);
-    tl.eventCallback('onRepeat',()=>gsap.set(seq,{xPercent:0,y:0}));
-    body.play();}})();
+/* Frame-by-frame cat. tools/cat_tween.py turns the 16 ChatGPT frames into ~130 frames (optical-flow in-betweens)
+   and writes the sheet plus the play order (assets/js/cat-anim.js). A canvas plays them at 24 fps; while the sheet
+   loads, the first frame is shown. If neither image is there, the layered cat with its painted yawn keeps running. */
+const CAT_SHEET='assets/img/cat/cat-anim.webp';
+const CAT_STILL='assets/img/cat/cat-still.webp';
+(function(){const cat=$('#cat'),box=$('#catSeq'),A=window.CAT_ANIM;if(!cat||!box||!A)return;
+  const cv=document.createElement('canvas');cv.width=A.cw;cv.height=A.ch;box.appendChild(cv);const ctx=cv.getContext('2d');
+  const still=new Image();still.onload=()=>{if(sheet.complete&&sheet.naturalWidth)return;cat.classList.add('has-seq');ctx.drawImage(still,0,0);};still.src=CAT_STILL;
+  const sheet=new Image();sheet.onload=start;sheet.src=CAT_SHEET;
+  const draw=c=>{ctx.clearRect(0,0,A.cw,A.ch);ctx.drawImage(sheet,(c%A.cols)*A.cw,Math.floor(c/A.cols)*A.ch,A.cw,A.ch,0,0,A.cw,A.ch);};
+  function start(){cat.classList.add('has-seq');draw(A.seq[0][0]);if(!MOTION)return;
+    // the whole cat breathes a little; the walking travel is carried by the frames' dx values
+    gsap.to(box,{scaleY:1.012,transformOrigin:'50% 100%',duration:1.7,ease:'sine.inOut',yoyo:true,repeat:-1});
+    let i=0,t0=performance.now(),x=0,last=-1,vis=true;
+    new IntersectionObserver(es=>{vis=es[0].isIntersecting;if(vis)t0=performance.now()-0;}).observe(cat);
+    const tick=now=>{requestAnimationFrame(tick);if(!vis||document.hidden){t0=now;return;}
+      let st=A.seq[i];while(now-t0>=st[1]*1000){t0+=st[1]*1000;x+=st[2];i++;if(i>=A.seq.length){i=0;x=0;}st=A.seq[i];}
+      if(st[0]!==last){draw(st[0]);last=st[0];}
+      const k=Math.min(1,(now-t0)/(st[1]*1000));gsap.set(box,{xPercent:x+st[2]*k});};
+    requestAnimationFrame(tick);}})();
 
 /* the cat yawns now and then: two frames painted onto the cat's own pixels cross-fade, so the mouth matches the drawing */
 (function(){const cat=$('#cat'),y1=$('#catYawn1'),y2=$('#catYawn2');if(!cat||!y1||!MOTION)return;if(cat.classList.contains('has-seq'))return;gsap.set([y1,y2],{opacity:0});gsap.set(cat,{transformOrigin:'50% 100%'});
@@ -413,7 +391,7 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
     [['.icards','.icard'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
-    $$(DESK()?'.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more':'.bfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
+    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
     $$('.stats b[data-count]',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}

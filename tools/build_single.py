@@ -20,7 +20,7 @@ def build(artifact=False):
     css = (ROOT / 'assets/css/style.css').read_text(encoding='utf-8')
     html = re.sub(r'<link rel="stylesheet" href="assets/css/style\.css(?:\?[^\"]*)?">',
                   lambda m: f'<style>\n{css}\n</style>', html)
-    for js in ('assets/js/land.js', 'assets/js/main.js'):
+    for js in ('assets/js/land.js', 'assets/js/cat-anim.js', 'assets/js/main.js'):
         code = (ROOT / js).read_text(encoding='utf-8')
         html = re.sub(r'<script src="' + re.escape(js) + r'(?:\?[^\"]*)?"></script>',
                       lambda m: f'<script>\n{code}\n</script>', html)
@@ -30,9 +30,9 @@ def build(artifact=False):
     sketches = {f.stem: data_uri(f'assets/img/sketch/{f.name}') for f in sorted((ROOT / 'assets/img/sketch').glob('*.svg'))}
     html = html.replace('const SK=n=>`assets/img/sketch/${n}.svg`;', 'const SKETCH=' + json.dumps(sketches) + ';const SK=n=>SKETCH[n];')
     # These optional images are loaded by JavaScript rather than src attributes.
-    cat_sheet = 'assets/img/cat/cat-sheet.webp'
-    if (ROOT / cat_sheet).exists():
-        html = html.replace("const CAT_SHEET='" + cat_sheet + "';", 'const CAT_SHEET=' + json.dumps(data_uri(cat_sheet)) + ';')
+    for name, path in (('CAT_SHEET', 'assets/img/cat/cat-anim.webp'), ('CAT_STILL', 'assets/img/cat/cat-still.webp')):
+        if (ROOT / path).exists():
+            html = html.replace(f"const {name}='{path}';", f'const {name}=' + json.dumps(data_uri(path)) + ';')
     tags = {str(i): data_uri(f'assets/img/tags/tag-{i}.webp') for i in range(1, 7)
             if (ROOT / f'assets/img/tags/tag-{i}.webp').exists()}
     if tags:
