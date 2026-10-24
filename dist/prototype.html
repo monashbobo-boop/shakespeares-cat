@@ -1363,6 +1363,17 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   .ts__body{grid-template-columns:1fr;gap:2em}.ts__books{min-height:0;padding:2em 1em}.ts__books .book{--w:8em;--t:1.1em}.ts__books .book:nth-child(2){margin-top:2em}.ts__ph{grid-template-columns:1fr 1fr;gap:1.2em;padding:0}.ts__photo{padding:.6em .6em 2.2em}.ts__photo figcaption{font-size:.8em;left:.6em;bottom:.6em}.ts__photo:nth-child(3){display:none}.ts__go{font-size:.95em}.tsheet > .t-small{margin-top:-1em}}
 .band.dark .copy code{color:var(--ink)}
 #main{overflow-x:clip}
+.who__en{font-family:var(--serif);font-weight:600;font-size:1.6em;letter-spacing:.06em;color:var(--moss);margin-top:-.6em}
+.who__head .t-small{max-width:40em}
+.hl{counter-reset:h;display:flex;flex-direction:column;width:100%;max-width:34em;border-top:1px solid rgba(43,51,38,.25)}
+.hl li{counter-increment:h;display:grid;grid-template-columns:2em 1fr;padding:.9em 0;border-bottom:1px solid rgba(43,51,38,.25);font-size:1.4em;line-height:1.6}
+.hl li::before{content:counter(h,cjk-ideographic);font-family:var(--serif);font-weight:900;color:var(--seal)}
+.ts__links{display:flex;flex-direction:column;gap:1.2em}
+.ts__links ul{display:flex;flex-wrap:wrap;gap:.8em}
+.ts__links li{display:inline-flex;align-items:center;gap:.7em;background:var(--ivory);border-radius:2em;padding:.6em .9em .6em .6em;font-family:var(--serif);font-weight:700;font-size:1.35em}
+.ts__links li .chip{font-family:var(--sans);font-size:.75em;background:var(--pine);color:var(--paper)}
+.ts__links svg{width:1em;height:1em;color:var(--moss)}
+@media (max-width:991px){.who__en{font-size:.95em}.hl li{font-size:.95em}.ts__links li{font-size:.9em}}
 
 </style>
 <noscript><style>.transition{display:none}</style></noscript>
@@ -1425,12 +1436,14 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   <section class="plain who" id="home-who"><div class="wrap">
     <div class="who__head">
       <h2 class="t-h2" data-split>莎士比亚的猫文学社</h2>
-      <p class="t-body">2025 年秋天，几位住在墨尔本的读书人在客厅里读完了沈从文的《边城》。后来来的人越来越多，有了名字，有了固定的长桌。我们是一个公益的中文文学社群，按学期一起读书，办读书会、文学夜和线上讲座，欢迎每一位愿意坐下来读一读、聊一聊的人。</p>
+      <p class="who__en">Shakespeare's Cat Literature Club</p>
+      <p class="t-body">一个立足墨尔本、面向澳洲及更广泛地区中文读者的公益文学社群。我们以读者成长为中心，通过共同阅读、线下交流、深度讨论、嘉宾分享、写作输出、跨文化文学活动和 AI 辅助探索，为热爱中文阅读、写作与文学交流的人，提供一个开放、包容、有温度也有深度的中文文学空间。</p>
+      <p class="t-small">从读到一本书，走向理解一本书；从表达一种感受，走向形成一个观点；从参加一次活动，走向参与一个有生命力的文学共同体。</p>
     </div>
     <ol class="ideas">
       <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xMS43NDUgMTEuMDIyYS4zNC4zNCAwIDAgMC0uMDUtLjY3QTMuNTU1IDMuNTU1IDAgMCAxIDguMTEgNy43NjdhNS42NyA1LjY3IDAgMCAxLS4wNi0zLjAwNGExIDEgMCAwIDAgLjE3LjEyYTUuOSA1LjkgMCAwIDAgNi4xNjgtMS4wNnEuMjc1LjU5LjY4IDEuMWMuNzgyLjc1MSAyLjA4My44OTIgMi4zODQgMS4zNTJhLjI3LjI3IDAgMCAwIC4xNC4xNGE1LjE2IDUuMTYgMCAwIDEtNC4zNzYgNC4xNzZhLjMuMyAwIDAgMCAuMTEuNThjNy42OS0xLjMzMSA2LjMyOC0xMS41MDQtLjA2LTExLjE2NEM0LjIxNS43IDUuODY3IDExLjUwMyAxMS43NDUgMTEuMDIybTUuOTA3LTUuNjg3YTI5IDI5IDAgMCAwLTIuODc0LTEuOTIycS42NjctLjcwNCAxLjIzMi0xLjQ5MmE0LjYgNC42IDAgMCAxIDEuNjQyIDMuMzg0ek0xNS40MTkgMS41NWE4LjE0IDguMTQgMCAwIDEtMy41MTQgMi4zNzNjLS45MDEuMjgtMi45MDQuNjMxLTMuNTU1LjE5YS4yMi4yMiAwIDAgMCAwLS4xM0M5LjU1MiAxLjQgMTMuNDg3LjU1IDE1LjQyIDEuNTUiLz48cGF0aCBkPSJNMTEuMTA0IDcuMTk3YS4zMy4zMyAwIDAgMCAuNDcgMGMuMjUtLjI0LS4wOC0xLjUyMi0xLjE5MS0xLjQyMWMtMS4yODIuMTQtMS4yODIgMS41NDItLjcxMSAxLjQ2MWMuNTctLjA4LjYxLTEuMTExIDEuNDMyLS4wNG00LjU1Ni4xNDFjLjI1LS4yNC0uMzQxLTEuODIzLTEuMzQyLTEuNjgzYy0uNTgxLjE2LTEuMjQyIDEuMTMyLS44NzEgMS4zNTJhLjMxLjMxIDAgMCAwIC4zLjA5YS4yOS4yOSAwIDAgMCAuMjYtLjI5Yy43NzEtLjU5IDEuMDkyIDEuMDUxIDEuNjUyLjUzTTEzLjc4NyA5LjAyYS4zNC4zNCAwIDAgMC0uNDktLjQ2Yy0uMi4xNC0uNDIxLjExLTEuMTMyLjExYS45LjkgMCAwIDEtLjYyLS4wNmEuMjk1LjI5NSAwIDAgMC0uNDUxLjM4YTEuNTUyIDEuNTUyIDAgMCAwIDIuNjkzLjAzbTUuOTA3IDEyLjQzNWEyNS40IDI1LjQgMCAwIDAtNS41ODcgMS4yODJxLS43OTYuMjYzLTEuNTYyLjYxYy4wNi0uMTguNzIxLTguNzkuMjYtOS4yNDFhLjYuNiAwIDAgMC0uMzgtLjIxYy0uNzEtLjA3LTEuNDkyLTEuNzAyLTMuODc1LTIuNDgzYTEyLjIgMTIuMiAwIDAgMC0zLjI3NC0uNDZjLS4zNyAwLTEuMTExLS4wNzEtMS4yOTEuMjhhLjMyLjMyIDAgMCAwIC4zLjQzaC45MDFjMi42NzQuNjUgNC4yNzYuODgxIDYuNDk4IDIuNzAzYy42ODEuNjQxLS4wOCAyLjY0NC4yIDguNTUxYTEzLjQgMTMuNCAwIDAgMC0yLjI1Mi0uN2MtMS44NzMtLjY4Mi0zLjQ3NS0uNDcxLTUuMjQ3LS42ODJIMy4xMTRjLS40NDEgMC0uNTYxIDAtLjU2MS0uN2MwLTEuMDAyLjMxLTEuNTQyLS4xNi0xLjU4MmEuMzEuMzEgMCAwIDAtLjMyLjI3Yy0uMTIgMS4wNzEtLjgyMiAyLjQxMy42NiAyLjg3NHEuNzM2LjEzNyAxLjQ4Mi4xOWMxLjc1Mi4zNCAzLjUyNC4xIDUuMTM2LjUyYTguMSA4LjEgMCAwIDAgMi45MzQuODExYzAgLjExLjM2LjQxIDcuMzgtMS42NTJxLjMyMi0uMTU0LjU4LS40YS4zNi4zNiAwIDAgMC0uNTUtLjQxIi8+PHBhdGggZD0iTTYuMDg3IDE1LjQwOGMtLjA5LS4zOC0uMjItMS4wNzItLjc1LTEuMzgyYTQuNDYgNC40NiAwIDAgMC0zLjI0NS4wOWEyLjg5NCAyLjg5NCAwIDAgMCAuMzIgNC41ODZhMi41OCAyLjU4IDAgMCAwIDIuNjA0LjQ3YzEuMzIyLS43MSAxLjQ5Mi0yLjMwMyAxLjA3MS0zLjc2NE00LjQ2NSAxOC4yMWEuOC44IDAgMCAxLS42NCAwYy0yLjE2My0uNTgtMi4yOTMtMi41NzMtMS4yNjItMy42MTRjLjY5LjQgMS43ODItLjE0IDIuMjgzLjJjLjE1LjEyLjg4IDIuNzEzLS4zOCAzLjQxNG0tMS40NzMtNS4wNDVjLjE0LS44NDEuMjctMi4wMDMtLjI5LTIuMDAzYy0uMDkgMC0uMjEgMC0uMjcuMDlhNi40IDYuNCAwIDAgMC0uMyAxLjg2M2MuMDUuNy44LjU3Ljg2LjA1bTE3LjQyMi0xLjE0MmMuMS40NDEuMTcuNzgxLjIzIDEuMDYyYy4yNS42OC45MTIuNDkuNzkyLS4yOGE5LjQgOS40IDAgMCAxLS4yOC0xLjU4M2ExLjQ1IDEuNDUgMCAwIDAtLjMzMS0uODNhLjkuOSAwIDAgMC0uNjQxLS4yMWExMy43IDEzLjcgMCAwIDAtMy4zOTQuODhjLS43ODEuMzEtNC4wMDUgMS45MTMtNC4wNzUgMi40OTNhLjMzLjMzIDAgMCAwIC42NC4xM2EzMC40IDMwLjQgMCAwIDEgNS44MjgtMi4yMTJjLjczLS4yLjktLjgzMSAxLjIzMS41NW0uMzQxIDcuNzhhNi41IDYuNSAwIDAgMCAuMjYgMi4wOTNjLjA5LjEyLjQ1LjIuNjEtLjI3Yy4xNTctLjU1LjIyNC0xLjEyMS4yMDEtMS42OTNhLjYyMS42MjEgMCAwIDAtMS4wNzEtLjEzbTIuMTEyLTQuMzE1YTIuNTMgMi41MyAwIDAgMC0uODUtMS41ODJjLS4xMS0uMS0uMTktLjA4LS40MDEtLjA5YTEuMSAxLjEgMCAwIDAtLjgwMS4yOWMtLjQ0IDEuMDAxLTEuNjAyLjM0LTIuNDEzIDEuMDAxYTEuOSAxLjkgMCAwIDAtLjUyIDEuNjEyYTQgNCAwIDAgMCAxLjM0IDIuMTgzYTEuNjIgMS42MiAwIDAgMCAxLjYwMy40MWMxLjQ1Mi0uNDMgMi4xOTMtMi41NzMgMi4wNDItMy44MjRtLTIuODUzIDIuNTQzYTM0IDM0IDAgMCAxLTEuMDAxLTEuNzIyYzAtLjM0IDAtLjUxLjIxLS41OWMuNTgtLjI3MSAxLjkwMi0uMjUxIDIuMzMzLTEuNDMzYTEuOTMgMS45MyAwIDAgMSAuNTggMS41NzJhNC4xIDQuMSAwIDAgMS0uNjMgMS42NTJjLS4zNi41MjEtMS4wNzIuOTkyLTEuNDkyLjUyMSIvPjwvZz48L3N2Zz4=" alt=""><b>以读者为中心</b><p>选书和讨论都从读者出发。没有考试，没有标准答案，第一次来的人和读了几十年书的人坐在同一张桌前。</p></li>
       <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMy41NjQgMTVhMjUgMjUgMCAwIDAtLjc3LTMuMDhjLS4yNS0uNzQtLjM4LTEuNjItLjU5LTIuNDFjLS43My0yLjc1LS4zNi00LjQ5LS43LTcuMDhhMS4yOSAxLjI5IDAgMCAwLS42My0xQTExLjY2IDExLjY2IDAgMCAwIDE1LjIyNCAwYTEuNjUgMS42NSAwIDAgMC0uODkuNDVhMi40NyAyLjQ3IDAgMCAwLS4xNSAzLjA3Yy40NS40MyAxLjA5LjI4IDEuNjQuMjZjNC44LjA4IDQuNzcuMDkgNC44NS4wNmMuMTkgMSAuMzggMi44Ni40OSAzLjlhOC45IDguOSAwIDAgMC0yLjU1LS40OUE2My42IDYzLjYgMCAwIDAgNy43MTMgN2EuMzQuMzQgMCAwIDAgLjA2LjY3YzUuNzItLjIyIDEyLjg3LjQ5IDEzLjE1IDEuMDljLjQxLjg5LjUyIDIuMzIuODYgMy40MWMuMTEuMzguMjIuNzcuMzEgMS4xN2MuNjEgMi41LjI0IDIuNC40NiAyLjQ2Yy0xLjU3LjU3LTE5Ljg4Ljg5LTIxLjI5LS4wNWMtLjM3LS4yNi0uMTItLjY2IDAtMS4yOWMuMzgxLTEuMjg4Ljg3LTIuNTQzIDEuNDYtMy43NWEuMjkyLjI5MiAwIDAgMC0uNTQtLjIyYTIyLjQgMjIuNCAwIDAgMC0xLjYgMy44M2MtLjE3Ljc1LS41NiAxLjQ2LjI1IDJhNSA1IDAgMCAwIDIuNDIuNTVjLjI5IDAgLjI1LS4zOC0uNyAyLjU5YTE2LjYgMTYuNiAwIDAgMC0uODcgMy41NGMuMTUuOTIgMi4xNC41MSAzIC42MXExLjE1Ni4xMjcgMi4zMi4xM2MuNTcgMCAxLjEyLS4xMiAxLjEtLjY5YTU3IDU3IDAgMCAwLTEuNzgtNS44N2MzLjMzLjE5IDcuNzguMzEgMTEuMTQuMjJhNTcgNTcgMCAwIDAtMS43OSA1LjkxYzAgLjU3LjUzLjY3IDEuMS42OWMuNzggMCAyLjA1LS4wOSAyLjM2LS4xMmMuODYtLjExIDIuODUuMyAzLS42MWMuMTItLjc0LTEuNDgtNS4zMy0xLjc1LTZjMy4xMy0uMjcgMy41MS0uNjUgMy4xOC0yLjI3bS0zLTExLjczYy04LjU2LS42MS0yLjQ5LS4yNy01LjQtLjM1Yy0uMTIgMC0uMjMgMC0uMjktLjA2Yy0uMjktLjI5LS4wOC0xLjI5LjIzLTEuNTljLjU2LS41NCA0LjE1LjQ4IDUuMSAxYy4zNS4xMy4yNy4wMy4zOC45NnpNNC44MTQgMjIuNWMtMi4yNS0uMjQtMi45NSAxLjcyLS43Ni01LjM1YzAtLjE3LS4yMi0uMTIgMS41NyAwYzIuMDIgNi44NSAyLjAxIDUuNjctLjgxIDUuMzVtMTUtNS4xYy4zMSAxIC44NiAzLjE3IDEuMjcgNS4zN2MtLjcxIDAtMS42Mi0uMDYtMiAwcy0xLjYyLjE1LTIuMjEuMTVjLjEtLjcxIDEuMDgtNC40MSAxLjQxLTUuNTJjMS43Mi0uMDkgMS40Ny0uMTYgMS41MiAweiIvPjxwYXRoIGQ9Ik04LjAwMyAxMi4xNmMuNzMtMS42MyAxLjIyLTIgLjgtMi4yYS4yOS4yOSAwIDAgMC0uNC4xMmMtLjQuNjQtMS43IDIuNjctMS43IDMuOTJjMCAuNDcuMzQuNjMuODYuNzNjMS41MS4yOSA5LjY2LjY2IDEwLjMzIDBzLS44Mi00LjUxLTEuMi00Ljg4YTEuNiAxLjYgMCAwIDAtLjgtLjM0YTQ5IDQ5IDAgMCAwLTYuMjUtLjIyYS4zNC4zNCAwIDAgMCAwIC42N3EyLjk0OC4wNDkgNS44Ny40M2MuNTguMS41My0uMDYgMSAxLjdhOC41IDguNSAwIDAgMSAuMzkgMS42NnYuMTNjLTMuMTUuMjE0LTYuMzEuMjE0LTkuNDYgMGMwLS4xNi4xMy0uMzkuMTQtLjQ2YTUgNSAwIDAgMSAuNDItMS4yNm0tNS4zNS01LjAzYy4wOCAyLjg3IDAgMi4xMyAwIDIuMzRjLjExLjY5IDIuNzYgMSAzLjU0LjMzYy41Ny0uNS40MS0xLjMuNTEtMS43OGMuMjMtMS4zMS4zNi0yLjQ2LTEtMi40MWEyLjczIDIuNzMgMCAwIDAgLjI1LTJhLjM0LjM0IDAgMCAwLS42NyAwYy0uMTUuNy0uNTUuNzMtLjQ5IDIuMDhsLS43Mi4wN2EzLjIzIDMuMjMgMCAwIDAtLjYzLTIuNjZjLS43OC0uMjItLjQ0IDEuNzctLjEyIDIuNTljMCAwIDAgLjA4LjA2LjE1aC0uMTJjLS44NS4wOC0uNjYuNjktLjYxIDEuMjltLjY2LS42MWgyYzEuMTEgMCAuNjkuMDYuMzcgMS4yOGMtLjIuODcuMzggMS42LTIuMSAxLjJ2LS4xOWMtLjM3LTIuNTYtLjM1LTIuMjgtLjI3LTIuMjkiLz48L2c+PC9zdmc+" alt=""><b>有温度也有深度</b><p>气氛可以轻松，讨论不会敷衍。主持人提前备好问题，陪大家从「好看」聊到「为什么好看」。</p></li>
-      <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjMuODg1IDE2LjE2NmMtLjU1LTEuMDktNi4zNTgtLjY5LTcuNDg3LS4zM2MtLjYxLjE5LS42Ny44OS0uODUgMS40NmMtLjU0LjQzLTUuMzE4LjM4LTUuOTk4IDBjLS4xNC0uNDUtLjEyLS45LS40Ni0xLjI0Yy0uNTEtLjUxLTEuNTE5LS4zMi00Ljg4OC0uMjdhMTIuNCAxMi40IDAgMCAwLTIuODM5LjA3Yy0uNzUuMTUtMS40Mi43Ni0xLjM2IDEuNDFhNy43IDcuNyAwIDAgMCAxLjg4IDMuNDY5YzEuODggMS4yNCA0LjcwOC40NiA2Ljg2OC41OGM4LjYyNi0uMTkgOC40NDYtLjM3IDkuNTM2LS4yMWEuMzA1LjMwNSAwIDAgMCAuMzQ2LS4zNjlhLjMuMyAwIDAgMC0uMjQ2LS4yMzFjLTEuMDYtLjE4LS45NSAwLTkuNTc2IDBjLTItLjE3LTQuODc5LjQxLTYuMzM4LS42YTcuOSA3LjkgMCAwIDEtMS4zMy0yLjYzYy40NC0uNTk5IDIuMTktLjI5OSAzLS4yOTlsMy4yMzgtLjFjLjE3IDAgLjY3LjI0Ljg0LjEyYy4xMS40LjE0Ljk1LjYxIDEuMjZjLjg5LjU5IDYuNDk3Ljc2IDcuNDQ3LS4yMWMuMzItLjMyLjI5LS44MS40Ni0xLjI0YzEuMDgtLjM0IDUuMjE4LS42MiA2LjQwNy0uMThjLjI3LjY5LTEgMi45LTEuNTYgMy40MzljLS4yOC4yNy0xLjU0OS4yNi0xLjk5OC4yNmEuMzUuMzUgMCAwIDAgMCAuNjljLjc4IDAgMS45OTkuMDUgMi40NTktLjQxYy45NS0uODEgMi4zNjktMy4zOCAxLjgzOS00LjQzOU0yLjQwMyAxNC45NDdhLjMxMi4zMTIgMCAxIDAgLjYtLjE3YTQxIDQxIDAgMCAxLS44NC04LjE3N2MuMDgtMS4yNC41Ny0xLjczIDEuMjUtMS45NWMyLjg2OC0xIDEzLjU4NS0xLjQwOSAxNi45OTMtLjIxYy44LjI3IDEuMDcuMjggMS4yOSAxLjE0YTY2IDY2IDAgMCAxLS4yNiA3Ljk5N2MwIC4yMS0uMTMuNC0uMDYuNDJhLjM0LjM0IDAgMCAwIC41NS4zOGMuMzYtLjM1Ljg4LTguMTU3LjY4LTguOTk3Yy0uMjctMS4yNC0uNzktMS40OC0xLjg2LTEuODhjLTMuODg4LTEuNDg5LTE0LjE2NS0xLjA2OS0xNy42OTMuMTlhMi44IDIuOCAwIDAgMC0xLjgxIDIuODdhNDIuNCA0Mi40IDAgMCAwIDEuMTYgOC4zODciIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==" alt=""><b>积极探索 AI 与阅读</b><p>试着用新工具整理笔记、对照译本、练习写作。工具会变，面对面说话的那份认真不变。</p></li>
+      <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjMuODg1IDE2LjE2NmMtLjU1LTEuMDktNi4zNTgtLjY5LTcuNDg3LS4zM2MtLjYxLjE5LS42Ny44OS0uODUgMS40NmMtLjU0LjQzLTUuMzE4LjM4LTUuOTk4IDBjLS4xNC0uNDUtLjEyLS45LS40Ni0xLjI0Yy0uNTEtLjUxLTEuNTE5LS4zMi00Ljg4OC0uMjdhMTIuNCAxMi40IDAgMCAwLTIuODM5LjA3Yy0uNzUuMTUtMS40Mi43Ni0xLjM2IDEuNDFhNy43IDcuNyAwIDAgMCAxLjg4IDMuNDY5YzEuODggMS4yNCA0LjcwOC40NiA2Ljg2OC41OGM4LjYyNi0uMTkgOC40NDYtLjM3IDkuNTM2LS4yMWEuMzA1LjMwNSAwIDAgMCAuMzQ2LS4zNjlhLjMuMyAwIDAgMC0uMjQ2LS4yMzFjLTEuMDYtLjE4LS45NSAwLTkuNTc2IDBjLTItLjE3LTQuODc5LjQxLTYuMzM4LS42YTcuOSA3LjkgMCAwIDEtMS4zMy0yLjYzYy40NC0uNTk5IDIuMTktLjI5OSAzLS4yOTlsMy4yMzgtLjFjLjE3IDAgLjY3LjI0Ljg0LjEyYy4xMS40LjE0Ljk1LjYxIDEuMjZjLjg5LjU5IDYuNDk3Ljc2IDcuNDQ3LS4yMWMuMzItLjMyLjI5LS44MS40Ni0xLjI0YzEuMDgtLjM0IDUuMjE4LS42MiA2LjQwNy0uMThjLjI3LjY5LTEgMi45LTEuNTYgMy40MzljLS4yOC4yNy0xLjU0OS4yNi0xLjk5OC4yNmEuMzUuMzUgMCAwIDAgMCAuNjljLjc4IDAgMS45OTkuMDUgMi40NTktLjQxYy45NS0uODEgMi4zNjktMy4zOCAxLjgzOS00LjQzOU0yLjQwMyAxNC45NDdhLjMxMi4zMTIgMCAxIDAgLjYtLjE3YTQxIDQxIDAgMCAxLS44NC04LjE3N2MuMDgtMS4yNC41Ny0xLjczIDEuMjUtMS45NWMyLjg2OC0xIDEzLjU4NS0xLjQwOSAxNi45OTMtLjIxYy44LjI3IDEuMDcuMjggMS4yOSAxLjE0YTY2IDY2IDAgMCAxLS4yNiA3Ljk5N2MwIC4yMS0uMTMuNC0uMDYuNDJhLjM0LjM0IDAgMCAwIC41NS4zOGMuMzYtLjM1Ljg4LTguMTU3LjY4LTguOTk3Yy0uMjctMS4yNC0uNzktMS40OC0xLjg2LTEuODhjLTMuODg4LTEuNDg5LTE0LjE2NS0xLjA2OS0xNy42OTMuMTlhMi44IDIuOCAwIDAgMC0xLjgxIDIuODdhNDIuNCA0Mi40IDAgMCAwIDEuMTYgOC4zODciIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==" alt=""><b>积极探索 AI 与阅读社群的结合</b><p>试着用新工具整理笔记、对照译本、练习写作。工具会变，面对面说话的那份认真不变。</p></li>
     </ol>
     <div class="center-cta" style="margin-top:4.5em"><a class="btn" href="#about" data-btn><span class="bt"><span>了解我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
   </div></section>
@@ -1729,7 +1742,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
     </div></section>
 
     <section class="plain" id="archive-terms"><div class="wrap">
-      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>选一个学期看看我们读了什么</h2><p class="t-body">每个学期结束，内容组会把读过的书、办过的活动、讨论里留下的问题和几张照片整理成一份档案。先选年份，再选学期。</p></div></div>
+      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>选一个学期看看我们读了什么</h2><p class="t-body">每个学期结束，内容组会把这学期的介绍、办过的活动、几张照片和亮点整理成一份档案。先选年份，再选学期。</p></div></div>
       <div class="tindex" id="tindex" role="group" aria-label="学期索引"></div>
       <div class="tsheet" id="tsheet" aria-live="polite"></div>
     </div></section>
@@ -2315,24 +2328,28 @@ const TERMS=[
   {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'10 月 5 日至 12 月 13 日',now:true,books:['hulanhe','eergu'],
    stat:[['6','场活动'],['进行中','学期状态'],['2','本书']],
    recap:'这个学期还在进行。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后，内容组会把回顾、讨论记录和照片补进这里。',
-   qs:['萧红为什么把悲凉写得这么亮？','我们自己的故乡，又在怎样消失？'],
+   hl:['第一次把文学夜和读书会围绕同一个主题来安排','学期末写作分享会，收到的短文会选几篇放进书友投稿'],
+   links:[['学期预告：故乡与远方','公众号'],['十月读书会回顾','公众号']],
    ev:EV.map(e=>[fmt(e.d),e.type,e.title]),photos:['十月的读书会','春夜朗读','学期末写作分享']},
   {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'4 月 25 日至 6 月 27 日',books:['qingcheng','jinsuo'],
    stat:[['4','场活动'],['约 120','人次参加'],['31','位新朋友']],
    recap:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题，是白流苏到底赢了没有；读《金锁记》那天，有位书友说曹七巧让她想起了自己的外婆，屋子里安静了很久。',
-   qs:['白流苏到底赢了没有？','曹七巧的那副金锁，锁住的是谁？','张爱玲笔下的城市，为什么总像一座戏台？'],
+   hl:['第一场线上公益讲座，悉尼和布里斯班的读者也来了','四场活动约 120 人次参加，三分之一是第一次来','冬夜朗读会上，有书友读了自己写的信'],
+   links:[['学期回顾：张爱玲的城','公众号'],['讲座整理：张爱玲与《倾城之恋》','公众号']],
    ev:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']],
    photos:['第一场线上讲座','冬夜朗读','《金锁记》读书会']},
   {id:'t1',y:2026,n:'第一学期',theme:'从人物出发',range:'2 月 14 日至 4 月 18 日',books:['huozhe','xusan'],
    stat:[['4','场活动'],['约 80','人次参加'],['24','位新朋友']],
    recap:'第一次以学期为单位读书，也是读书会搬进 Nunawading Community Hub 的第一个学期。两本余华，从福贵读到许三观。很多人说，这是他们第一次在读书会上哭，也是第一次在读书会上笑出声。',
-   qs:['福贵为什么还能活下去？','许三观卖血，卖掉的是什么？'],
+   hl:['开始以学期为单位读书，节奏固定下来','读书会搬进 Nunawading Community Hub，有了固定的长桌','开学书单交换，每人带一本书来，带另一本书走'],
+   links:[['学期回顾：从人物出发','公众号']],
    ev:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']],
    photos:['搬进新场地','开学书单交换','《活着》读书会']},
   {id:'t0',y:2025,n:'创社学期',theme:'一张长桌',range:'2025 年 9 月至 12 月',books:['biancheng'],
    stat:[['2','场活动'],['约 30','人次参加'],['7','位创社书友']],
    recap:'从几位朋友在客厅里读《边城》开始。那天椅子不够，有人坐在地毯上，一直聊到天黑。后来有了微信群、公众号和「莎士比亚的猫」这个名字，年底办了第一次公开朗读会。',
-   qs:['翠翠在等的，究竟是一个人还是一种生活？'],
+   hl:['七位朋友在客厅里读完《边城》，有了第一次读书会','建立微信群和公众号，取名「莎士比亚的猫」','年底的第一次公开朗读会，来了二十多人'],
+   links:[['我们为什么叫莎士比亚的猫','公众号']],
    ev:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']],
    photos:['客厅里的第一次','第一次公开朗读会','创社合影']}];
 (function(){const idx=$('#tindex'),sh=$('#tsheet');if(!idx||!sh)return;
@@ -2344,12 +2361,13 @@ const TERMS=[
       <ul class="ts__stat">${t.stat.map(([a,b])=>`<li><b>${a}</b><span>${b}</span></li>`).join('')}</ul></header>
     <div class="ts__body">
       <div class="ts__books">${t.books.map(c=>{const b=bk(c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div>
-      <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>讨论里留下的问题</h4><ul class="qs">${t.qs.map(q=>`<li>${q}</li>`).join('')}</ul></div>
+      <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>学期亮点</h4><ol class="hl">${t.hl.map(q=>`<li>${q}</li>`).join('')}</ol></div>
     </div>
     <div class="ts__ev"><h4>活动记录</h4><div class="list">${t.ev.map(l=>`<div class="r"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div>
-    <div class="ts__ph">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__ph" aria-label="代表性活动照片">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__links"><h4>相关文章</h4><ul>${t.links.map(([a,b])=>`<li><span class="chip">${b}</span><span>${a}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></li>`).join('')}</ul></div>
     <div class="ts__nav">${older?`<button type="button" class="ts__go" data-t="${older.id}">← ${older.y} 年${older.n}</button>`:'<span></span>'}${t.now?'<a class="ts__go" href="#events">去看本学期安排 →</a>':newer?`<button type="button" class="ts__go" data-t="${newer.id}">${newer.y} 年${newer.n} →</button>`:''}</div>
-    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。</p>`;};
+    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。上线后「相关文章」链接到对应的公众号文章。</p>`;};
   let cur=null;
   const show=(id,anim)=>{const t=TERMS.find(x=>x.id===id);if(!t||t===cur)return;cur=t;
     $$('button',idx).forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===id));

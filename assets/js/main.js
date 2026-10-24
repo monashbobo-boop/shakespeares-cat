@@ -315,24 +315,28 @@ const TERMS=[
   {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'10 月 5 日至 12 月 13 日',now:true,books:['hulanhe','eergu'],
    stat:[['6','场活动'],['进行中','学期状态'],['2','本书']],
    recap:'这个学期还在进行。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后，内容组会把回顾、讨论记录和照片补进这里。',
-   qs:['萧红为什么把悲凉写得这么亮？','我们自己的故乡，又在怎样消失？'],
+   hl:['第一次把文学夜和读书会围绕同一个主题来安排','学期末写作分享会，收到的短文会选几篇放进书友投稿'],
+   links:[['学期预告：故乡与远方','公众号'],['十月读书会回顾','公众号']],
    ev:EV.map(e=>[fmt(e.d),e.type,e.title]),photos:['十月的读书会','春夜朗读','学期末写作分享']},
   {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'4 月 25 日至 6 月 27 日',books:['qingcheng','jinsuo'],
    stat:[['4','场活动'],['约 120','人次参加'],['31','位新朋友']],
    recap:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题，是白流苏到底赢了没有；读《金锁记》那天，有位书友说曹七巧让她想起了自己的外婆，屋子里安静了很久。',
-   qs:['白流苏到底赢了没有？','曹七巧的那副金锁，锁住的是谁？','张爱玲笔下的城市，为什么总像一座戏台？'],
+   hl:['第一场线上公益讲座，悉尼和布里斯班的读者也来了','四场活动约 120 人次参加，三分之一是第一次来','冬夜朗读会上，有书友读了自己写的信'],
+   links:[['学期回顾：张爱玲的城','公众号'],['讲座整理：张爱玲与《倾城之恋》','公众号']],
    ev:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']],
    photos:['第一场线上讲座','冬夜朗读','《金锁记》读书会']},
   {id:'t1',y:2026,n:'第一学期',theme:'从人物出发',range:'2 月 14 日至 4 月 18 日',books:['huozhe','xusan'],
    stat:[['4','场活动'],['约 80','人次参加'],['24','位新朋友']],
    recap:'第一次以学期为单位读书，也是读书会搬进 Nunawading Community Hub 的第一个学期。两本余华，从福贵读到许三观。很多人说，这是他们第一次在读书会上哭，也是第一次在读书会上笑出声。',
-   qs:['福贵为什么还能活下去？','许三观卖血，卖掉的是什么？'],
+   hl:['开始以学期为单位读书，节奏固定下来','读书会搬进 Nunawading Community Hub，有了固定的长桌','开学书单交换，每人带一本书来，带另一本书走'],
+   links:[['学期回顾：从人物出发','公众号']],
    ev:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']],
    photos:['搬进新场地','开学书单交换','《活着》读书会']},
   {id:'t0',y:2025,n:'创社学期',theme:'一张长桌',range:'2025 年 9 月至 12 月',books:['biancheng'],
    stat:[['2','场活动'],['约 30','人次参加'],['7','位创社书友']],
    recap:'从几位朋友在客厅里读《边城》开始。那天椅子不够，有人坐在地毯上，一直聊到天黑。后来有了微信群、公众号和「莎士比亚的猫」这个名字，年底办了第一次公开朗读会。',
-   qs:['翠翠在等的，究竟是一个人还是一种生活？'],
+   hl:['七位朋友在客厅里读完《边城》，有了第一次读书会','建立微信群和公众号，取名「莎士比亚的猫」','年底的第一次公开朗读会，来了二十多人'],
+   links:[['我们为什么叫莎士比亚的猫','公众号']],
    ev:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']],
    photos:['客厅里的第一次','第一次公开朗读会','创社合影']}];
 (function(){const idx=$('#tindex'),sh=$('#tsheet');if(!idx||!sh)return;
@@ -344,12 +348,13 @@ const TERMS=[
       <ul class="ts__stat">${t.stat.map(([a,b])=>`<li><b>${a}</b><span>${b}</span></li>`).join('')}</ul></header>
     <div class="ts__body">
       <div class="ts__books">${t.books.map(c=>{const b=bk(c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div>
-      <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>讨论里留下的问题</h4><ul class="qs">${t.qs.map(q=>`<li>${q}</li>`).join('')}</ul></div>
+      <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>学期亮点</h4><ol class="hl">${t.hl.map(q=>`<li>${q}</li>`).join('')}</ol></div>
     </div>
     <div class="ts__ev"><h4>活动记录</h4><div class="list">${t.ev.map(l=>`<div class="r"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div>
-    <div class="ts__ph">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__ph" aria-label="代表性活动照片">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__links"><h4>相关文章</h4><ul>${t.links.map(([a,b])=>`<li><span class="chip">${b}</span><span>${a}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></li>`).join('')}</ul></div>
     <div class="ts__nav">${older?`<button type="button" class="ts__go" data-t="${older.id}">← ${older.y} 年${older.n}</button>`:'<span></span>'}${t.now?'<a class="ts__go" href="#events">去看本学期安排 →</a>':newer?`<button type="button" class="ts__go" data-t="${newer.id}">${newer.y} 年${newer.n} →</button>`:''}</div>
-    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。</p>`;};
+    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。上线后「相关文章」链接到对应的公众号文章。</p>`;};
   let cur=null;
   const show=(id,anim)=>{const t=TERMS.find(x=>x.id===id);if(!t||t===cur)return;cur=t;
     $$('button',idx).forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===id));
