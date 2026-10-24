@@ -1189,6 +1189,181 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .cat__seq canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
 .cat__f{display:none}
 
+/* ===================== v17 ===================== */
+/* 首页：社名与核心理念 */
+.who__head{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1.4em;max-width:62em;margin:0 auto 5em}
+.who__head .t-body{max-width:44em}
+.ideas{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid rgba(43,51,38,.25);border-bottom:1px solid rgba(43,51,38,.25)}
+.ideas li{display:flex;flex-direction:column;align-items:center;text-align:center;gap:1em;padding:3.4em 2.6em}
+.ideas li + li{border-left:1px solid rgba(43,51,38,.25)}
+.ideas .sk{width:7.5em;height:7.5em}
+.ideas b{font-family:var(--serif);font-weight:900;font-size:2.4em;line-height:1.2}
+.ideas p{font-size:1.45em;line-height:1.75;color:var(--moss);max-width:20em}
+@media (max-width:991px){.who__head{margin-bottom:2em;gap:.8em}.ideas{grid-template-columns:1fr}.ideas li{padding:2em .5em;gap:.6em}.ideas li + li{border-left:0;border-top:1px solid rgba(43,51,38,.25)}.ideas .sk{width:4.5em;height:4.5em}.ideas b{font-size:1.4em}.ideas p{font-size:1em}}
+
+/* 稿纸：方格稿纸 + 背后错位的色块（参照 licensedtradecharity 的照片底板） */
+.mspaper{position:relative;margin:0;padding:2.4em 2.2em 3.6em;rotate:var(--r,0deg);isolation:isolate}
+.mspaper::before{content:"";position:absolute;inset:-1.6em -1.2em 1.4em 1.8em;z-index:-2;background:var(--mb,var(--w2));rotate:5deg;clip-path:polygon(2% 0,100% 4%,97% 100%,0 96%)}
+.mspaper::after{content:"";position:absolute;inset:0;z-index:-1;background:#FCFAF3;box-shadow:0 1.8em 2.6em -1.6em rgba(43,51,38,.55)}
+.mspaper figcaption{position:absolute;left:2.2em;right:2.2em;bottom:1.1em;display:flex;justify-content:space-between;font-family:var(--serif);font-size:1.25em;color:var(--moss)}
+.ms{display:grid;grid-template-columns:repeat(var(--cols,14),1fr);row-gap:.5em;font-family:var(--serif);font-weight:600;color:var(--ink);container-type:inline-size}
+.ms span{aspect-ratio:1;display:grid;place-items:center;font-size:calc(100cqw / var(--cols,14) * .66);line-height:1;box-shadow:inset 0 0 0 .5px rgba(184,65,47,.55);border-top:1px solid rgba(184,65,47,.55);border-bottom:1px solid rgba(184,65,47,.55);margin-left:-.5px}
+.mspaper.big{padding:3em 2.8em 4.2em}
+.ms span.sq{letter-spacing:-.5em;padding-right:.4em}
+.tease{grid-template-columns:1fr 1fr;gap:7em}
+.tease .mspaper{--mb:#C6CBA8;width:100%;max-width:40em;justify-self:center}
+@media (max-width:991px){.mspaper{padding:1.2em 1em 2.6em}.mspaper::before{inset:-.8em -.5em 1em .8em}.mspaper figcaption{left:1em;right:1em;bottom:.7em;font-size:.8em}.ms{row-gap:.3em}.mspaper.big{padding:1.4em 1.1em 2.8em}.tease{gap:3.5em}}
+
+/* 关于：五个活动模块（书脊） */
+.spines{display:flex;gap:.9em;height:40em}
+.sp{position:relative;display:flex;flex:0 0 7.2em;min-width:0;border-radius:1em;background:var(--sc);overflow:hidden;transition:flex-basis .9s var(--spring),flex-grow .9s var(--spring);box-shadow:inset -.5em 0 0 rgba(0,0,0,.06),0 1.4em 2em -1.6em rgba(43,51,38,.5)}
+.sp[data-open="true"]{flex:1 1 auto}
+.sp__tab{flex:0 0 7.2em;height:100%;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.8em 0 1.6em;color:var(--ink);font:inherit;border-right:1px dashed rgba(43,51,38,.25)}
+.sp__tab em{font-style:normal;font-family:var(--serif);font-weight:900;font-size:1.8em}
+.sp__tab b{writing-mode:vertical-rl;font-family:var(--serif);font-weight:900;font-size:2.4em;letter-spacing:.15em}
+.sp__tab small{writing-mode:vertical-rl;font-size:1.1em;letter-spacing:.2em;color:var(--moss)}
+.sp:not([data-open="true"]) .sp__tab:hover b{transform:translateY(-.15em)}
+.sp__tab b{transition:transform .5s var(--spring)}
+.sp__body{flex:1;min-width:0;display:grid;grid-template-columns:1fr 13em;gap:2em;align-items:center;padding:3em 3.4em 3em 3em;opacity:0;visibility:hidden;transition:opacity .4s}
+.sp[data-open="true"] .sp__body{opacity:1;visibility:visible;transition-delay:.3s}
+.sp__txt{display:flex;flex-direction:column;gap:1.1em;min-width:28em}
+.sp__txt h3{font-size:3.4em}
+.sp__txt .t-body{max-width:34em}
+.sp__txt .kv{max-width:34em}
+.sp__txt .kv dd{color:var(--ink);opacity:.75}
+.sp__ic{width:13em;height:13em}
+@media (max-width:1300px) and (min-width:992px){.sp__body{grid-template-columns:1fr}.sp__ic{display:none}}
+@media (max-width:991px){.spines{flex-direction:column;height:auto;gap:.6em}.sp{flex:none;flex-direction:column;border-radius:.9em}.sp[data-open="true"]{flex:none}
+  .sp__tab{flex:none;height:auto;width:100%;flex-direction:row;justify-content:flex-start;gap:.8em;padding:1em 1.1em;border-right:0}
+  .sp__tab b,.sp__tab small{writing-mode:horizontal-tb;letter-spacing:.04em}.sp__tab em{font-size:1.1em}.sp__tab b{font-size:1.3em}.sp__tab small{margin-left:auto;font-size:.8em}
+  .sp__body{display:none;grid-template-columns:1fr;padding:0 1.1em 1.4em;border-top:1px dashed rgba(43,51,38,.25)}
+  .sp[data-open="true"] .sp__body{display:grid;padding-top:1.1em}.sp__txt{min-width:0}.sp__txt h3{display:none}.sp__ic{display:none}}
+
+/* 关于：公益性质与组织情况 */
+.org .lhs{position:static}
+.slants{display:grid;grid-template-columns:repeat(3,1fr);gap:.6em}
+.slant{background:var(--sl);color:var(--ink);padding:2.6em 1.8em 2.2em;display:flex;flex-direction:column;gap:.5em;clip-path:polygon(0 6%,100% 0,96% 100%,3% 94%)}
+.slant:nth-child(2){clip-path:polygon(3% 0,97% 5%,100% 96%,0 100%)}
+.slant:nth-child(3){clip-path:polygon(0 0,100% 7%,98% 93%,4% 100%)}
+.slant b{font-family:var(--serif);font-weight:900;font-size:3.6em;line-height:1}
+.slant span{font-size:1.3em;line-height:1.5}
+.dossier{position:relative;background:var(--paper);color:var(--ink);border-radius:.4em 1.2em 1.2em 1.2em;padding:3em 3em 2.4em;margin-top:2.6em;display:flex;flex-direction:column;gap:1.4em;box-shadow:0 1.6em 2.4em -1.6em rgba(0,0,0,.45)}
+.dossier__tab{position:absolute;left:0;top:-2.2em;height:2.4em;padding:0 1.6em;display:flex;align-items:center;background:var(--paper);border-radius:.8em .8em 0 0;font-family:var(--serif);font-weight:900;font-size:1.2em}
+.dossier dl{display:grid;grid-template-columns:8em 1fr;margin:0;font-size:1.45em;line-height:1.6}
+.dossier dt,.dossier dd{padding:.8em 0;border-bottom:1px solid rgba(43,51,38,.18);margin:0}
+.dossier dt{font-weight:700}
+.dossier dd.tbd{color:var(--seal);font-family:var(--serif);font-weight:700}
+.band.dark .dossier .t-small{color:var(--moss)}
+.dossier__stamp{position:absolute;right:2em;top:1.4em;width:6.4em;height:6.4em;border-radius:50%;border:3px double var(--seal);color:var(--seal);display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:1.3em;rotate:-14deg;opacity:.85}
+@media (max-width:991px){.slants{grid-template-columns:1fr;gap:.4em}.slant{padding:1.3em 1.2em}.slant b{font-size:2em}.slant span{font-size:.95em}.dossier{padding:1.6em 1.2em 1.3em;margin-top:2.4em}.dossier dl{grid-template-columns:5.5em 1fr;font-size:.95em}.dossier__stamp{width:4.4em;height:4.4em;font-size:.85em;right:1em;top:.8em}}
+
+/* 加入我们：书友说 */
+.voices{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4em;align-items:start}
+.voice{margin:0;background:var(--paper);padding:3.4em 2.6em 2.4em;border-radius:.4em;rotate:var(--r);box-shadow:0 1.6em 2.4em -1.6em rgba(43,51,38,.5);display:flex;flex-direction:column;gap:1.6em;position:relative}
+.voice::before{content:"“";position:absolute;left:.25em;top:-.05em;font-family:var(--serif);font-weight:900;font-size:7em;color:var(--seal);opacity:.8;line-height:1}
+.voice::after{content:"";position:absolute;right:1.6em;top:-.9em;width:7em;height:1.8em;rotate:4deg;background:rgba(233,220,181,.85);box-shadow:0 .2em .4em rgba(0,0,0,.08)}
+.voice blockquote{margin:0;font-family:var(--serif);font-weight:600;font-size:1.75em;line-height:1.75}
+.voice figcaption{display:flex;flex-direction:column;gap:.2em;border-top:1px dashed rgba(43,51,38,.3);padding-top:1em}
+.voice figcaption b{font-size:1.4em}
+.voice figcaption span{font-size:1.2em;color:var(--moss)}
+@media (max-width:991px){.voices{grid-template-columns:1fr;gap:2.4em}.voice{padding:2.2em 1.4em 1.4em}.voice blockquote{font-size:1.1em}.voice figcaption b{font-size:1em}.voice figcaption span{font-size:.85em}.voice::before{font-size:4.5em}}
+
+/* 合作：四步（斜切纸片） */
+.cuts{display:grid;grid-template-columns:repeat(4,1fr);gap:1em}
+.cuts li{background:var(--cc);color:var(--ct,var(--ink));padding:3em 2.2em 3.4em;display:flex;flex-direction:column;gap:1em;clip-path:polygon(0 4%,100% 0,97% 100%,2% 96%)}
+.cuts li:nth-child(2){clip-path:polygon(2% 0,98% 5%,100% 95%,0 100%)}
+.cuts li:nth-child(3){clip-path:polygon(0 0,100% 6%,98% 100%,3% 94%)}
+.cuts li:nth-child(4){clip-path:polygon(3% 5%,100% 0,96% 96%,0 100%)}
+.cuts em{font-style:normal;font-family:var(--serif);font-weight:900;font-size:4.4em;line-height:1;opacity:.85}
+.cuts b{font-family:var(--serif);font-weight:900;font-size:2.4em}
+.cuts p{font-size:1.4em;line-height:1.7}
+@media (max-width:991px){.cuts{grid-template-columns:1fr 1fr;gap:.5em}.cuts li{padding:1.6em 1.1em 1.9em;gap:.5em}.cuts em{font-size:2.2em}.cuts b{font-size:1.25em}.cuts p{font-size:.88em}}
+
+/* 书友投稿 */
+.feature{display:grid;grid-template-columns:1fr 1.05fr;gap:7em;align-items:center}
+.feature > *{min-width:0}
+.feature .mspaper{--mb:var(--rose);width:100%;max-width:48em;justify-self:center}
+.byline{display:flex;flex-wrap:wrap;align-items:baseline;gap:.4em 1em;font-size:1.4em}
+.byline b{font-family:var(--serif);font-size:1.3em}
+.byline span{color:var(--moss)}
+.figs{display:grid;grid-template-columns:repeat(4,1fr);gap:2em;text-align:center}
+.figs li{display:flex;flex-direction:column;gap:.6em;align-items:center}
+.figs b{font-family:var(--serif);font-weight:900;font-size:8em;line-height:1;color:var(--pine);font-variant-numeric:tabular-nums}
+.figs span{font-size:1.35em;line-height:1.5;max-width:12em}
+.figs__note{text-align:center;margin-top:2.4em}
+.cols{display:grid;grid-template-columns:repeat(4,1fr);gap:1em;align-items:start}
+.col4{background:var(--cl);color:var(--ct,var(--ink));padding:3em 2.2em 3.2em;min-height:30em;display:flex;flex-direction:column;gap:1em;clip-path:polygon(0 3%,100% 0,98% 100%,2% 97%);transition:transform .7s var(--spring)}
+.col4:nth-child(even){margin-top:3em;clip-path:polygon(2% 0,100% 4%,97% 97%,0 100%)}
+.col4:hover{transform:translateY(-.6em)}
+.col4 .sk{width:6em;height:6em}
+.col4 h3{font-size:2.8em}
+.col4 p{font-size:1.4em;line-height:1.75}
+.col4 span{margin-top:auto;font-family:var(--serif);font-weight:700;font-size:1.35em;padding-top:1em;border-top:1px dashed currentColor}
+.slip{position:relative;background:#FCFAF3;padding:2.6em 2.8em 3em;box-shadow:0 1.6em 2.6em -1.6em rgba(43,51,38,.5);background-image:linear-gradient(90deg,transparent 4.2em,rgba(184,65,47,.35) 4.2em,rgba(184,65,47,.35) calc(4.2em + 1px),transparent calc(4.2em + 1px))}
+.slip__head{display:flex;justify-content:space-between;align-items:baseline;gap:1em;flex-wrap:wrap;padding-bottom:1.2em;border-bottom:2px solid var(--ink);margin-bottom:.4em}
+.slip__head b{font-family:var(--serif);font-weight:900;font-size:2.4em}
+.slip__head span{font-size:1.15em;color:var(--moss);letter-spacing:.1em}
+.slip li{display:grid;grid-template-columns:3em 1fr auto;gap:1.2em;align-items:start;padding:1.4em 0;border-bottom:1px solid rgba(43,51,38,.18)}
+.slip li i{width:1.6em;height:1.6em;margin:.3em 0 0 .3em;border:2px solid var(--ink);border-radius:.3em;position:relative}
+.slip li i::after{content:"";position:absolute;left:.35em;top:-.1em;width:.45em;height:.9em;border:solid var(--seal);border-width:0 .2em .2em 0;rotate:40deg}
+.slip li b{font-family:var(--serif);font-size:1.7em}
+.slip li p{font-size:1.35em;line-height:1.65;color:var(--moss);margin-top:.3em}
+.slip li > span{font-size:1.1em;padding:.3em .8em;border-radius:1em;background:var(--parch);white-space:nowrap}
+.slip__seal{position:absolute;right:-2.2em;bottom:-3.2em;width:7.5em;height:7.5em;border-radius:50%;border:3px double var(--seal);color:var(--seal);display:grid;place-items:center;font-family:var(--serif);font-weight:900;font-size:1.4em;rotate:-12deg;background:rgba(252,250,243,.7)}
+.mss{display:grid;grid-template-columns:repeat(3,1fr);gap:4em 3em;padding-top:1em}
+.mscard{display:flex;flex-direction:column;gap:1.6em;rotate:var(--r)}
+.mscard .mspaper{padding:1.6em 1.5em 1.8em}
+.mscard .mspaper::before{display:none}
+.mscard__meta{display:flex;flex-direction:column;align-items:flex-start;gap:.5em}
+.mscard__meta h3{font-size:2.2em}
+.mscard__meta p{font-size:1.25em;color:var(--moss)}
+@media (max-width:991px){.feature{grid-template-columns:1fr;gap:3.5em}.byline{font-size:.95em}.figs{grid-template-columns:1fr 1fr;gap:2em 1em}.figs b{font-size:3.4em}.figs span{font-size:.85em}
+  .cols{grid-template-columns:1fr 1fr;gap:.6em}.col4,.col4:nth-child(even){margin-top:0;min-height:0;padding:1.6em 1.1em 1.8em}.col4 .sk{width:3.4em;height:3.4em}.col4 h3{font-size:1.35em}.col4 p{font-size:.88em}.col4 span{font-size:.85em}
+  .slip{padding:1.4em 1.1em 2.4em;background-image:none}.slip__head b{font-size:1.4em}.slip__head span{font-size:.75em}.slip li{grid-template-columns:1.8em 1fr;gap:.7em}.slip li > span{grid-column:2;justify-self:start;font-size:.75em}.slip li b{font-size:1.1em}.slip li p{font-size:.9em}.slip li i{width:1.1em;height:1.1em}.slip__seal{width:5em;height:5em;font-size:.95em;right:1em}
+  .mss{grid-template-columns:1fr 1fr;gap:2.4em 1em}.mscard .mspaper{padding:.8em .7em 1em}.mscard__meta h3{font-size:1.05em}.mscard__meta p{font-size:.8em}}
+
+/* 往期活动：学期索引 + 档案 */
+.tindex{display:flex;flex-wrap:wrap;gap:1.2em 4em;padding:2.4em 0 2.8em;border-top:1px solid rgba(43,51,38,.25);margin-bottom:3em}
+.tindex__yr{display:flex;align-items:center;gap:1.6em}
+.tindex__yr > b{font-family:var(--serif);font-weight:900;font-size:4.4em;line-height:1;color:var(--pine)}
+.tindex__yr > div{display:flex;flex-wrap:wrap;gap:.6em}
+.tindex button{border:0;cursor:pointer;height:3em;padding:0 1.3em;border-radius:1.6em;background:var(--paper);font-weight:500;font-size:1.3em;display:inline-flex;align-items:center;gap:.5em;transition:background .3s,color .3s,transform .5s var(--spring);box-shadow:inset 0 0 0 1px rgba(43,51,38,.12)}
+.tindex button:hover{transform:translateY(-.15em)}
+.tindex button[aria-pressed="true"]{background:var(--pine);color:var(--paper)}
+.tindex button small{font-size:.75em;padding:.15em .5em;border-radius:1em;background:var(--seal);color:#fff}
+.tsheet{background:var(--paper);border-radius:2.4em;padding:4em 4.4em 3em;display:flex;flex-direction:column;gap:3.6em;box-shadow:0 2em 3em -2.4em rgba(43,51,38,.4)}
+.tsheet h4{font-family:var(--serif);font-weight:900;font-size:2em;margin:0}
+.ts__head{display:flex;justify-content:space-between;align-items:flex-end;gap:3em;padding-bottom:2.6em;border-bottom:2px solid var(--ink)}
+.ts__head .t-h2{font-size:5em}
+.ts__stat{display:flex;gap:3.4em}
+.ts__stat li{display:flex;flex-direction:column;gap:.3em;align-items:flex-start}
+.ts__stat b{font-family:var(--serif);font-weight:900;font-size:3.6em;line-height:1;color:var(--pine);white-space:nowrap}
+.ts__stat span{font-size:1.2em;color:var(--moss)}
+.ts__body{display:grid;grid-template-columns:1fr 1.15fr;gap:5em;align-items:center}
+.ts__body > *{min-width:0}
+.ts__books{display:flex;justify-content:center;align-items:center;gap:2em;padding:2em 1em;min-height:26em;background:var(--w1);border-radius:1.6em}
+.ts__books .book{--w:13em}
+.ts__books .book:nth-child(2){margin-top:4em}
+.ts__txt{display:flex;flex-direction:column;gap:1.2em;align-items:flex-start}
+.ts__txt .t-body{max-width:36em}
+.ts__txt h4 + .qs{margin-top:-.2em}
+.ts__ev{display:flex;flex-direction:column;gap:1.2em}
+.ts__ph{display:grid;grid-template-columns:repeat(3,1fr);gap:2.4em;padding:1em 1em 0}
+.ts__photo{margin:0;background:#fff;padding:1em 1em 3.2em;rotate:var(--r);box-shadow:0 1.4em 2em -1.4em rgba(43,51,38,.5);position:relative}
+.ts__photo .ph{aspect-ratio:4/3;background:linear-gradient(140deg,var(--w2),var(--w3))}
+.ts__photo:nth-child(2) .ph{background:linear-gradient(140deg,#E6E1CC,#C9B98F)}
+.ts__photo:nth-child(3) .ph{background:linear-gradient(140deg,#DEDAC1,#8E9A72)}
+.ts__photo figcaption{position:absolute;left:1em;right:1em;bottom:1em;font-family:var(--serif);font-size:1.3em;color:var(--moss)}
+.ts__nav{display:flex;justify-content:space-between;gap:1em;border-top:1px solid rgba(43,51,38,.2);padding-top:2em}
+.ts__go{border:0;background:none;cursor:pointer;font-family:var(--serif);font-weight:700;font-size:1.6em;color:var(--pine);padding:.3em 0}
+.ts__go:hover{color:var(--seal)}
+.tsheet > .t-small{margin-top:-2em}
+@media (max-width:991px){.tindex{flex-direction:column;gap:1.2em;padding:1.4em 0;margin-bottom:1.6em}.tindex__yr{gap:1em;align-items:flex-start}.tindex__yr > b{font-size:1.8em}.tindex button{font-size:.88em}
+  .tsheet{border-radius:1.4em;padding:1.6em 1.1em 1.4em;gap:2em}.tsheet h4{font-size:1.2em}.ts__head{flex-direction:column;align-items:flex-start;gap:1.4em;padding-bottom:1.4em}.ts__head .t-h2{font-size:2.2em}.ts__stat{gap:1.6em}.ts__stat b{font-size:1.7em}.ts__stat span{font-size:.8em}
+  .ts__body{grid-template-columns:1fr;gap:2em}.ts__books{min-height:0;padding:2em 1em}.ts__books .book{--w:8em;--t:1.1em}.ts__books .book:nth-child(2){margin-top:2em}.ts__ph{grid-template-columns:1fr 1fr;gap:1.2em;padding:0}.ts__photo{padding:.6em .6em 2.2em}.ts__photo figcaption{font-size:.8em;left:.6em;bottom:.6em}.ts__photo:nth-child(3){display:none}.ts__go{font-size:.95em}.tsheet > .t-small{margin-top:-1em}}
+.band.dark .copy code{color:var(--ink)}
+#main{overflow-x:clip}
+
 </style>
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
@@ -1206,6 +1381,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       <li><a class="pill" href="#about" data-r="about"><span>关于我们</span></a></li>
       <li><a class="pill" href="#events" data-r="events"><span>本学期活动</span></a></li>
       <li><a class="pill" href="#archive" data-r="archive"><span>往期活动</span></a></li>
+      <li><a class="pill" href="#submit" data-r="submit"><span>书友投稿</span></a></li>
       <li><a class="pill" href="#join" data-r="join"><span>加入我们</span></a></li>
       <li><a class="btn" href="#partner" data-r="partner" data-btn><span class="bt"><span>合作与联系</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
     </ul>
@@ -1220,6 +1396,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       <li><a class="pill" href="#about"><span>关于我们</span></a></li>
       <li><a class="pill" href="#events"><span>本学期活动</span></a></li>
       <li><a class="pill" href="#archive"><span>往期活动</span></a></li>
+      <li><a class="pill" href="#submit"><span>书友投稿</span></a></li>
       <li><a class="pill" href="#join"><span>加入我们</span></a></li>
       <li><a class="pill" href="#partner"><span>合作与联系</span></a></li>
     </ul>
@@ -1244,6 +1421,19 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       <div class="hero__globe" id="globeBox" data-intro-visual role="img" aria-label="一颗转动的地球，虚线从墨尔本连向世界各地"><canvas id="globe"></canvas></div>
     </div>
   </section>
+
+  <section class="plain who" id="home-who"><div class="wrap">
+    <div class="who__head">
+      <h2 class="t-h2" data-split>莎士比亚的猫文学社</h2>
+      <p class="t-body">2025 年秋天，几位住在墨尔本的读书人在客厅里读完了沈从文的《边城》。后来来的人越来越多，有了名字，有了固定的长桌。我们是一个公益的中文文学社群，按学期一起读书，办读书会、文学夜和线上讲座，欢迎每一位愿意坐下来读一读、聊一聊的人。</p>
+    </div>
+    <ol class="ideas">
+      <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0xMS43NDUgMTEuMDIyYS4zNC4zNCAwIDAgMC0uMDUtLjY3QTMuNTU1IDMuNTU1IDAgMCAxIDguMTEgNy43NjdhNS42NyA1LjY3IDAgMCAxLS4wNi0zLjAwNGExIDEgMCAwIDAgLjE3LjEyYTUuOSA1LjkgMCAwIDAgNi4xNjgtMS4wNnEuMjc1LjU5LjY4IDEuMWMuNzgyLjc1MSAyLjA4My44OTIgMi4zODQgMS4zNTJhLjI3LjI3IDAgMCAwIC4xNC4xNGE1LjE2IDUuMTYgMCAwIDEtNC4zNzYgNC4xNzZhLjMuMyAwIDAgMCAuMTEuNThjNy42OS0xLjMzMSA2LjMyOC0xMS41MDQtLjA2LTExLjE2NEM0LjIxNS43IDUuODY3IDExLjUwMyAxMS43NDUgMTEuMDIybTUuOTA3LTUuNjg3YTI5IDI5IDAgMCAwLTIuODc0LTEuOTIycS42NjctLjcwNCAxLjIzMi0xLjQ5MmE0LjYgNC42IDAgMCAxIDEuNjQyIDMuMzg0ek0xNS40MTkgMS41NWE4LjE0IDguMTQgMCAwIDEtMy41MTQgMi4zNzNjLS45MDEuMjgtMi45MDQuNjMxLTMuNTU1LjE5YS4yMi4yMiAwIDAgMCAwLS4xM0M5LjU1MiAxLjQgMTMuNDg3LjU1IDE1LjQyIDEuNTUiLz48cGF0aCBkPSJNMTEuMTA0IDcuMTk3YS4zMy4zMyAwIDAgMCAuNDcgMGMuMjUtLjI0LS4wOC0xLjUyMi0xLjE5MS0xLjQyMWMtMS4yODIuMTQtMS4yODIgMS41NDItLjcxMSAxLjQ2MWMuNTctLjA4LjYxLTEuMTExIDEuNDMyLS4wNG00LjU1Ni4xNDFjLjI1LS4yNC0uMzQxLTEuODIzLTEuMzQyLTEuNjgzYy0uNTgxLjE2LTEuMjQyIDEuMTMyLS44NzEgMS4zNTJhLjMxLjMxIDAgMCAwIC4zLjA5YS4yOS4yOSAwIDAgMCAuMjYtLjI5Yy43NzEtLjU5IDEuMDkyIDEuMDUxIDEuNjUyLjUzTTEzLjc4NyA5LjAyYS4zNC4zNCAwIDAgMC0uNDktLjQ2Yy0uMi4xNC0uNDIxLjExLTEuMTMyLjExYS45LjkgMCAwIDEtLjYyLS4wNmEuMjk1LjI5NSAwIDAgMC0uNDUxLjM4YTEuNTUyIDEuNTUyIDAgMCAwIDIuNjkzLjAzbTUuOTA3IDEyLjQzNWEyNS40IDI1LjQgMCAwIDAtNS41ODcgMS4yODJxLS43OTYuMjYzLTEuNTYyLjYxYy4wNi0uMTguNzIxLTguNzkuMjYtOS4yNDFhLjYuNiAwIDAgMC0uMzgtLjIxYy0uNzEtLjA3LTEuNDkyLTEuNzAyLTMuODc1LTIuNDgzYTEyLjIgMTIuMiAwIDAgMC0zLjI3NC0uNDZjLS4zNyAwLTEuMTExLS4wNzEtMS4yOTEuMjhhLjMyLjMyIDAgMCAwIC4zLjQzaC45MDFjMi42NzQuNjUgNC4yNzYuODgxIDYuNDk4IDIuNzAzYy42ODEuNjQxLS4wOCAyLjY0NC4yIDguNTUxYTEzLjQgMTMuNCAwIDAgMC0yLjI1Mi0uN2MtMS44NzMtLjY4Mi0zLjQ3NS0uNDcxLTUuMjQ3LS42ODJIMy4xMTRjLS40NDEgMC0uNTYxIDAtLjU2MS0uN2MwLTEuMDAyLjMxLTEuNTQyLS4xNi0xLjU4MmEuMzEuMzEgMCAwIDAtLjMyLjI3Yy0uMTIgMS4wNzEtLjgyMiAyLjQxMy42NiAyLjg3NHEuNzM2LjEzNyAxLjQ4Mi4xOWMxLjc1Mi4zNCAzLjUyNC4xIDUuMTM2LjUyYTguMSA4LjEgMCAwIDAgMi45MzQuODExYzAgLjExLjM2LjQxIDcuMzgtMS42NTJxLjMyMi0uMTU0LjU4LS40YS4zNi4zNiAwIDAgMC0uNTUtLjQxIi8+PHBhdGggZD0iTTYuMDg3IDE1LjQwOGMtLjA5LS4zOC0uMjItMS4wNzItLjc1LTEuMzgyYTQuNDYgNC40NiAwIDAgMC0zLjI0NS4wOWEyLjg5NCAyLjg5NCAwIDAgMCAuMzIgNC41ODZhMi41OCAyLjU4IDAgMCAwIDIuNjA0LjQ3YzEuMzIyLS43MSAxLjQ5Mi0yLjMwMyAxLjA3MS0zLjc2NE00LjQ2NSAxOC4yMWEuOC44IDAgMCAxLS42NCAwYy0yLjE2My0uNTgtMi4yOTMtMi41NzMtMS4yNjItMy42MTRjLjY5LjQgMS43ODItLjE0IDIuMjgzLjJjLjE1LjEyLjg4IDIuNzEzLS4zOCAzLjQxNG0tMS40NzMtNS4wNDVjLjE0LS44NDEuMjctMi4wMDMtLjI5LTIuMDAzYy0uMDkgMC0uMjEgMC0uMjcuMDlhNi40IDYuNCAwIDAgMC0uMyAxLjg2M2MuMDUuNy44LjU3Ljg2LjA1bTE3LjQyMi0xLjE0MmMuMS40NDEuMTcuNzgxLjIzIDEuMDYyYy4yNS42OC45MTIuNDkuNzkyLS4yOGE5LjQgOS40IDAgMCAxLS4yOC0xLjU4M2ExLjQ1IDEuNDUgMCAwIDAtLjMzMS0uODNhLjkuOSAwIDAgMC0uNjQxLS4yMWExMy43IDEzLjcgMCAwIDAtMy4zOTQuODhjLS43ODEuMzEtNC4wMDUgMS45MTMtNC4wNzUgMi40OTNhLjMzLjMzIDAgMCAwIC42NC4xM2EzMC40IDMwLjQgMCAwIDEgNS44MjgtMi4yMTJjLjczLS4yLjktLjgzMSAxLjIzMS41NW0uMzQxIDcuNzhhNi41IDYuNSAwIDAgMCAuMjYgMi4wOTNjLjA5LjEyLjQ1LjIuNjEtLjI3Yy4xNTctLjU1LjIyNC0xLjEyMS4yMDEtMS42OTNhLjYyMS42MjEgMCAwIDAtMS4wNzEtLjEzbTIuMTEyLTQuMzE1YTIuNTMgMi41MyAwIDAgMC0uODUtMS41ODJjLS4xMS0uMS0uMTktLjA4LS40MDEtLjA5YTEuMSAxLjEgMCAwIDAtLjgwMS4yOWMtLjQ0IDEuMDAxLTEuNjAyLjM0LTIuNDEzIDEuMDAxYTEuOSAxLjkgMCAwIDAtLjUyIDEuNjEyYTQgNCAwIDAgMCAxLjM0IDIuMTgzYTEuNjIgMS42MiAwIDAgMCAxLjYwMy40MWMxLjQ1Mi0uNDMgMi4xOTMtMi41NzMgMi4wNDItMy44MjRtLTIuODUzIDIuNTQzYTM0IDM0IDAgMCAxLTEuMDAxLTEuNzIyYzAtLjM0IDAtLjUxLjIxLS41OWMuNTgtLjI3MSAxLjkwMi0uMjUxIDIuMzMzLTEuNDMzYTEuOTMgMS45MyAwIDAgMSAuNTggMS41NzJhNC4xIDQuMSAwIDAgMS0uNjMgMS42NTJjLS4zNi41MjEtMS4wNzIuOTkyLTEuNDkyLjUyMSIvPjwvZz48L3N2Zz4=" alt=""><b>以读者为中心</b><p>选书和讨论都从读者出发。没有考试，没有标准答案，第一次来的人和读了几十年书的人坐在同一张桌前。</p></li>
+      <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMy41NjQgMTVhMjUgMjUgMCAwIDAtLjc3LTMuMDhjLS4yNS0uNzQtLjM4LTEuNjItLjU5LTIuNDFjLS43My0yLjc1LS4zNi00LjQ5LS43LTcuMDhhMS4yOSAxLjI5IDAgMCAwLS42My0xQTExLjY2IDExLjY2IDAgMCAwIDE1LjIyNCAwYTEuNjUgMS42NSAwIDAgMC0uODkuNDVhMi40NyAyLjQ3IDAgMCAwLS4xNSAzLjA3Yy40NS40MyAxLjA5LjI4IDEuNjQuMjZjNC44LjA4IDQuNzcuMDkgNC44NS4wNmMuMTkgMSAuMzggMi44Ni40OSAzLjlhOC45IDguOSAwIDAgMC0yLjU1LS40OUE2My42IDYzLjYgMCAwIDAgNy43MTMgN2EuMzQuMzQgMCAwIDAgLjA2LjY3YzUuNzItLjIyIDEyLjg3LjQ5IDEzLjE1IDEuMDljLjQxLjg5LjUyIDIuMzIuODYgMy40MWMuMTEuMzguMjIuNzcuMzEgMS4xN2MuNjEgMi41LjI0IDIuNC40NiAyLjQ2Yy0xLjU3LjU3LTE5Ljg4Ljg5LTIxLjI5LS4wNWMtLjM3LS4yNi0uMTItLjY2IDAtMS4yOWMuMzgxLTEuMjg4Ljg3LTIuNTQzIDEuNDYtMy43NWEuMjkyLjI5MiAwIDAgMC0uNTQtLjIyYTIyLjQgMjIuNCAwIDAgMC0xLjYgMy44M2MtLjE3Ljc1LS41NiAxLjQ2LjI1IDJhNSA1IDAgMCAwIDIuNDIuNTVjLjI5IDAgLjI1LS4zOC0uNyAyLjU5YTE2LjYgMTYuNiAwIDAgMC0uODcgMy41NGMuMTUuOTIgMi4xNC41MSAzIC42MXExLjE1Ni4xMjcgMi4zMi4xM2MuNTcgMCAxLjEyLS4xMiAxLjEtLjY5YTU3IDU3IDAgMCAwLTEuNzgtNS44N2MzLjMzLjE5IDcuNzguMzEgMTEuMTQuMjJhNTcgNTcgMCAwIDAtMS43OSA1LjkxYzAgLjU3LjUzLjY3IDEuMS42OWMuNzggMCAyLjA1LS4wOSAyLjM2LS4xMmMuODYtLjExIDIuODUuMyAzLS42MWMuMTItLjc0LTEuNDgtNS4zMy0xLjc1LTZjMy4xMy0uMjcgMy41MS0uNjUgMy4xOC0yLjI3bS0zLTExLjczYy04LjU2LS42MS0yLjQ5LS4yNy01LjQtLjM1Yy0uMTIgMC0uMjMgMC0uMjktLjA2Yy0uMjktLjI5LS4wOC0xLjI5LjIzLTEuNTljLjU2LS41NCA0LjE1LjQ4IDUuMSAxYy4zNS4xMy4yNy4wMy4zOC45NnpNNC44MTQgMjIuNWMtMi4yNS0uMjQtMi45NSAxLjcyLS43Ni01LjM1YzAtLjE3LS4yMi0uMTIgMS41NyAwYzIuMDIgNi44NSAyLjAxIDUuNjctLjgxIDUuMzVtMTUtNS4xYy4zMSAxIC44NiAzLjE3IDEuMjcgNS4zN2MtLjcxIDAtMS42Mi0uMDYtMiAwcy0xLjYyLjE1LTIuMjEuMTVjLjEtLjcxIDEuMDgtNC40MSAxLjQxLTUuNTJjMS43Mi0uMDkgMS40Ny0uMTYgMS41MiAweiIvPjxwYXRoIGQ9Ik04LjAwMyAxMi4xNmMuNzMtMS42MyAxLjIyLTIgLjgtMi4yYS4yOS4yOSAwIDAgMC0uNC4xMmMtLjQuNjQtMS43IDIuNjctMS43IDMuOTJjMCAuNDcuMzQuNjMuODYuNzNjMS41MS4yOSA5LjY2LjY2IDEwLjMzIDBzLS44Mi00LjUxLTEuMi00Ljg4YTEuNiAxLjYgMCAwIDAtLjgtLjM0YTQ5IDQ5IDAgMCAwLTYuMjUtLjIyYS4zNC4zNCAwIDAgMCAwIC42N3EyLjk0OC4wNDkgNS44Ny40M2MuNTguMS41My0uMDYgMSAxLjdhOC41IDguNSAwIDAgMSAuMzkgMS42NnYuMTNjLTMuMTUuMjE0LTYuMzEuMjE0LTkuNDYgMGMwLS4xNi4xMy0uMzkuMTQtLjQ2YTUgNSAwIDAgMSAuNDItMS4yNm0tNS4zNS01LjAzYy4wOCAyLjg3IDAgMi4xMyAwIDIuMzRjLjExLjY5IDIuNzYgMSAzLjU0LjMzYy41Ny0uNS40MS0xLjMuNTEtMS43OGMuMjMtMS4zMS4zNi0yLjQ2LTEtMi40MWEyLjczIDIuNzMgMCAwIDAgLjI1LTJhLjM0LjM0IDAgMCAwLS42NyAwYy0uMTUuNy0uNTUuNzMtLjQ5IDIuMDhsLS43Mi4wN2EzLjIzIDMuMjMgMCAwIDAtLjYzLTIuNjZjLS43OC0uMjItLjQ0IDEuNzctLjEyIDIuNTljMCAwIDAgLjA4LjA2LjE1aC0uMTJjLS44NS4wOC0uNjYuNjktLjYxIDEuMjltLjY2LS42MWgyYzEuMTEgMCAuNjkuMDYuMzcgMS4yOGMtLjIuODcuMzggMS42LTIuMSAxLjJ2LS4xOWMtLjM3LTIuNTYtLjM1LTIuMjgtLjI3LTIuMjkiLz48L2c+PC9zdmc+" alt=""><b>有温度也有深度</b><p>气氛可以轻松，讨论不会敷衍。主持人提前备好问题，陪大家从「好看」聊到「为什么好看」。</p></li>
+      <li><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNMjMuODg1IDE2LjE2NmMtLjU1LTEuMDktNi4zNTgtLjY5LTcuNDg3LS4zM2MtLjYxLjE5LS42Ny44OS0uODUgMS40NmMtLjU0LjQzLTUuMzE4LjM4LTUuOTk4IDBjLS4xNC0uNDUtLjEyLS45LS40Ni0xLjI0Yy0uNTEtLjUxLTEuNTE5LS4zMi00Ljg4OC0uMjdhMTIuNCAxMi40IDAgMCAwLTIuODM5LjA3Yy0uNzUuMTUtMS40Mi43Ni0xLjM2IDEuNDFhNy43IDcuNyAwIDAgMCAxLjg4IDMuNDY5YzEuODggMS4yNCA0LjcwOC40NiA2Ljg2OC41OGM4LjYyNi0uMTkgOC40NDYtLjM3IDkuNTM2LS4yMWEuMzA1LjMwNSAwIDAgMCAuMzQ2LS4zNjlhLjMuMyAwIDAgMC0uMjQ2LS4yMzFjLTEuMDYtLjE4LS45NSAwLTkuNTc2IDBjLTItLjE3LTQuODc5LjQxLTYuMzM4LS42YTcuOSA3LjkgMCAwIDEtMS4zMy0yLjYzYy40NC0uNTk5IDIuMTktLjI5OSAzLS4yOTlsMy4yMzgtLjFjLjE3IDAgLjY3LjI0Ljg0LjEyYy4xMS40LjE0Ljk1LjYxIDEuMjZjLjg5LjU5IDYuNDk3Ljc2IDcuNDQ3LS4yMWMuMzItLjMyLjI5LS44MS40Ni0xLjI0YzEuMDgtLjM0IDUuMjE4LS42MiA2LjQwNy0uMThjLjI3LjY5LTEgMi45LTEuNTYgMy40MzljLS4yOC4yNy0xLjU0OS4yNi0xLjk5OC4yNmEuMzUuMzUgMCAwIDAgMCAuNjljLjc4IDAgMS45OTkuMDUgMi40NTktLjQxYy45NS0uODEgMi4zNjktMy4zOCAxLjgzOS00LjQzOU0yLjQwMyAxNC45NDdhLjMxMi4zMTIgMCAxIDAgLjYtLjE3YTQxIDQxIDAgMCAxLS44NC04LjE3N2MuMDgtMS4yNC41Ny0xLjczIDEuMjUtMS45NWMyLjg2OC0xIDEzLjU4NS0xLjQwOSAxNi45OTMtLjIxYy44LjI3IDEuMDcuMjggMS4yOSAxLjE0YTY2IDY2IDAgMCAxLS4yNiA3Ljk5N2MwIC4yMS0uMTMuNC0uMDYuNDJhLjM0LjM0IDAgMCAwIC41NS4zOGMuMzYtLjM1Ljg4LTguMTU3LjY4LTguOTk3Yy0uMjctMS4yNC0uNzktMS40OC0xLjg2LTEuODhjLTMuODg4LTEuNDg5LTE0LjE2NS0xLjA2OS0xNy42OTMuMTlhMi44IDIuOCAwIDAgMC0xLjgxIDIuODdhNDIuNCA0Mi40IDAgMCAwIDEuMTYgOC4zODciIGNsaXAtcnVsZT0iZXZlbm9kZCIvPjwvc3ZnPg==" alt=""><b>积极探索 AI 与阅读</b><p>试着用新工具整理笔记、对照译本、练习写作。工具会变，面对面说话的那份认真不变。</p></li>
+    </ol>
+    <div class="center-cta" style="margin-top:4.5em"><a class="btn" href="#about" data-btn><span class="bt"><span>了解我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+  </div></section>
 
   <section class="sec">
     <div class="wrap">
@@ -1286,12 +1476,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
     </div></div>
   </section>
 
-  <section class="genre sec" id="genre">
-    <div class="wrap head"><h2 class="t-h2" data-split>我们都读些什么</h2><p class="t-body">以中文原著为主，也读世界各地的译作。<span class="hint">把鼠标移到类别上，看看读过和想读的书。</span></p></div>
-    <ul class="glist" id="glist"></ul>
-    <div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div>
-  </section>
-
   <section class="sec">
     <div class="wrap">
       <div class="head"><h2 class="t-h2" data-split>我们还在筹备两个新项目</h2><p class="t-body">让阅读走向更多年纪的人。</p></div>
@@ -1305,6 +1489,20 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div>
   </section>
+
+  <section class="band" style="--bb:var(--rose)"><div class="wrap split2 tease">
+    <figure class="mspaper" style="--r:-3deg" aria-label="书友来稿《外婆的腌菜坛》开头">
+      <div class="ms" data-ms="外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒，说坛子也要换口气。我到墨尔本的第三年，在超市里看见一只差不多的坛子，站了很久，没有买。"></div>
+      <figcaption>书友 林间 · 散文</figcaption>
+    </figure>
+    <div class="stack">
+      <span class="label">书友投稿</span>
+      <h2 class="t-h2" data-split>读完了也可以写下来</h2>
+      <p class="t-body">读后感、散文、诗、小说的片段，只要是你自己写的，都欢迎寄给我们。每学期挑选几篇，刊登在网站和公众号上，也会在文学夜里请作者读给大家听。</p>
+      <p class="t-small">投稿不收费，也不设门槛。第一次写东西的人，同样欢迎。</p>
+      <a class="btn" href="#submit" data-btn><span class="bt"><span>看看怎么投稿</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div></section>
 
   <section class="panel sec">
     <svg class="waves" data-wave="panel2" aria-hidden="true"></svg>
@@ -1375,15 +1573,30 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--w1)" id="about-term"><div class="wrap">
-      <div class="head"><span class="label">阅读方式</span><h2 class="t-h2" data-split>一个学期大概这样安排</h2><p class="t-body">从定下主题到写进档案，大约十周。每一步都像寄出一封信。</p></div>
-      <ol class="stamps">
-        <li class="stamp"><div class="stamp__face" style="--r:-3deg"><div class="stamp__in" style="--sc:#E9DCB5"><em>壹</em><img class="sk stamp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTE0Ljc4OCAxNS40NGMtLjE4IDAtLjYxIDAtMS4zLS4wOGwuMjEtLjQ4cS4zMzQtLjcwNC41Mi0xLjQ2YTEuMTcgMS4xNyAwIDAgMC0uMjktMS4wNDlhMi4xNiAyLjE2IDAgMCAwLTEuMTgtLjQ5Yy0uNzktLjExLTEuNzc5LjA4LTIuMzU5IDBjLS40MzUtLjA4My0uODgtLjEtMS4zMi0uMDVjLS4xNy4wOC0uMy40Ny4xNy41OWMuMjUuMDYuODcuMTQgMS4xLjE3Yy40OC4wNiAxLjI2LjA3IDEuOTQuMThjLjM1LjA2LjkzLjMxLjg5LjQ3Yy0uMS4zNi0uNDMgMS4xLS40OSAxLjI4bC0uMjYuNzVoLS41MmMtMi4xNS4wNzktMi4yMi4xNzktMi4zOS41NTlzMi4yNy41MSAyLjM3LjUyaC4xN2wtLjkgMi41OTlhLjMzLjMzIDAgMCAwIC40NDQuNDFhLjMyLjMyIDAgMCAwIC4xNjYtLjE4bDEuMjQtMi44MnEuNzUtLjA1IDEuNDg5LS4xOXEuMTkxLS4wMi4zNy0uMDljLjE4LS4xLjIyLS4yMi4yMS0uMzJhLjMyLjMyIDAgMCAwLS4yOC0uMzE5bS45Ny0xMS41NDZhNC41IDQuNSAwIDAgMCAuMjQgMi4yNWExLjYyIDEuNjIgMCAwIDAgMS45OTkuNzc5YTEuNTUgMS41NSAwIDAgMCAxLjEtMWE0LjkgNC45IDAgMCAwIC4xOC0xLjczVjIuNzM1YTEuNTMgMS41MyAwIDAgMC0uNDYtMS4yYTIuNTUgMi41NSAwIDAgMC0xLjgyLS40MWEuMzIuMzIgMCAwIDAtLjMzLjMyYS4yOC4yOCAwIDAgMC0uMzItLjE3YS40MS40MSAwIDAgMC0uMjguMjdhNSA1IDAgMCAwLS4wNyAxLjA2bC0uMTQuNjFxLS4wNzguMzM1LS4xLjY4bS44My0uNDFzLjE2LTEuODYuMTYtMS45M2EuMzMuMzMgMCAwIDAgLjMuMmMuODk5IDAgMS4yNzkuMTcgMS4zNzkuNTJhOCA4IDAgMCAxLS4xMyAxLjlxLjAwMy41ODItLjEzIDEuMTVjLS4wNy4yNC0uMTYuNDgtLjQxLjU0YS43Mi43MiAwIDAgMS0xLS41YTUuOCA1LjggMCAwIDEtLjE3LTEuODhtLTguMDM2LjA5OWMwIC4xLjA3LjIuNDYuMjRjLjU2IDAgLjguMTggMS41Ny4yMmgyLjUwOGMuNjkgMCAxLjExLS4wNiAxLjgxLS4xMWMuMzMgMCAuNTktLjY0LjE1LS43NWMtLjc2LS4wMy0xLjI4LS4xNi0yLjA1LS4xNkgxMWExNSAxNSAwIDAgMC0xLjg1LjExYy0uNDIuMDMtLjYwOS4zLS41OTkuNDUiLz48cGF0aCBmaWxsPSIjMkIzMzI2IiBkPSJNMjIuOTk1IDQuMDk0YTIuMzggMi4zOCAwIDAgMC0xLjI3LS43MmE0LjUgNC41IDAgMCAwLTEuNDE5LS4xNGMtLjcxLjEtLjUyLjU5LS4xNS41OXEuNTA0LS4wMDUgMSAuMDhhMiAyIDAgMCAxIDEuMzEuNjJjLjIzMi40NjcuMzY1Ljk3OC4zOSAxLjVjLjEuNzc5LjE4IDEuNzg5LjIzIDIuODk4Yy0xLjQ3IDAtNC40Mi0uMTItNy43MjgtLjE4SDguNThjLTMuNTc5LjAzLTYuNjg4LjE1LTcuNjY3LjE5YTIxLjMgMjEuMyAwIDAgMSAuNDYtNC40ODhhMS4xNyAxLjE3IDAgMCAxIC45OTktLjYxYTQuNCA0LjQgMCAwIDEgMS4yNy0uMTJhLjI3LjI3IDAgMCAwIC4wNy0uNTFhNC40IDQuNCAwIDAgMC0xLjg4IDBhMS42NSAxLjY1IDAgMCAwLTEuMTIuOTNjLS4zOS45Mi0uNzkgNS45OTgtLjcgMTAuNDk2Yy4wNyAzLjI3LjQ2IDYuMTk4IDEuMTggNy4wNzhjLjUzLjY0IDEuOTEgMSAzLjY1IDEuMTRjMi43MDguMTggNi4zMDctLjEyIDguMTY2LS4xMmE1NCA1NCAwIDAgMCA2Ljk5OC0uMjNhNy45IDcuOSAwIDAgMCAzLS44OGExLjUgMS41IDAgMCAwIC41MDktLjljLjM1Ni0yLjA1My41MTctNC4xMzUuNDgtNi4yMThjMC00LjQ3OC0uMzctOS42NjYtMS0xMC40MDZtLS4yNSAxNS40NTVhNS4zIDUuMyAwIDAgMS0uMzMgMS4yOGE5LjYgOS42IDAgMCAxLTMuNTI4LjczOWMtMi4zNC4xOS00LjkxOS4xLTUuODc4LjFjLTEuODQgMC01LjQwOS4zMS04LjA5OC4xNWMtMS4zOC0uMDgtMi41MTktLjIyLTIuOTM5LS43MmMtLjY4LS43OS0uOTctMy40NzktMS4wNi02LjQ0OGE3MyA3MyAwIDAgMS0uMDItNS4xMjhjMSAwIDQuMDUuMTYgNy42ODguMjNoNi43NzhjMy4zMjktLjA2IDYuMjg4LS4xNSA3Ljc0Ny0uMTljMCAxIC4wNSAyLjEzIDAgMy4yMjljLjAyIDIuMjU4LS4xIDQuNTE1LS4zNiA2Ljc1OCIvPjxwYXRoIGZpbGw9IiMyQjMzMjYiIGQ9Ik00LjQ4MSAzLjg2NGMtLjA3Ny44LjAwMSAxLjYwOC4yMyAyLjM3OWExLjYyIDEuNjIgMCAwIDAgMiAuNzhhMS41NCAxLjU0IDAgMCAwIDEuMTEtMWMuMTctLjU2Ni4yMy0xLjE2LjE4LTEuNzVWMi44MTVhMS41NSAxLjU1IDAgMCAwLS40Ni0xLjJhMi41NCAyLjU0IDAgMCAwLTEuODItLjQyYS4zMy4zMyAwIDAgMC0uMzMuMzNhLjI4LjI4IDAgMCAwLS4zMi0uMTdhLjQxLjQxIDAgMCAwLS4yOC4yN2E1LjMgNS4zIDAgMCAwLS4xMyAxbC0uMTEuNTN2LjI2em0uODItLjI5cy4xNi0xLjg1LjE2LTEuOTNhLjMyLjMyIDAgMCAwIC4zLjIxYy45IDAgMS4yOC4xNyAxLjM4LjUyYTggOCAwIDAgMS0uMTQgMS45cTAgLjU4Mi0uMTMgMS4xNWMtLjA2LjIzLS4xNS40Ny0uNC41M2EuNzIuNzIgMCAwIDEtMS0uNWE1LjcgNS43IDAgMCAxLS4xNy0xLjg4Ii8+PC9zdmc+" alt=""><small>第一周</small></div></div><span class="stamp__pm">定主题</span><b>定主题</b><p>开学前两周，公众号公布主题和书单。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:2deg"><div class="stamp__in" style="--sc:#C6CBA8"><em>贰</em><img class="sk stamp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMi43OTMgMTEuNzk4YTMgMyAwIDAgMC0xLjgzNi0uNjg4YTIuMiAyLjIgMCAwIDAtLjc0OC4xN3EtLjQ4Mi4yMy0uODc4LjU4OGEuMzUuMzUgMCAwIDAtLjA3LjQ3OWEuMzYuMzYgMCAwIDAgLjQ5LjA3cS4yOTItLjIzNC42MTgtLjQyYy4xOTgtLjA4OS40MTEtLjE0LjYyOC0uMTVjLjQ5OC4wMy45Ny4yMzIgMS4zMzcuNTdhMS41NyAxLjU3IDAgMCAxIC42MTggMS4xNjdhMi40IDIuNCAwIDAgMS0uMzA5Ljk5N3EtLjI4Ni40OTMtLjY5OC44ODhjLS44MTguNzk4LTIuMDc1IDIuMTI0LTMuMjYyIDMuNDIxcy0yLjI5NCAyLjUzNC0yLjg1MyAzLjA5MmE3LjQgNy40IDAgMCAxLTIuNjgzLjgzOGMwLTMuNTYuMi0zLjA5Mi40OTktMy40OTFjLjk5Ny0xLjMzNyAzLjQ5MS00LjIzIDQuNjI4LTUuNTQ2bC41NzktLjY3OGEuNC40IDAgMCAwIC4wNS0uMTVhLjMuMyAwIDAgMC0uNTQtLjIybC0uNTk4LjY0OWMtMS4xOTcgMS4yNzctMy44MyA0LjA4LTQuOTA3IDUuMzc2YTIuOCAyLjggMCAwIDAtLjU2OS45MThjMCAuMy0uMjggMi40MDQtLjI5OSAzLjI3MmMtLjAyMy4yNjIuMDQuNTI1LjE4Ljc0OGExLjQyIDEuNDIgMCAwIDAgMS4xMjcuMjhxMS4zODYtLjI0IDIuNzIzLS42NzljLjM1Ny0uMjIxLjY3Ny0uNDk3Ljk0Ny0uODE4YzEuMzE3LTEuNDI2IDQuMTktNC44MDggNS42MzYtNi4zMTRjLjMzLS4zNS42MDYtLjc0Ni44MTgtMS4xNzdjLjIyMy0uNDMzLjM0OS0uOTEuMzctMS4zOTdhMi40IDIuNCAwIDAgMC0uOTk4LTEuNzk1TTkuODg1IDIwLjcwNmMtMS41OTYgMC0zLjUgMC01LjEwNy0uMDdxLTEuMzM3LS4wMTgtMi42NjMtLjE4Yy0uMTcgMC0uMzMtLjEzLS4zOS0uMWExLjUgMS41IDAgMCAxLS4wODktLjQ1OXYtLjg0N2MtLjA2LS43MjgtLjEzLTMuODEtLjI1LTYuODYzYy0uMTg5LTMuMjYyLS4zNzgtNi41MDQtLjM3OC02LjgyM3YtLjM0OWMuMjkzLS4yMTEuNjM3LS4zMzkuOTk3LS4zN2MuMzIgMCAuNjU4IDAgLjk5OC0uMDU5cS0uMDkuMjYtLjE1LjUyOWExLjUgMS41IDAgMCAwIDAgLjQzOWMwIC4yODkuMDguNjY4LjA4LjY2OGEuNTcuNTcgMCAwIDAgLjUxOC40OTlIOC4zNmMxLjMyNyAwIDIuNTg0IDAgMy4yOTItLjA4YS4zLjMgMCAwIDAgLjMyOS0uMjZhLjMuMyAwIDAgMC0uMzItLjI3OWMtLjU1OCAwLTEuNDM2IDAtMi40MjMtLjA3Yy0xLjk3NS0uMDktNC4yNC0uMjU5LTUuMjM3LS4zMzl2LS4yOTlhNCA0IDAgMCAxIC4xNC0uNDc5cS4wNjUtLjE5MS4xOC0uMzU5Yy4xNTQtLjIxNS4zNjQtLjM4NS42MDgtLjQ4OWE2LjQgNi40IDAgMCAxIDEuNDI2LS40MjlsLjI5LS4wN2EuNi42IDAgMCAwIC4zNDktLjI0OWEuNjMuNjMgMCAwIDAgLjA4LS40NDlsLS4xMy0uNjY4YS44Ni44NiAwIDAgMSAuMzE5LS42NThjLjI2LS4yMTguNTY3LS4zNzIuODk4LS40NWEuODYuODYgMCAwIDEgLjQ5OCAwYy4xNzcuMDU0LjMzOC4xNS40Ny4yOGMuMTcyLjE4LjI5LjQwNC4zMzguNjQ5YTMuNyAzLjcgMCAwIDEgLjA2Ljg5N2EuNDUuNDUgMCAwIDAgLjM5LjQ1cS41MDUuMDQyLjk5Ny4xNzljLjMxNS4wOTMuNjE3LjIyNy44OTcuMzk5Yy4yMDkuMTQzLjM2LjM1NS40My41OThxLjEyMi40NDYuMTI5LjkwOGEuMzUuMzUgMCAwIDAgLjY4OCAwYTMuNiAzLjYgMCAwIDAtLjE5LTEuMzM3YTEuNzMgMS43MyAwIDAgMC0uNjE4LS44MThhNC40IDQuNCAwIDAgMC0xLjA3Ny0uNTM4YTQuNiA0LjYgMCAwIDAtLjc0OC0uMmEzLjEgMy4xIDAgMCAwLS4wOS0uOTk3YTIuNSAyLjUgMCAwIDAtLjQ3OS0uNzk4YTIuMyAyLjMgMCAwIDAtLjg2Ny0uNTk5QTEuOSAxLjkgMCAwIDAgNy44OS4wMjdjLS42MS4xMjYtMS4xNy40MzEtMS42MDYuODc4YTEuOTMgMS45MyAwIDAgMC0uNTA4IDEuMjk3di4zNWE3IDcgMCAwIDAtMS40MTcuNDY4Yy0uNC4yMDYtLjc0Mi41MDgtLjk5Ny44Nzh2LjA4YTEwLjUgMTAuNSAwIDAgMC0xLjc2Ni4wNGMtLjM1OC4wNi0uNy4yLS45OTcuNDA4YS43My43MyAwIDAgMC0uMjQuMzFhMi41IDIuNSAwIDAgMC0uMTEuNTI4YzAgLjMyLS4wOSAzLjYzMSAwIDYuOTgzYy4wNiAzLjA3Mi4yMSA2LjE3NC4yNyA2LjkxMnEuMDMzLjY2OC4xOSAxLjMxN2MuMDYuMjY0LjE4Ny41MDguMzY4LjcwOGMuMTY3LjEzNS4zNjcuMjIxLjU3OS4yNXEuNzIuMTEgMS40NDYuMTJjMS43NzYgMCA0LjYxOS0uMDcgNi44NDMtLjEzYS4zNS4zNSAwIDAgMCAwLS42OTl6bTQuMDktMTYuNDI5Yy4yMDkuMDUuNDA4LjEzNC41ODkuMjVxLjE5Ni4xMzQuMzQ5LjMxOGwuMDYuMTdjMCAuNDk5IDAgMS41MjYuMDkgMi43NDNjMCAuNDM5LjA1LjkwOC4wODkgMS4zNzdjLjEgMS4xMTcuMjQgMi4yNTQuMjggMy4yMDJhLjMxLjMxIDAgMCAwIC4zMDkuMzA5YS4zMS4zMSAwIDAgMCAuMzA5LS4zMWMuMS0uOTk3LjItMi4xMjQuMjEtMy4yNjFWNy42NzhxLS4xMi0xLjM5Mi0uMzktMi43NjNhMS40IDEuNCAwIDAgMC0uMTgtLjUxOGEyLjQgMi40IDAgMCAwLS43MTgtLjU0OWEyLjQgMi40IDAgMCAwLS44NDctLjI1YS4zNC4zNCAwIDAgMC0uNC4yOGEuMzQuMzQgMCAwIDAgLjI1LjM5OSIvPjxwYXRoIGQ9Ik0xMi40ODkgMTUuNDA5YS42LjYgMCAwIDAgLjM0OS0uMzRhLjM1LjM1IDAgMCAwLS4xNS0uNDU4YzAtLjE2LS4xMy0uMzgtLjE3LS41MDlhLjU0LjU0IDAgMCAwLS42MDgtLjQ2OWExIDEgMCAwIDAtLjM1OS4yYy0uMTYuMTMtLjMyLjMxOS0uNDE5LjM5OWEzLjUgMy41IDAgMCAxLS45OTcuNjk4YS44Mi44MiAwIDAgMS0uODU4LS4wN3YtLjA4YTEuNCAxLjQgMCAwIDEgMC0uMzQ5Yy4xMjctLjU1NS4zLTEuMS41MTktMS42MjZhLjU1OS41NTkgMCAwIDAtLjk5OC0uMzM5YTkuOCA5LjggMCAwIDEtMi4xMzUgMi42MTRjLS41MzguNDI5LTEuMDc3LjY5OC0xLjU1Ni4zODljLS4zMTktLjE5LS4zNjktLjYyOS0uMzc5LTEuMDg4Yy4wMjYtLjgxLjE2Ny0xLjYxMy40Mi0yLjM4NHEuMDU1LS4xNy4xMzktLjMyOXEuMTA1LS4xNjUuMjMtLjMxOWEyLjEgMi4xIDAgMCAxIC41MjgtLjQ5OWEuNjUuNjUgMCAwIDEgLjU1OS0uMDlhLjMxLjMxIDAgMCAwIC4zOTktLjE3YS4zMS4zMSAwIDAgMC0uMTgtLjM5OGExLjE3IDEuMTcgMCAwIDAtLjg5OCAwYy0uMzg3LjE0OC0uNzMuMzkxLS45OTcuNzA4Yy0uMTMuMTUtLjIyLjI1LS4zLjM2YTIuNyAyLjcgMCAwIDAtLjIzOS40NThhOC4zIDguMyAwIDAgMC0uNjg4IDMuMTQyYTIgMiAwIDAgMCAuNzU4IDEuNTM2YTIuMSAyLjEgMCAwIDAgMi4yODQgMEE1LjcgNS43IDAgMCAwIDguMjkgMTUuMDZhMSAxIDAgMCAwIC40Mi42MThhMS42OCAxLjY4IDAgMCAwIDEuNDM2LjJhNC4yIDQuMiAwIDAgMCAxLjUxNi0uOTk4bC4xMS0uMTNxLjEwNS4yNTcuMjM5LjVhLjM5LjM5IDAgMCAwIC40NzkuMTU5Ii8+PC9nPjwvc3ZnPg==" alt=""><small>第二周</small></div></div><span class="stamp__pm">已报名</span><b>报名</b><p>每场单独报名，线下名额满了开候补。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:-1.5deg"><div class="stamp__in" style="--sc:#C9DEE3"><em>叁</em><img class="sk stamp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIzLjk3MSAxNC41OTZhNTEuNSA1MS41IDAgMCAwLS40NS04LjcyYTQgNCAwIDAgMCAwLS42MmMtLjEzOS0uNjY5LTIuMTQ3LS45OTktMi45OTYtMS4wNzlhLjMuMyAwIDAgMC0uMzMuMjZjLS4wNS42NiAxIDAgMi42MDggMWExMCAxMCAwIDAgMCAuMTcgMi4xMTdjLjI0IDIuMjM3LjExIDMuNzg2IDAgOS43MjlhMTMuOCAxMy44IDAgMCAwLTMuNjE3LS4zYTEwLjc0IDEwLjc0IDAgMCAwLTYuMzEzIDEuOTk4Yy42OC0yLjYzNyAyLjMzOC0zLjM0NiA0LjY3NS00LjE4NWMuMjY1LS4wODMuNTQyLS4xMi44Mi0uMTFhLjU3LjU3IDAgMCAwIDEuMDg4LS4yN2MtLjM4LTEwLjA5OSAwLTExLjUxNy0uMTYtMTIuNDU2UzE4LjYyNy45MSAxNy42NzguNzdhNi41NiA2LjU2IDAgMCAwLTYuMDYzIDIuNzY3Yy0uMDguMTctLjU1IDEuMjA5LS41OSAxLjMxOWE1LjkgNS45IDAgMCAwLTIuMzA3LTEuMDdhOC43IDguNyAwIDAgMC02LjMwMyAxQTMuMjMgMy4yMyAwIDAgMCAuOTk3IDYuOTI0Qy4xMTcgMTAuNDgtLjQxMiAxMS41My40MDcgMTkuMDkxYzAgLjMxIDAgLjc5LjMgMS4wNzlhLjYuNiAwIDAgMCAuNDkuMTN2Ljc2OWMuMTMgMS43OTggMi41MTcuNyA1LjE0NC40OGMyLjE3Ny0uMTcgMi40MTcuMjk5IDQuMzQ1IDEuNDE4YTQuNjYgNC42NiAwIDAgMCAyLjQ4Ny4yMmE0LjI2IDQuMjYgMCAwIDAgMS44ODgtLjc4YzYuNTgzLTQuODQ0IDYuMzUzLjgyIDcuODkyLTMuMjQ2cS4xMDUtLjI4LjEzLS41OGEuNTMuNTMgMCAwIDAgLjgxOC0uNDA5cS4xMzktMS43ODcuMDctMy41NzZtLTEyLjEwNi05LjIxQzE0Ljg2LS4yNDggMTguNTc3IDIuMjMgMTguNzM3IDIuMzljLjA4LjMtLjM3IDcuMDczLS4zOSA3LjY5MmwuMDkgMy40NDZhOCA4IDAgMCAwLTUuNjAzIDMuMjM3Yy0uNS44NTktLjMzLjk0OS0uNDIuMzhjLS4wMi0uMS0uNTktMTEuNjc4LS41NS0xMS43NThNMS4wNzcgOS43MjFjLjI5LTEuMTA4LjY0OS0zLjkyNSAxLjYwOC00LjI0NWMyLjc5Ny0uOTM5IDUuNTk0LTEuMTY5IDguMTkuMjVjLjMwOS44NTcuNDQ4IDEuNzY2LjQxIDIuNjc3YzAgMi4wNDcuMDYgOC4yMy4zIDEwLjA4OWExMS4yIDExLjIgMCAwIDAtNS4wNzQtMWExMi40IDEyLjQgMCAwIDAtMy45OTYgMS4wNWMtLjEyIDAtLjY4LjU2OS0xLjA3OS43ODljMC0uMTQtLjExLS4zLS4xMi0uMzhjLS4zMi0yLjcxNy0uNzg5LTYuMjkzLS4yNC05LjIzbTIwLjUzNyA5LjgyYy0yLjg3Ny0xLjE1LTUuMTY0LjQ3OS03LjIwMiAxLjkzN2EzLjg0IDMuODQgMCAwIDEtMi45OTcuNTVjLTMuODY2LTIuNzM3LTUuMzY0LTEuNDI5LTguODYtLjljLS4xOCAwLS4zMi4wOS0uNDEgMHMtLjE5LS42NjgtLjQyLS45OThjLjQzLS4yMiAxLS41NyAxLjE0LS42MWMxLjQ2OC0uNDU5IDMuMTI2LTEuNTM4IDYuNzIyLS41MzljMi42NTcuNjkgMi41MTcgMS44NDggMy40MTYgMS4zNTljMS4zMzktLjcyIDMuMjY3LTIuODc3IDkuMy0yLjE0OGEuNC40IDAgMCAwLS4wOS4yNmMtLjU5IDEuMDU5LS41Ni45ODktLjYgMS4wODgiLz48cGF0aCBmaWxsPSIjMkIzMzI2IiBkPSJNMy42NDQgOC45OTJjLjk5OS0uMTQuOTE5LS42MyAyLjIzNy0uNjNhOC42IDguNiAwIDAgMSAyLjE1OC40NGMuMTktLjA3LjMzLS4xNS4zMy0uMzRjMC0uNDI5LS42LS44NjgtMS41MDktLjk5OGMtMi42MjctLjQ5LTIuODc3Ljc2OS0zLjM3Ni45OTlhLjMuMyAwIDAgMCAuMTYuNTNtMCAzLjUyNWMuOTk5LS4xNC45MTktLjYyOSAyLjIzNy0uNjI5Yy43MzUuMDUzIDEuNDYuMjAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zNGMwLS40My0uNi0uODYtMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc2LTMuMzc2Ljk5OWEuMy4zIDAgMSAwIC4xNi41M20wIDMuNTY1Yy45OTktLjE0LjkxOS0uNjI5IDIuMjM3LS42MjlhOSA5IDAgMCAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zM2MwLS40NC0uNi0uODctMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc3LTMuMzc2Ljk5OWEuMjk5LjI5OSAwIDAgMC0uMjUuNTEyYS4zLjMgMCAwIDAgLjQxLjAwNyIvPjwvc3ZnPg==" alt=""><small>三至八周</small></div></div><span class="stamp__pm">共读中</span><b>共读</b><p>群里按周推进度，读到哪里都能聊。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:3deg"><div class="stamp__in" style="--sc:#E7CFC4"><em>肆</em><img class="sk stamp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIuNTg4IDkuODkzYTYgNiAwIDAgMCAyLjExNi0uMjVhLjM0LjM0IDAgMSAwLS4xNy0uNjQ4YTUuNiA1LjYgMCAwIDEtMS44NjYuMmExLjQ1IDEuNDUgMCAwIDEtLjk5OC0uNDNhNi44IDYuOCAwIDAgMS0uNzgtMy40OTRhOC40IDguNCAwIDAgMSAuMjQtMi41NTVjLjA2My0uMjc2LjIxMy0uNTI1LjQyOS0uNzA5Yy45MDgtLjU2OSA1LjY3LS43MzggMTAuNDExLS42NTljMi44MzEuMDAzIDUuNjU5LjE5MyA4LjQ2NS41N2E0IDQgMCAwIDEgMS42OTcuNDc5Yy42MDQuOTI1LjgyNSAyLjA0OC42MTkgMy4xMzRhNS4xMiA1LjEyIDAgMCAxLTEuMDU5IDMuMDk0Yy0uNDI5LjM3LTEuNzE3LjM3LTMuMjU0LjM3Yy0zLjQ3MyAwLTguMTI1LS4zNy04LjY5NC0uMTVhNSA1IDAgMCAwLTEuMzU4LjkwOGMtLjcxOC42NC0xLjQ2NyAxLjQ2OC0xLjk5NiAxLjk5N2MtLjA5LjA4LS4xNi4xNS0uMjMuMmEuNi42IDAgMCAxLS4wNi0uMTRhMTggMTggMCAwIDEtLjM5OS0yLjMyNmMtLjA2LS41NC0uNjI5LS40MS0uNjI5LS4xM3MuMDcuNjk5LjE0IDEuMjA4Yy4wNTcuNjM3LjE5NSAxLjI2NC40MSAxLjg2NmEuNDUuNDUgMCAwIDAgLjQ5OS4zYy4zMS0uMTIuNTkzLS4zMDMuODI4LS41NGMuNjE5LS41NTggMS41MjctMS41MTYgMi4zMzYtMi4xMjVxLjM0Mi0uMjc0Ljc0OS0uNDRjLjYyOC0uMjIgNi4yODguNTEgOS42NzIuNGE1LjQgNS40IDAgMCAwIDIuNjg1LS41OGE2LjEzIDYuMTMgMCAwIDAgMS41MjctMy44MjJhNS4zNCA1LjM0IDAgMCAwLS44ODgtMy45OTNhNCA0IDAgMCAwLTEuOTY2LS43NzlBNDYgNDYgMCAwIDAgMTQuMTM2LjI2QzguNTU3LjEyIDIuMTYuNTQgMS4wODEgMS4yNkMuNDMgMS42NjguMDczIDMuMDA1LjA2MyA0LjUwM2MwIDEuOTA2LjQ1OSA0LjA3MiAxLjA5OCA0Ljc1MWMuMzc5LjM4NC44ODguNjEyIDEuNDI3LjYzOU0xOC4wOSAyMC4xNjR2LjNxLS4xNDUgMS4yMTgtLjQ2IDIuNDA2bC0uMTk5LS4xOWMtLjUyOS0uNDktMS4yNjgtMS4zMjgtMS45OTYtMS45OTdhNC45IDQuOSAwIDAgMC0xLjM2OC0uOTQ4YTE0LjMgMTQuMyAwIDAgMC0zLjEzNCAwYy0yLjA3Ni4xLTQuODExLjI4LTYuNzg4LjJhNC42NCA0LjY0IDAgMCAxLTIuMDY2LS4zM2MtLjU3LS40MzktLjk5OC0xLjg1Ni0xLjE1OC0zLjI5NGE0LjggNC44IDAgMCAxIC41NzktMy40OTNjLjE3My0uMTQ0LjM3OS0uMjQ0LjU5OS0uMjlxLjYwNC0uMTg1IDEuMjI4LS4yOWEuMzUuMzUgMCAwIDAgLjI4OS0uMzk5YS4zNi4zNiAwIDAgMC0uNC0uMjhhMTAgMTAgMCAwIDAtMS41NDYuMzRjLS4yNy4wNzYtLjUyLjIxMy0uNzMuNGMtLjc4OC44MTgtLjk5NyAyLjQ3NS0uOTI3IDQuMDkyYy4xMyAxLjc3Ny43MzggMy40ODQgMS40MDcgNC4wNDNzMi4wNTYuNjQ5IDMuOTIzLjY1OXM0LjI3Mi0uMTUgNS45OS0uMjdhMTMuNyAxMy43IDAgMCAxIDIuMzY1LS4xMXEuNDAyLjE1Mi43MzkuNDJjLjc5OC41ODkgMS43MjYgMS41MjcgMi4zNDUgMi4wODZjLjIzOS4yMzEuNTIuNDE0LjgyOS41MzlhLjQ4LjQ4IDAgMCAwIC41MjktLjI4YTYgNiAwIDAgMCAuMzYtMS41ODdhMzQgMzQgMCAwIDAgLjE2OS0xLjUwN3YtLjE2Yy4wOC0uMjUtLjU0LS4zNi0uNTgtLjA2Ii8+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIyLjc1MSAxMS42OGExMC4zIDEwLjMgMCAwIDAtMy42MDMtLjY4OWE3NyA3NyAwIDAgMC03Ljk4NiAwYS4zLjMgMCAxIDAgMCAuNTk5YzIuMzc2IDAgNC43OTIuMTcgNi43NzguMzRjLjk5OC4wOSAxLjkzNy4xOTkgMi42NzUuMzA5YTQuOSA0LjkgMCAwIDEgMS41MTguMzZjLjIuMTk1LjMzNC40NS4zNzkuNzI4Yy4yMzYuODc1LjM0NCAxLjc4LjMyIDIuNjg1Yy4wMTcuOTE1LS4wOSAxLjgyOS0uMzIgMi43MTVhMS42IDEuNiAwIDAgMS0uNDMuODU4Yy0uMjkzLjIwMi0uNjQxLjMxLS45OTguMzFhOSA5IDAgMCAxLTEuOTk2LS4yMmEuMzQzLjM0MyAwIDEgMCAuMTEuNjc5YTEwIDEwIDAgMCAwIDEuODc2LjMyYTIuNjcgMi42NyAwIDAgMCAxLjQ2OC0uNDFjLjY4OC0uNDY5IDEuMjE4LTIuMzM2IDEuMjk3LTQuMjMyYTEwLjIgMTAuMiAwIDAgMC0uMjctMi45OTVhMi4zNyAyLjM3IDAgMCAwLS44MTgtMS4zNTciLz48L3N2Zz4=" alt=""><small>每两周</small></div></div><span class="stamp__pm">讨论</span><b>讨论</b><p>读书会、文学夜、讲座轮流来。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:-2.5deg"><div class="stamp__in" style="--sc:#DEDAC1"><em>伍</em><img class="sk stamp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMi40NzEgMTEuMDk4Yy0uMjQtLjM4LS43Mi0uMzktMS4xNy0uMzNhOS44NSA5Ljg1IDAgMCAwLTUuMDA1IDIuMzgyYTYuNzQgNi43NCAwIDAgMC0yLjkxMyA1Ljg0NWE1LjcgNS43IDAgMCAwIC4zOSAyLjE5MmEyMSAyMSAwIDAgMC0xLjc3MSAyLjUxMmMwIC4yMy4yOS40Mi42Mi4yMWE0NSA0NSAwIDAgMCAzLjMwMy0zLjg0M2E0MyA0MyAwIDAgMCAyLjQzMy00LjA3NGEuMy4zIDAgMCAwLS41LS4zMmMtMy44NzQgNS4xMTQtMy4zMjQgNC40MDQtMy43NTQgNS4wMDRhNCA0IDAgMCAxIDAtLjVhNiA2IDAgMCAxIDEuNjExLTUuMjk1YzIuMDAyLTIuMDAyIDQuOTE1LTMuMDkzIDUuNzM1LTMuMDAzYzAgMy4xNTMgMCAyLjg1My0uMDcgMy4zNTNsLTEuNTQxIDEuMDAxYy0uMTguMS0uNjMuMjItLjc2LjZjLS4yMjEuNjYxLjU5LjcyMiAxLjEyIDEuMjUyYy0xLjI3Ljc0LTEuNDMxLjUtMS44MjEuNzhhLjU4LjU4IDAgMCAwLS4yMy43OTFxLjQ3NC40NTkgMSAuODYxYy0yLjY4MiAyLjI1Mi0zLjQzMyAxLjQ3Mi0zLjg4MyAxLjc3MmEuMzUuMzUgMCAwIDAgLjE3LjY0YzIuMDAyLjMyIDQuNjA0LTIuMDAxIDQuNjk0LTIuMjMyYy4xNi0uNDItLjMzLS43NS0uNzktMS4xN2ExOCAxOCAwIDAgMCAxLjk0MS0uODkyYS41NS41NSAwIDAgMCAuMTItLjkxbC0uODItLjczMWMxLjEzLS42MiAxLjcwMS0uOTIgMS45MDEtMS40NzFjLjEyLS4zLjMxLTMuOTM0LS4wMS00LjQyNCIvPjxwYXRoIGQ9Ik0xMS4wNjEgMTguOTk1Yy03LjQ2Ny4xMS00LjI5NC4xMi03LjU1Ny0uMjdjLS40OS0uMDUtLjcxLS40Mi0uODUtLjg1MWMtLjI2LS44NTEtLjE5LTEuMDAxLS4wNy05LjMzOWExOS43IDE5LjcgMCAwIDEgLjIxLTUuMDA0Yy4yNS0xLjAwMSAwLTEuMzgxIDEuNDItMS4zNjFjMCAuMzQtLjEzIDEuNjMxLS4xIDEuODUxYy4wOS43NjEuODQxLjY1IDEuMTMyLjczYzEuNTIxLjM2MSAyLjA5Mi0uNzggMi4wMDItMi4zNzFjLjQ3Ni4xNDMuOTg0LjE0MyAxLjQ2IDBjMCAuMTEtLjEgMS4zODEtLjA3IDEuNTYxYy4wOS43Ni44MzIuNjQgMS4xMzIuNzJjMS41MDEuMzYxIDIuMDcyLS43NCAyLjAwMi0yLjMwMWMuNjguMi43My4xNyAxLjczMS0uMDZjMCAuMS0uMDggMS4zODEtLjA2IDEuNTAxYS42OS42OSAwIDAgMCAuNTIuNjNjMS42MDIuNDMxIDIuNTQzIDAgMi41OTMtMS43M3EuNTA0LjAxMiAxIC4wOWMuMjQxIDAgLjQ0MS4wOC40NjEuMjhsLjM3IDYuOTM2YS4zMDEuMzAxIDAgMCAwIC41MjcuMjQ2YS4zLjMgMCAwIDAgLjA2NC0uMjQ2Yy40NC0yLjM1Mi40NC00Ljc2NSAwLTcuMTE3Yy0uMjQtMS0xLjMyMS0xLTIuMzgyLS45MWE1LjUgNS41IDAgMCAwLS41NC0xLjYxMmExLjQzIDEuNDMgMCAwIDAtMi4wNTIuMTRhMi45IDIuOSAwIDAgMC0uNCAxLjAwMWEzLjMgMy4zIDAgMCAwLTIuMDAyLjE1YTMuMiAzLjIgMCAwIDAtLjMyLTEuMTZhMS40NCAxLjQ0IDAgMCAwLTIuMTAzLjE1YTIuOCAyLjggMCAwIDAtLjM1Ljg1YTMuMyAzLjMgMCAwIDAtMS43MjIuMTJhMy4yIDMuMiAwIDAgMC0uMzItMS4wN2ExLjE1IDEuMTUgMCAwIDAtMS4xOS0uMzcxYy0uODAyLjEyLTEuMTAyLjY3LTEuMjgyIDEuNDUxYTIuMzMgMi4zMyAwIDAgMC0xLjU2Mi4yNWMtLjUxLjM0LS41NCAxLjA2MS0uNjggMS41MjJhMjAuNCAyMC40IDAgMCAwLS41MSA1LjE2NGMtLjE5IDQuNjk1LS4xNCAzLjE5My0uMjEgNi42OTZjMCAxLjkwMiAwIDQuMzM0IDIuMDYxIDQuNDg0YzMuMzQzLjI1LjEyLjM3IDcuNjU3LS4wNWEuMzUuMzUgMCAxIDAtLjAxLS43bTMuMzgzLTE3LjI1NmMuMDgtMS40OTEgMS0xLjEyIDEuMDYxLS44M2MuMTE3LjczNy4xIDEuNDktLjA1IDIuMjIxYy0uMTYuNTUxLS40NC40Mi0xLjAwMS40MXEuMDQtLjktLjAxLTEuOE05Ljg0IDEuMDNjLjItLjQuNzgtLjEzLjg2LS4xNmE2LjIgNi4yIDAgMCAxIDAgMi40MDJjLS4wOS4zLS4yNy41MS0uNjUuNGgtLjM2YzAtLjEyLjA2LS4yNS4wNi0uM2E1LjYgNS42IDAgMCAxIC4wOS0yLjM0Mm0tNC40OTQuMDVjLjItLjQuNzgtLjEzLjg2LS4xNmMuMTUxLjc5LjE1MSAxLjYwMSAwIDIuMzkyYy0uMDkuMy0uMjcuNTItLjY1LjRoLS4zNmMwLS4xMi4wNi0uMjUuMDYtLjNhNS42IDUuNiAwIDAgMSAuMDktMi4zMzIiLz48cGF0aCBkPSJNMTUuMTM1IDguMjQ1YS4zOC4zOCAwIDAgMCAuMDYtLjU0Yy0uMTktLjMxLTUuNjc1LS43MjEtOC4zMzgtLjYxMWMtMy4wMDMuMi0yLjU3Mi43LTIuMDkyLjgxYzEuMDQxLjMyMSAxMC4zNS4zNjEgMTAuMzcuMzQxbS0zLjEzMyAzLjEwM2MtLjMxLS4wOC0yLjc0My0uMjEtMy4yMDMtLjIxcy0zLjg0My4xLTQuMDA0LjQ4YS4yOC4yOCAwIDAgMCAuMDYuMjRjLjYwNy4yMiAxLjI0Ny4zMzUgMS44OTIuMzRjMS43NTIuMTIzIDMuNTExLjA4IDUuMjU1LS4xM2MuNDEgMCAuNTQtLjU5IDAtLjcybS02LjkyNiA0LjY0NGExMS41IDExLjUgMCAwIDAgNC41ODQuMDhhLjM0LjM0IDAgMCAwIDAtLjQ4YTguNiA4LjYgMCAwIDAtMi45MDMtLjQyYy0yLjI5Mi4xNC0yLjc2Mi42NC0xLjY4MS44MiIvPjwvZz48L3N2Zz4=" alt=""><small>第十周</small></div></div><span class="stamp__pm">已归档</span><b>记录</b><p>学期末写成回顾，放进往期档案。</p></li>
-      </ol>
+    <section class="band" style="--bb:var(--w1)" id="about-modules"><div class="wrap">
+      <div class="shead"><div><span class="label">活动模块和形式</span><h2 class="t-h2" data-split>文学社的活动分成五个模块</h2><p class="t-body">三个模块每学期都在进行，两个还在筹备。点开一本书脊，看看它是做什么的、多久一次、在哪里办。</p></div></div>
+      <div class="spines" id="spines">
+        <article class="sp" style="--sc:#F0CF72" data-open="true"><button class="sp__tab" type="button" aria-expanded="true"><em>壹</em><b>文学夜</b><small>每学期两次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>文学夜</h3><p class="t-body">晚上的轻松聚会，是认识文学社最容易的入口。每人带一段喜欢的文字，诗、小说、歌词、家书都可以，朗读三分钟，再说说为什么选它。学期末的文学夜会换成写作分享，大家把这学期写下的短文读出来。</p>
+            <dl class="kv"><dt>形式</dt><dd>朗读、闲谈、交换书单</dd><dt>时长</dt><dd>约 2 小时，周六晚上</dd><dt>人数</dt><dd>15 至 25 人</dd><dt>地点</dt><dd>墨尔本东区的社区空间</dd></dl></div>
+            <img class="sk sp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBkPSJNOC4zMjMgOC41NDJhNTggNTggMCAwIDEtNS4yODkgNi4yNDhRMS43NiAxNi4xNjkuMzE1IDE3LjM3YS4zNDMuMzQzIDAgMCAwIC40MS41NWEyOSAyOSAwIDAgMCAyLjU5LTIuMTNjLS4xMyAyLjE4LS43MiA1LjU3OC4zOSA3LjI4OGMuODM5IDEuMjkgMTEuODE2IDEuMjYgMTIuNjc2LS4zYy4zNS0uNjQuMjMtMSAwLTYuNTA4cS45MDkuNzk0IDEuOTEgMS40N2EuMzkuMzkgMCAwIDAgLjU0NC0uMDk2YS4zOS4zOSAwIDAgMC0uMDk1LS41NDVDMTMuMjgyIDEzLjEzIDEwLjc2MiA2LjAwMiA4LjMyMyA4LjU0Mm0tLjUyIDE0LjExNmE2LjE2IDYuMTYgMCAwIDEgLjUxLTMuOTk5YTEuNTcgMS41NyAwIDAgMSAyLjQ5LS4zOGMuNjguNzMgMSAzLjA1IDEuMDkgNGEuMzcuMzcgMCAwIDAgLjE1LjI3OWMtMS40LjEyLTIuOC4xNC00LjI0LjFtNi44ODktLjI5cS0xLjA2OS4xOC0yLjE1LjIzYS40Mi40MiAwIDAgMCAuMTMtLjNjMC0xLjQzLS4wNi0zLjcwOS0uOTQtNC44MTljLTEuNjktMi02LjE2OC0xLjExLTQuNjE5IDUuMTQ5YTE1IDE1IDAgMCAxLTEuNzItLjEzYy0uMzcgMC0uNjk5LS4yOC0uNzk5LS4xN2MtMS0xLjQ4LS41LTUuMjY5LS41Ny02Ljk5OGMwLS4zOS0uODIuNzMgMy43Mi0zLjkzbDEuNjQ5LTIuMDk5Yy4yMS4yMy0uMDktLjUzIDIuMTIgMmMxLjQyOSAxLjU4IDIuNTA5IDIuODUgMy45OTggNC4yNDl2NC45MTljLjAyIDIuMTE5LjA2IDEuNzMtLjgyIDEuOU01LjE0NCA2Ljc3MnEuNjkyLjAwNSAxLjM4LjFjLjA4LjQzLjE4Ljg0LjI1IDEuMjdhLjQuNCAwIDAgMCAuNzkgMGMuMDctLjQzLjE0LS44NS4xNy0xLjNjLjUgMCAuOTk5LS4xMSAxLjQ1OS0uMThhLjM5LjM5IDAgMCAwIDAtLjc4Yy0uNjEtLjExLS44Ny0uMjEtMS41My0uMjhhOS42IDkuNiAwIDAgMC0uNDYtMS4zN2EuMzQ0LjM0NCAwIDEgMC0uNjguMTFjMCAuNDQtLjEuODUtLjEyIDEuM2E2IDYgMCAwIDAtMS40Mi40N2EuMzQuMzQgMCAxIDAgLjE2LjY2bTQuMjUtMy45MzlxLjY5Mi4wMDcgMS4zOC4wOWMuMDguNDMuMTguODUuMjYgMS4yOGEuMzkuMzkgMCAwIDAgLjc4IDBjLjA3LS40NC4xNC0uODYuMTgtMS4zYy40OTkgMCAuOTk5LS4xMiAxLjQ1OS0uMTlhLjM5LjM5IDAgMSAwIDAtLjc4Yy0uNTktLjEtLjg4LS4yLTEuNTMtLjI3YTkgOSAwIDAgMC0uNDUtMS4zN2EuMzQ1LjM0NSAwIDAgMC0uMzktLjI5YS4zNDQuMzQ0IDAgMCAwLS4yOS4zOWMwIC40NC0uMDkuODYtLjExIDEuM2E2LjIgNi4yIDAgMCAwLTEuNDYuNDdhLjM1LjM1IDAgMCAwIC4xNy42N20xMy43MzgtLjIyYTMuOTMgMy45MyAwIDAgMC0yLjg5LTIuMTZhLjM5My4zOTMgMCAxIDAtLjEuNzhhMyAzIDAgMCAxIDIuMTUgMS43N2EzLjk5OSAzLjk5OSAwIDAgMS01Ljk5OSA0Ljk5OWEyLjYgMi42IDAgMCAxLTEuMjQtMS41NGE0LjQ2IDQuNDYgMCAwIDAgNS40MjktNC43NjlhLjM1LjM1IDAgMCAwLS42OSAwYzAgMi45Mi0yLjQgNC40OC01LjA5OCAzLjVjLS4zNS0uMTItLjgxIDAtLjg2LjY3Yy4wNDEuNjU1LjE3NiAxLjMwMS40IDEuOTE5YTUuMjIgNS4yMiAwIDAgMCAyLjk5OSAyLjExYTQuOTk4IDQuOTk4IDAgMCAwIDUuODk4LTcuMjc5IiBjbGlwLXJ1bGU9ImV2ZW5vZGQiLz48L3N2Zz4=" alt=""></div></article>
+        <article class="sp" style="--sc:#B5C48F"><button class="sp__tab" type="button" aria-expanded="false"><em>贰</em><b>线下读书会</b><small>每学期三次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>线下读书会</h3><p class="t-body">文学社最核心的活动。每学期精读两本书，长一点的分两次读完。主持人先做十分钟导读，然后分成五六个人的小组，围绕三个问题讨论，最后回到大组交换看法。部分场次改在线上，方便住得远的书友。</p>
+            <dl class="kv"><dt>形式</dt><dd>导读、分组讨论、大组分享</dd><dt>时长</dt><dd>约 2.5 小时，周六下午</dd><dt>人数</dt><dd>10 至 20 人</dd><dt>地点</dt><dd>Nunawading Community Hub</dd></dl></div>
+            <img class="sk sp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIzLjk3MSAxNC41OTZhNTEuNSA1MS41IDAgMCAwLS40NS04LjcyYTQgNCAwIDAgMCAwLS42MmMtLjEzOS0uNjY5LTIuMTQ3LS45OTktMi45OTYtMS4wNzlhLjMuMyAwIDAgMC0uMzMuMjZjLS4wNS42NiAxIDAgMi42MDggMWExMCAxMCAwIDAgMCAuMTcgMi4xMTdjLjI0IDIuMjM3LjExIDMuNzg2IDAgOS43MjlhMTMuOCAxMy44IDAgMCAwLTMuNjE3LS4zYTEwLjc0IDEwLjc0IDAgMCAwLTYuMzEzIDEuOTk4Yy42OC0yLjYzNyAyLjMzOC0zLjM0NiA0LjY3NS00LjE4NWMuMjY1LS4wODMuNTQyLS4xMi44Mi0uMTFhLjU3LjU3IDAgMCAwIDEuMDg4LS4yN2MtLjM4LTEwLjA5OSAwLTExLjUxNy0uMTYtMTIuNDU2UzE4LjYyNy45MSAxNy42NzguNzdhNi41NiA2LjU2IDAgMCAwLTYuMDYzIDIuNzY3Yy0uMDguMTctLjU1IDEuMjA5LS41OSAxLjMxOWE1LjkgNS45IDAgMCAwLTIuMzA3LTEuMDdhOC43IDguNyAwIDAgMC02LjMwMyAxQTMuMjMgMy4yMyAwIDAgMCAuOTk3IDYuOTI0Qy4xMTcgMTAuNDgtLjQxMiAxMS41My40MDcgMTkuMDkxYzAgLjMxIDAgLjc5LjMgMS4wNzlhLjYuNiAwIDAgMCAuNDkuMTN2Ljc2OWMuMTMgMS43OTggMi41MTcuNyA1LjE0NC40OGMyLjE3Ny0uMTcgMi40MTcuMjk5IDQuMzQ1IDEuNDE4YTQuNjYgNC42NiAwIDAgMCAyLjQ4Ny4yMmE0LjI2IDQuMjYgMCAwIDAgMS44ODgtLjc4YzYuNTgzLTQuODQ0IDYuMzUzLjgyIDcuODkyLTMuMjQ2cS4xMDUtLjI4LjEzLS41OGEuNTMuNTMgMCAwIDAgLjgxOC0uNDA5cS4xMzktMS43ODcuMDctMy41NzZtLTEyLjEwNi05LjIxQzE0Ljg2LS4yNDggMTguNTc3IDIuMjMgMTguNzM3IDIuMzljLjA4LjMtLjM3IDcuMDczLS4zOSA3LjY5MmwuMDkgMy40NDZhOCA4IDAgMCAwLTUuNjAzIDMuMjM3Yy0uNS44NTktLjMzLjk0OS0uNDIuMzhjLS4wMi0uMS0uNTktMTEuNjc4LS41NS0xMS43NThNMS4wNzcgOS43MjFjLjI5LTEuMTA4LjY0OS0zLjkyNSAxLjYwOC00LjI0NWMyLjc5Ny0uOTM5IDUuNTk0LTEuMTY5IDguMTkuMjVjLjMwOS44NTcuNDQ4IDEuNzY2LjQxIDIuNjc3YzAgMi4wNDcuMDYgOC4yMy4zIDEwLjA4OWExMS4yIDExLjIgMCAwIDAtNS4wNzQtMWExMi40IDEyLjQgMCAwIDAtMy45OTYgMS4wNWMtLjEyIDAtLjY4LjU2OS0xLjA3OS43ODljMC0uMTQtLjExLS4zLS4xMi0uMzhjLS4zMi0yLjcxNy0uNzg5LTYuMjkzLS4yNC05LjIzbTIwLjUzNyA5LjgyYy0yLjg3Ny0xLjE1LTUuMTY0LjQ3OS03LjIwMiAxLjkzN2EzLjg0IDMuODQgMCAwIDEtMi45OTcuNTVjLTMuODY2LTIuNzM3LTUuMzY0LTEuNDI5LTguODYtLjljLS4xOCAwLS4zMi4wOS0uNDEgMHMtLjE5LS42NjgtLjQyLS45OThjLjQzLS4yMiAxLS41NyAxLjE0LS42MWMxLjQ2OC0uNDU5IDMuMTI2LTEuNTM4IDYuNzIyLS41MzljMi42NTcuNjkgMi41MTcgMS44NDggMy40MTYgMS4zNTljMS4zMzktLjcyIDMuMjY3LTIuODc3IDkuMy0yLjE0OGEuNC40IDAgMCAwLS4wOS4yNmMtLjU5IDEuMDU5LS41Ni45ODktLjYgMS4wODgiLz48cGF0aCBmaWxsPSIjMkIzMzI2IiBkPSJNMy42NDQgOC45OTJjLjk5OS0uMTQuOTE5LS42MyAyLjIzNy0uNjNhOC42IDguNiAwIDAgMSAyLjE1OC40NGMuMTktLjA3LjMzLS4xNS4zMy0uMzRjMC0uNDI5LS42LS44NjgtMS41MDktLjk5OGMtMi42MjctLjQ5LTIuODc3Ljc2OS0zLjM3Ni45OTlhLjMuMyAwIDAgMCAuMTYuNTNtMCAzLjUyNWMuOTk5LS4xNC45MTktLjYyOSAyLjIzNy0uNjI5Yy43MzUuMDUzIDEuNDYuMjAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zNGMwLS40My0uNi0uODYtMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc2LTMuMzc2Ljk5OWEuMy4zIDAgMSAwIC4xNi41M20wIDMuNTY1Yy45OTktLjE0LjkxOS0uNjI5IDIuMjM3LS42MjlhOSA5IDAgMCAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zM2MwLS40NC0uNi0uODctMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc3LTMuMzc2Ljk5OWEuMjk5LjI5OSAwIDAgMC0uMjUuNTEyYS4zLjMgMCAwIDAgLjQxLjAwNyIvPjwvc3ZnPg==" alt=""></div></article>
+        <article class="sp" style="--sc:#A9D0DB"><button class="sp__tab" type="button" aria-expanded="false"><em>叁</em><b>嘉宾讲座</b><small>每学期一次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>嘉宾讲座</h3><p class="t-body">请作家、译者和研究文学的学者，聊一本书、一位作家，或者写作这件事本身。讲座都在线上，免费向公众开放，悉尼、布里斯班和国内的朋友也能来听。讲座录音征得嘉宾同意后，会整理成文字放进往期档案。</p>
+            <dl class="kv"><dt>形式</dt><dd>主讲 60 分钟，问答 30 分钟</dd><dt>时长</dt><dd>约 1.5 小时，周日晚上</dd><dt>人数</dt><dd>不限</dd><dt>地点</dt><dd>Zoom</dd></dl></div>
+            <img class="sk sp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik01Ljk4MyA5LjlhLjI5LjI5IDAgMCAwIC4zNC0uMjIxYy4yNzEtLjg1MS41MDItMS43MDMuNzcyLTIuNTU0cS4yNDItLjc5Mi42MS0xLjUzMkE2IDYgMCAwIDEgOS4yNjkgMy41OWMuMTcxLjExMi4zNjcuMTguNTcuMmMuNDgyIDAgMy4wMDUtLjE1IDIuNDA0LTIuMTQzYTEuOTAzIDEuOTAzIDAgMCAwLTMuNjQ1IDBhMS43NCAxLjc0IDAgMCAwIC4xOSAxLjQwMmE1LjggNS44IDAgMCAwLTIuMDAzIDEuOTQzYTUuOSA1LjkgMCAwIDAtLjcgMS43ODNjLS4xOS44OS0uMTkgMS44MDItLjMxMSAyLjY5NGEuMy4zIDAgMCAwIC4yMS40M005LjU3IDIuMDE3YS45LjkgMCAwIDEgLjY5LS42MDFhMSAxIDAgMCAxIDEuMTAyLjU0Yy4zMi43NjItLjUxIDEuMjYyLTEuMzMyIDEuMTUyYS42My42MyAwIDAgMS0uMzItLjA5YS44NC44NCAwIDAgMS0uMTQtMS4wMDEiLz48cGF0aCBkPSJNMS43MTcgMTYuODdjMS4yMDcuMjMyIDIuNDM3LjMyMiAzLjY2NS4yN2MyLjg2NSAwIDUuNzI5LS4xIDguNTkzLS4xMWMxLjIyMiAwIDIuNDM0IDAgMy42NTUuMDZjMS4yNTEuMTIxIDIuNTEuMTU4IDMuNzY2LjExYTMuOCAzLjggMCAwIDAgMS43NDItLjU2MWExLjgxIDEuODEgMCAwIDAgLjcyMS0xLjkyM2ExMS45IDExLjkgMCAwIDAtMS43NjItMy40MjVsLTIuMDAzLTMuODI1YTggOCAwIDAgMC0uNTgxLTEuMTcyYTEuMSAxLjEgMCAwIDAtLjQzLS4zNWExMi41IDEyLjUgMCAwIDAtMy4wMDUtLjI2MWMtMi40OTQgMC01LjcyOC4xNi02Ljc2LjIzYS4zMy4zMyAwIDAgMC0uMy4zNWEuMzMuMzMgMCAwIDAgLjM1LjMwMWMuODkxIDAgMy40NTUtLjE0IDUuNzM5LS4xMmMxLjIyNS0uMDM1IDIuNDUuMDU5IDMuNjU1LjI4Yy4xOC4zMjEuNDYgMS4wMDIuNTQgMS4xMzJsMS45NTQgMy45MDZjLjU3OS44NDggMS4wNzUgMS43NSAxLjQ4MiAyLjY5NGMuMTYuNTEuMjMgMS4wMDEtLjIxIDEuMzEyYTMuMzQgMy4zNCAwIDAgMS0xLjczMy4zOWMtMS4xMDIgMC0yLjMxNC0uMTQtMy4xMjUtLjE3Yy0xLjY0MiAwLTMuMjk1LS4wNi00LjkzNyAwYy0yLjQ1NCAwLTQuOTA3LjE2LTcuMzcuMjJxLTEuNTA2LjA4NS0zLjAwNS0uMDhhMi45NCAyLjk0IDAgMCAxLTEuNDgyLS41YS4yNC4yNCAwIDAgMC0uMDktLjExYTEgMSAwIDAgMSAwLS4xNXEuMDcxLS4zNDQuMjItLjY2MmMuMjEtLjQ4LjQ5LTEuMDAxLjU4LTEuMTgyYy42NTItMS40MzIgMS4yNzMtMi44ODQgMi4wMDQtNC4zMDZhMjQuNSAyNC41IDAgMCAxIDEuNjAyLTIuNjk0YS4yOS4yOSAwIDAgMC0uNDctLjMzYTI2IDI2IDAgMCAwLTEuNzAzIDIuNzI0QzIuMjc4IDEwLjMgMS42MTcgMTEuNzUyLjk3NiAxMy4xNzRjLS4zOC42MzItLjY4OCAxLjMwNC0uOTIxIDIuMDAzYTEgMSAwIDAgMCAuMS44NjFjLjQyOC40MjQuOTcxLjcxMyAxLjU2Mi44MzEiLz48cGF0aCBkPSJNMjMuOTMgMTYuNjM5YS4zNC4zNCAwIDAgMC0uMzYxLS4yOWEuMzMuMzMgMCAwIDAtLjI4LjM2cS4wMjMuMzkgMCAuNzgxYTEgMSAwIDAgMS0uMDkuMzlhMS41IDEuNSAwIDAgMS0xLjIxMi42NzJjLS44NjcuMDcxLTEuNzM4LjA3MS0yLjYwNCAwSDE3Ljk4bC0zLjkyNi0uMTVsLTMuMjE1LS4xMUg0LjQyMWExMCAxMCAwIDAgMS0zLjAwNCAwYS44OS44OSAwIDAgMS0uNjkxLTEuMDUyYy4wOC0uNC0uNjQxLS42MjEtLjY0MSAwYTEuNTkgMS41OSAwIDAgMCAxLjA2MSAxLjY5MmMxLjA3Ni4yNTIgMi4xODQuMzM2IDMuMjg1LjI1YzEuMDgyLjA1IDIuMTUzLjExIDMuMjI1LjEzaDEuNTEyYzAgLjM0MS0uMDguNjkyLS4xIDEuMDUyczAgLjQ0MSAwIC42NzFzMCAuNDQxLjA4LjY2MXEuMTQ1Ljc5Ny40MyAxLjU1M2EuMzQuMzQgMCAwIDAgLjQwMS4yNGEuMzIuMzIgMCAwIDAgLjIzLS4zOXEtLjA0NS0uNzY3IDAtMS41MzNjMC0uMzQgMC0uNjktLjA1LTEuMDAxYTEyIDEyIDAgMCAwLS4yMy0xLjIyMmgxLjAwMWwyLjkyNS4wOWMtLjA4LjMtLjE2LjYxLS4yMS45MjFhNSA1IDAgMCAwLS4wOS42OTF2LjcwMWMwIC41NTEuMDYgMS4wODIuMTIgMS42MzNhLjMyMS4zMjEgMCAwIDAgLjU0Ny4yMzZhLjMyLjMyIDAgMCAwIC4wOTMtLjIyNmMuMDgtLjU1MS4yLTEuMDcyLjI3LTEuNjIzcS4wODctLjU0My4xMTEtMS4wOTFjMC0uNDEgMC0uODIxLS4wNS0xLjIzMmg0Ljc3N2ExMiAxMiAwIDAgMCAzLjIwNS0uMjRhMiAyIDAgMCAwIDEuMjMxLTEuMDAyYy4wOTgtLjIxLjE0Ni0uNDQuMTQtLjY3YTggOCAwIDAgMC0uMDctLjg5Mk0xMC4zNiA5LjAyOGwtLjk0MiAzLjM1NWE4IDggMCAwIDAtLjM0LjkwMWEuODIuODIgMCAwIDAgMCAuNTFjLjEzMS4yNDMuMzUuNDI1LjYxLjUxMmMuNDIuMTQyLjg2LjIxIDEuMzAzLjJoMS42ODJjLjgyMS0uMDUgMS42NDItLjE0IDIuNDU0LS4xOXEuNTU1LjA0NSAxLjExMSAwYy4yODYtLjA0Mi41NDctLjE4OC43MzEtLjQxMWMuMjkzLS40MjQuNDIyLS45NC4zNi0xLjQ1MmExMy4zIDEzLjMgMCAwIDAtLjcxLTIuNzA0Yy0uMDYtLjItLjE0LS42ODEtLjI2LTEuMDAyYTEuMiAxLjIgMCAwIDAtLjI0MS0uMzZhMS40IDEuNCAwIDAgMC0uNjgxLS4zYTUuNyA1LjcgMCAwIDAtMS4zMDIgMGwtMy4yOTUuM2MtLjE5LS4wNS0uNDguNjQtLjQ4LjY0bS41NS4xNWEuMy4zIDAgMCAwIDAtLjE5bDMuMjk1LS4xNHEuNDAxLS4wMy44MDEgMGEuOS45IDAgMCAxIC41MzEuMTZsLjE4LjkyMXEuMzM1IDEuMDc3LjU0MSAyLjE4M2MuMDg2LjMzNy4wNDcuNjkyLS4xMSAxLjAwMmMtLjA2LS4wOC0uMjIgMC0uMzQgMGgtLjcyMWwtNC4wOTYuNDJhNCA0IDAgMCAxLS43NDEgMHEtLjE1LjAxNS0uMyAwYy4xOC0uMTQuMTctLjc3LjItLjl6Ii8+PC9nPjwvc3ZnPg==" alt=""></div></article>
+        <article class="sp" style="--sc:#E7CFC4"><button class="sp__tab" type="button" aria-expanded="false"><em>肆</em><b>青少年阅读推广</b><small>筹备中</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>青少年阅读推广</h3><p class="t-body">面向在澳洲长大的孩子、他们的家长和中文老师。我们想做分级书单、亲子共读和小读者的读书会，让孩子读中文书时不只是为了考试，也能读出乐趣。目前正在和几所中文学校聊合作。</p>
+            <dl class="kv"><dt>对象</dt><dd>儿童、青少年、家长和老师</dd><dt>形式</dt><dd>亲子共读、分级书单、小读者读书会</dd><dt>进度</dt><dd>筹备中，欢迎有经验的志愿者</dd></dl></div>
+            <img class="sk sp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik03LjE3NCA1LjA4M2MtLjIyIDMuMDAyLS4yNyAzLjUwMy0uMjYgMy42NzNjMCAuMzguNDIuNjIuNzguNzRjMS40ODIuNTQxIDcuMjI3IDEuMDAyIDguMTQ4LjQwMWEyLjMzIDIuMzMgMCAwIDAgLjcyLTEuNTgxYy4xLS43NzEuMDktMy44ODQtLjItNC4yMzRjLS40NS0uNTktMS4zNy0uNTgtNS4zNzQtLjcxSDcuODU1Yy0uNzEtLjAxLS42NyAxLjYxLS42OCAxLjcxbS43MjEtMS4wMDFjMi4wMzguMDE1IDQuMDcyLjE4MyA2LjA4NS41Yy4yOCAwIDEuMTUxIDAgMS40MzIuMDljLS4xLjExIDAgLjUyLjA1LjY1MWMuMTQgMSAwIDMuNDczLS4yNiAzLjYzM2gtLjIyYy0xLjc2Mi0uMTgtMy4yOTQuNTEtNi44NjctLjIzYy0uNjctLjE4LS4yMi0zLjg2My0uMjItNC42NzR6Ii8+PHBhdGggZD0iTTIyLjQ1OCA0LjA4MmMtLjMyLS4xMS0yLjI2Mi0uMjItMi4yNTIuMTVjLS4yNC44MyAxLjkzMi4xMyAyLjE1Mi43Yy4yNTYuODQuMzcxIDEuNzE2LjM0IDIuNTkzYTQuNjMgNC42MyAwIDAgMC0yLjYwMi0uMzFjMC00LjA4NC4xMi00LjAwNCAwLTQuNjQ0YTEuNzMgMS43MyAwIDAgMC0uNjUtMS4xNDFDMTUuOTkxLS44NTIgMTEuMTM3LjY0OSA3LjQwNC4xMjlhOS4zIDkuMyAwIDAgMC0zLjA3MyAwYy0xLjMwMS4zNC0xLjI4MSAxLjUtLjczIDEuNWEuMzQuMzQgMCAwIDAgLjM4LS4zN2MwLS44NiAyLjUzMi0uNSAzLjMxMy0uMzhjMy42MzMuNTUgOC41NDctLjc4IDExLjYxIDEuMzMxYy40Ni4zMi4yMy45MzEgMCAxMi4zNTFhMjUuOCAyNS44IDAgMCAxLS40OCA1Ljk0NWMtLjE0LjU0LS4yNSAxLjM2Mi0uNjkxIDEuNjYyYy0xLjUyMiAxLTQuNjk0LjY3LTYuNTE2LjNzLTMuMzczLjE3LTUuMDA0LS4wOWMtLjgyMS0uMTMtMi43ODMtLjExLTMuMDAzLS43NmEzLjYgMy42IDAgMCAxLS4xNS0uNzgxcTEuMDA3LjA1MiAyLjAwMi0uMTFhLjM1LjM1IDAgMCAwIDAtLjQ5YTUgNSAwIDAgMC0yLjAwMi0uNTMxYzAtLjczMS4wOC0xLjIwMS4xOC0yLjMzMmMuNjEzLjA0IDEuMjI4LjAwMiAxLjgzMi0uMTFhLjM1LjM1IDAgMCAwIDAtLjQ5YTQuNCA0LjQgMCAwIDAtMS43NzItLjQ5MVYxMy43OWMuNDc3LjAzLjk1NS0uMDA2IDEuNDIxLS4xMWEuMzUuMzUgMCAwIDAgMC0uNDlhMy40IDMuNCAwIDAgMC0xLjQzMS0uNDRWOS42NjdjLjQ3Ny4wMy45NTUtLjAwNyAxLjQyMS0uMTFhLjM1LjM1IDAgMCAwIDAtLjQ5Yy0uNDI4LS4yNS0uOTA3LS40LTEuNDAxLS40NDFWNS43NTNjLjQ3Ny4wMy45NTUtLjAwNiAxLjQyMS0uMTFhLjM1LjM1IDAgMCAwIDAtLjQ5YTMuNCAzLjQgMCAwIDAtMS40MzEtLjQ0Yy4xOC0yLjU4My4xNS0yLjIzMi4xMy0yLjMyM2EuMjcuMjcgMCAwIDAtLjM3LS4yNGMtLjMzLjA4LS4yNS4zNi0uNDEgMi40NzJjLS44NzEtLjExLTIuNTYzLS4yOS0yLjQyMy41NGMwIC4xMDEuMTIuMjAxLjMyLjI3MXMxLjczMi4yNiAyLjEwMi4zMXYyLjc4M2MtLjg2LS4xLTIuNTMyLS4yOC0yLjM5Mi41NWMwIC4zMS42LjM0IDIuMzQyLjU2YzAgMS4wMDItLjA2IDIuMDAzLS4wNyAzLjAwNGMtLjgyLS4wOS0yLjQxMi0uMjUtMi4yNzIuNTZjMCAuMS4xMi4yLjMyLjI3czEuMzkyLjIxIDEuOTQyLjI4YzAgLjkxMSAwIDEuNTMyLS4wOCAyLjQzM2MtLjczLS4wNS0yLjAwMS0uMTMtMS44NzEuNmMwIC4xLjEyLjIuMzIuMjdjLjA1IDAgLjg0LjE0IDEuNDUxLjIyYy0uMTIgMS4xMTEtLjE5IDEuNjAyLS4yMyAyLjM1M2MtLjY3IDAtMS42NTEgMC0xLjU0MS42MmMwIC4xLjEyLjIuMzIuMjhsMS4yMTEuMThxLjAxNy42MjMuMTkgMS4yMjJjLjQ0IDEuMzcgMi42MzIgMS4yOSAzLjc3MyAxLjVjMS41NjIuMjgxIDMuNTA0LS4xNSA1LjAwNS4xNTFjMi4xOTIuNDYgNS41NDUuODEgNy4zOTYtLjQ1YTMuNDcgMy40NyAwIDAgMCAxLjE2MS0yLjM1MmMuMzYyLTEuNjQzLjUyNy0zLjMyMy40OS01LjAwNWMuNDc1LjE1NS45NzQuMjIzIDEuNDcyLjJhMy4yIDMuMiAwIDAgMSAuODEgMGMtLjE2IDEuNTEyLS4wNy44NjEtLjE2IDEuOTUyYy0uMi41MS0uMzUuNzgtLjkuOGMtLjA5IDAtMS4wODEtLjIxLTEuMjkxLjE0YS4zMy4zMyAwIDAgMCAuMDUuNDIxYy4zOTkuMTM3LjgyLjIwMSAxLjI0LjE5YzIuNDkzLjA3IDIuMDAzLTMuOTQzIDIuMzYzLTcuNzI2Yy4wNy0xLjcxMi40My03LjEyNy0xLjI0MS03LjY2N20uMjMgNC4zNTRjMCAxLjE5LS4xNSAyLjM3Mi0uMjIgMy4yNTNjMCAuNS4zMS0uMTUtMi4zOTIuMDhWOC4wODVjLjg1LjIzNSAxLjczLjM1MyAyLjYxMi4zNW0tMi42NDIgNi40NDV2LTIuMTNjLjQ2NS4xMDkuOTQ2LjEzNiAxLjQyMS4wOHEuNDguMDE0Ljk1LS4wN3YyLjM3MmE1IDUgMCAwIDAtMi4zNzEtLjI1Ii8+PC9nPjwvc3ZnPg==" alt=""></div></article>
+        <article class="sp" style="--sc:#C6CBA8"><button class="sp__tab" type="button" aria-expanded="false"><em>伍</em><b>长者阅读推广</b><small>筹备中</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>长者阅读推广</h3><p class="t-body">面向来澳洲生活或探亲的长辈。白天的小组聚会，大字版的读物，有人领读的朗读会，书里的故事常常会引出他们自己的故事。我们希望在社区中心和长者活动室里，找到适合他们的读书方式。</p>
+            <dl class="kv"><dt>对象</dt><dd>老年读者</dd><dt>形式</dt><dd>白天小组、大字读物、领读朗读会</dd><dt>进度</dt><dd>筹备中，正在寻找合适的场地</dd></dl></div>
+            <img class="sk sp__ic" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik03LjIxMyAxOC4yMDVhLjMzLjMzIDAgMCAwLS41MS0uNDFhMi45NCAyLjk0IDAgMCAxLTIuMTcgMS4yYTIuNzYgMi43NiAwIDAgMS0yLjA4OC0xYTMgMyAwIDAgMS0uMjItMi42NjlhMi4yIDIuMiAwIDAgMSAyLjA2OS0xLjUyYy40MTUtLjAxMi44MjguMDUzIDEuMjIuMTljLjM3Ny4xNC43MTguMzYyIDEgLjY1YS4zLjMgMCAwIDAgLjU0MS0uMTI1YS4zLjMgMCAwIDAtLjA1Mi0uMjI0YTMuMyAzLjMgMCAwIDAtMS4yLS45MWE0LjMgNC4zIDAgMCAwLTEuNDktLjM5YTMuMDUgMy4wNSAwIDAgMC0zLjA4OCAyYTMuOTMgMy45MyAwIDAgMCAuMzUgMy42NzhxLjE5Mi4xOS40My4zMmE1IDUgMCAwIDAtLjgyLjY4cS0uMjc0LjMwNy0uNDcuNjdhNC41IDQuNSAwIDAgMC0uMzMuNzRhOCA4IDAgMCAwLS4zOCAxLjgwOWEuMzMuMzMgMCAwIDAgLjM4NS4zODJhLjMyLjMyIDAgMCAwIC4yNTUtLjI4MnEuMjU3LS43OS42NC0xLjUzbC4zMy0uNmMuMTEtLjE5LjIzLS4zOC4zNS0uNTdxLjMxLS40NjYuNjctLjlhMy41IDMuNSAwIDAgMCAxLjk5OS4zOWEzLjY4IDMuNjggMCAwIDAgMi41NzktMS41NzltMTYuNDU1IDIuODc5YTQuNSA0LjUgMCAwIDAtLjMzLS43NGEzLjUgMy41IDAgMCAwLS40Ny0uNjdhNSA1IDAgMCAwLS44Mi0uNjc5YTIgMiAwIDAgMCAuMzgtLjM2YTMuOTMgMy45MyAwIDAgMCAuMzUtMy42MzlhMy4wNSAzLjA1IDAgMCAwLTMuMDg5LTJhNC4zIDQuMyAwIDAgMC0xLjQ2LjM2YTMuMyAzLjMgMCAwIDAtMS4xOTkuOTFhLjI4NC4yODQgMCAwIDAgLjQyLjM4Yy4yOC0uMjg4LjYyMi0uNTEgMS0uNjVhMy40IDMuNCAwIDAgMSAxLjIyLS4xOGEyLjIgMi4yIDAgMCAxIDIuMDY5IDEuNTJhMyAzIDAgMCAxLS4xOCAyLjY2YTIuNzYgMi43NiAwIDAgMS0yLjA5LjkyYTIuOTQgMi45NCAwIDAgMS0yLjE3LTEuMTJhLjMzLjMzIDAgMCAwLS41MDkuNDFhMy42OCAzLjY4IDAgMCAwIDIuNjMgMS41OTlhMy41IDMuNSAwIDAgMCAxLjk0OS0uMzlxLjM1OC40MzIuNjcuOWMuMTIuMTkuMjQuMzguMzUuNTdsLjMzLjZxLjM4LjcyOS42NCAxLjUwOWEuMzIuMzIgMCAwIDAgLjU3OC4xM2EuMzMuMzMgMCAwIDAgLjA2LS4yM2E4IDggMCAwIDAtLjMyOS0xLjgxIi8+PHBhdGggZD0iTTE2LjUxIDE5LjA1NWE0LjQgNC40IDAgMCAwLS41Ni0uOGE2IDYgMCAwIDAtMS4xNC0xYTQuMTcgNC4xNyAwIDAgMCAxLjI2LTMuMzk4YTMuODggMy44OCAwIDAgMC0zLjg5OC0zLjg2YTQuMiA0LjIgMCAwIDAtNC4zNSA0YTMuNiAzLjYgMCAwIDAgMi4xOCAzLjQzOGExMC40IDEwLjQgMCAwIDAtMS42IDEuMWE1LjggNS44IDAgMCAwLTEuMTQ5IDEuMzNhMy44NCAzLjg0IDAgMCAwLS42IDIuOTI5YS4zMjMuMzIzIDAgMSAwIC42NC0uMDlhMy40MyAzLjQzIDAgMCAxIC44NC0yLjI0Yy4zLS40LjY1LS43OSAxLTEuMTY5Yy41Ni0uNTkgMS4xMi0xLjE1IDEuNjM5LTEuNmE1LjUgNS41IDAgMCAwIDEuMi4xN2EuMjkuMjkgMCAwIDAgLjMxLS4yN2EuMjkuMjkgMCAwIDAtLjI3LS4zYy0yLjE4LS4yLTMuMjEtMS41NDktMy4yNC0yLjk5OWMuMjk2LjE1Ni42MTguMjU1Ljk1LjI5cS4yMzUuMDM3LjQ3IDBhMiAyIDAgMCAwIC40Ny0uMTNjLjM4NS0uMTMzLjczLS4zNjQgMS0uNjdjMCAwIDAtLjA4LjA1LS4xMWwuMzguMnEuNTA4LjIzOSAxLjA2LjM1Yy42ODguMTExIDEuMzkuMTExIDIuMDc5IDBhMi45MiAyLjkyIDAgMCAxLTIuMzkgMy4yYS4zMy4zMyAwIDAgMC0uMjkuMzZhLjMyLjMyIDAgMCAwIC4zNi4yOGMuNDc3LS4wNC45NC0uMTggMS4zNi0uNDFxLjUwNS41NTEuOTEgMS4xOGMuMTUuMjI5LjMuNDU5LjQ0LjY5OXMuMjcuNDkuNC43NWMuMzA1LjYwOC41NTIgMS4yNDQuNzQgMS45YS4zMy4zMyAwIDAgMCAuNTkzLjExMWEuMzIuMzIgMCAwIDAgLjA0Ni0uMjQyYTkuNyA5LjcgMCAwIDAtLjQ5LTIuMDZhNS41IDUuNSAwIDAgMC0uNC0uOTM5bS01Ljc2OC01LjYwOGgtLjQ4bC0uNDguMDdxLS40OS4xMzUtMSAuMTdhMy4wOCAzLjA4IDAgMCAxIDEuMjItMS44NGE0LjggNC44IDAgMCAwIDEuMTIgMS40NGEuMS4xIDAgMCAwIC4wNSAwcS0uMjA0LjExLS40My4xNm0yLjYtLjJhNiA2IDAgMCAxLS44NC0uMzRhNS43IDUuNyAwIDAgMS0xLjkxLTEuNDVhNCA0IDAgMCAxIDEuNjEtLjM1YTIuODEgMi44MSAwIDAgMSAyLjg3OSAyLjQzYTcgNyAwIDAgMS0xLjc0LS4yOSIvPjxwYXRoIGQ9Ik0xMi40NjEgMTkuMDU1YS4yOS4yOSAwIDAgMC0uNTggMGMtLjA5LjM2LS4yLjY5LS4yNiAxLjA1YTIuNCAyLjQgMCAwIDAgMCAuNDZxLS4wMTUuMjI1IDAgLjQ1YzAgLjM2LjE0LjY5LjIxIDEuMDVhLjMxLjMxIDAgMCAwIC4zMy4zMDlhLjMyLjMyIDAgMCAwIC4zMi0uMzNjMC0uMzUuMTMtLjY4LjE3LTFhMyAzIDAgMCAwIDAtLjQ0cS4wMjItLjIyNCAwLS40NWMtLjAzLS40Mi0uMTMtLjc0LS4xOS0xLjA5OW0xLjMxLTEzLjMyNUwxMi41NjEgNXMtLjMtLjIxLS40Mi0uMjdhLjU4LjU4IDAgMCAwLS42Ny4xMWMtLjM4LjQxLS43NzkuNzktMS4xNjkgMS4xNzljLS42LjU5LTEuMTkgMS4xNi0xLjgyIDEuN2EyNiAyNiAwIDAgMS0yLjIwOSAxLjY0OWEuMjgzLjI4MyAwIDEgMCAuMy40OGEyMyAyMyAwIDAgMCAzLTEuOTRhMjcgMjcgMCAwIDAgMi4zNzktMS45OTlsMS4yNC43NWw1LjA5OCAzLjMzOWEuMzMuMzMgMCAwIDAgLjQ1LS4xYS4zMi4zMiAwIDAgMC0uMDktLjQ1Yy0xLjMzLS45My0yLjU2LTItMy44Ni0zYy0uMzQtLjIzOS0uNjgtLjQ0OS0xLjAxOS0uNzE5Ii8+PHBhdGggZD0iTTUuNjQzIDYuNzU5Yy42OC0uNDQgMS4zNi0uOTIgMi0xLjQxYzEtLjczIDItMS40OSAyLjkzOS0yLjI0bDEuMzEtLjk5OWwuMTEtLjExcy4yNy4xNi4zMi4yMWMuMzUuMzMuNjguNjYgMSAxYy4xNi4xMy4zMjkuMjcuNDk5LjM5YTIxIDIxIDAgMCAwIDIuMSAxLjNjMS4wNTkuNjIgMi4xNDkgMS4xNjkgMy4xOTggMS43NTlhLjMyLjMyIDAgMCAwIC40NC0uMTFhLjM0LjM0IDAgMCAwLS4xMS0uNDVjLTEtLjY0LTIuMDUtMS4yNi0zLjA2OS0xLjk0cS0uOTktLjY1NC0xLjktMS40MTlsLTEuNDA5LTEuMzVhNS41IDUuNSAwIDAgMC0uNTQtLjUxYS45LjkgMCAwIDAtLjQxLS4xNmEuNy43IDAgMCAwLS4zNy4wN2E1IDUgMCAwIDAtLjUxLjQxTDkuOTMzIDIuM2MtLjkzLjgyLTEuODEgMS43LTIuNzM5IDIuNDVjLS42Mi41NC0xLjI0IDEtMS44OCAxLjUzOWEuMjkuMjkgMCAxIDAgLjMzLjQ3Ii8+PC9nPjwvc3ZnPg==" alt=""></div></article>
+      </div>
     </div></section>
 
     <section class="plain" id="about-history"><div class="wrap">
@@ -1396,10 +1609,32 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div></section>
 
-    <section class="band dark"><div class="wrap duo2">
-      <div class="lhs"><span class="label">公益与组织</span><h2 class="t-h2">我们是公益社群</h2></div>
-      <div class="rhs"><p class="t-body">文学社是非营利的公益社群，活动由志愿者组织，以免费为主。偶尔需要分摊场地或茶点费用时，会在报名时提前说明。</p><p class="t-body">组织注册正在筹备中。感谢 Nunawading Community Hub 长期为读书会提供场地。</p>
-        <div class="btns" style="justify-content:flex-start"><a class="btn lt" href="#join" data-btn><span class="bt"><span>加入我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div></div>
+    <section class="band dark" id="about-org"><div class="wrap">
+      <div class="duo2 org">
+        <div class="lhs"><span class="label">公益性质与组织情况</span><h2 class="t-h2">我们是一个公益社群</h2>
+          <p class="t-body">文学社不以营利为目的，所有活动由志愿者组织。读书会、文学夜和讲座以免费为主，偶尔需要分摊场地或茶点费用时，会在报名时写清楚每一笔用在哪里。</p>
+          <p class="t-body">感谢 Nunawading Community Hub 长期为读书会提供场地，也感谢每一位带着书和问题来的书友。</p>
+          <div class="btns" style="justify-content:flex-start"><a class="btn lt" href="#join" data-btn><span class="bt"><span>加入我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div></div>
+        <div class="rhs">
+          <div class="slants">
+            <div class="slant" style="--sl:#E9DCB5"><b>0 元</b><span>大部分活动的参与费用</span></div>
+            <div class="slant" style="--sl:#B5C48F"><b>100%</b><span>由志愿者组织和运营</span></div>
+            <div class="slant" style="--sl:#E7CFC4"><b>3 城</b><span>墨尔本、悉尼、布里斯班的读者都来过</span></div>
+          </div>
+          <div class="dossier">
+            <div class="dossier__tab">组织档案</div>
+            <dl>
+              <dt>组织性质</dt><dd>非营利的公益文学社群</dd>
+              <dt>所在地</dt><dd>墨尔本，维多利亚州</dd>
+              <dt>运营方式</dt><dd>志愿者协作，按活动组、内容组、宣传组、技术组分工</dd>
+              <dt>组织架构</dt><dd class="tbd">11 月 15 日后公布</dd>
+              <dt>官方注册信息</dt><dd class="tbd">11 月 15 日后公布</dd>
+            </dl>
+            <span class="dossier__stamp">待公布</span>
+            <p class="t-small">组织架构和注册名称、编号确定后，会在这里和公众号同时发布。</p>
+          </div>
+        </div>
+      </div>
     </div></section>
 
     <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">本学期活动</a></li><li><a href="#archive">往期活动</a></li><li><a href="#join">加入我们</a></li><li><a href="#join-faq">常见问题</a></li><li><a href="#partner">合作与联系</a></li></ul></div></div></section>
@@ -1479,7 +1714,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div></section>
 
-    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#archive">往期读过的书</a></li><li><a href="#join-first">第一次来读书会</a></li><li><a href="#join">加入社群</a></li><li><a href="#about">关于我们</a></li></ul></div></div></section>
+    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#archive">往期读过的书</a></li><li><a href="#join-faq">参加前的常见问题</a></li><li><a href="#join">加入社群</a></li><li><a href="#about">关于我们</a></li></ul></div></div></section>
   </div>
 </div>
 
@@ -1493,13 +1728,13 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       <div class="shelf-wrap"><div class="realshelf" id="shelf" aria-label="读过的书"></div></div>
     </div></section>
 
-    <section class="plain"><div class="wrap">
-      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>每个学期我们都读了这些</h2></div>
-        <div class="filters" id="filters" role="group" aria-label="按活动类型筛选"></div></div>
-      <div id="terms"></div>
+    <section class="plain" id="archive-terms"><div class="wrap">
+      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>选一个学期看看我们读了什么</h2><p class="t-body">每个学期结束，内容组会把读过的书、办过的活动、讨论里留下的问题和几张照片整理成一份档案。先选年份，再选学期。</p></div></div>
+      <div class="tindex" id="tindex" role="group" aria-label="学期索引"></div>
+      <div class="tsheet" id="tsheet" aria-live="polite"></div>
     </div></section>
 
-    <section class="plain" style="padding-top:0"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#about-term">一个学期怎么过</a></li><li><a href="#join">加入我们</a></li></ul></div></div></section>
+    <section class="plain" style="padding-top:0"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#about-modules">五个活动模块</a></li><li><a href="#join">加入我们</a></li></ul></div></div></section>
   </div>
 </div>
 
@@ -1521,16 +1756,14 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--parch)" id="join-first"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer fsplit">
-      <div class="side"><span class="label">第一次来</span><h2 class="t-h2">一场读书会大概是这样的</h2><p class="t-body">带上书（纸质、电子都可以）和一个你想聊的问题就够了。不想发言也没关系。</p></div>
-      <ol class="clock">
-        <li><time>13:50</time><p>签到，领一张名牌，写上你希望被怎么称呼。</p></li>
-        <li><time>14:00</time><p>每人一句话：你是谁，最近在读什么。</p></li>
-        <li><time>14:15</time><p>主持人导读，没读完的朋友从这里跟上。</p></li>
-        <li><time>14:30</time><p>分组讨论，每组五六个人，围绕三个问题。</p></li>
-        <li><time>15:30</time><p>回到大组，每组分享一个最有意思的分歧。</p></li>
-        <li><time>16:00</time><p>茶歇，自由交流，16:30 结束。</p></li>
-      </ol>
+    <section class="band" style="--bb:var(--rose)" id="join-voices"><div class="wrap">
+      <div class="shead"><div><span class="label">书友说</span><h2 class="t-h2" data-split>听听已经来过的人怎么说</h2><p class="t-body">他们第一次来的时候，也有点紧张。以下几段话来自往期活动后的留言，征得同意后整理，名字用的是他们在群里的称呼。</p></div></div>
+      <div class="voices">
+        <figure class="voice" style="--r:-2deg"><blockquote>我书没读完就去了，本来想坐在角落只听。结果小组里一位阿姨问我怎么看福贵，我说着说着就停不下来了。</blockquote><figcaption><b>小周</b><span>研究生，2026 年春天第一次来</span></figcaption></figure>
+        <figure class="voice" style="--r:1.5deg"><blockquote>来澳洲带孙子，白天家里只有我一个人。读书会让我又有了可以聊书的朋友，她们叫我王老师，我很高兴。</blockquote><figcaption><b>王阿姨</b><span>退休语文老师，常来线下读书会</span></figcaption></figure>
+        <figure class="voice" style="--r:-1deg"><blockquote>下班开四十分钟车过去，进门就有人递茶。那天聊白流苏聊到快六点，回家路上一直在想她到底赢了没有。</blockquote><figcaption><b>Kelvin</b><span>工程师，文学夜和读书会都来</span></figcaption></figure>
+      </div>
+      <p class="t-small" style="margin-top:2.5em">以上留言为原型示例，正式上线前替换成书友授权的原话。</p>
     </div></section>
 
     <section class="plain" id="join-group"><div class="wrap split2">
@@ -1603,14 +1836,15 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--parch)"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer">
-      <div class="head"><span class="label">双方各出什么</span><h2 class="t-h2">合作的时候我们各出一份力</h2></div>
-      <div class="amp">
-        <div><h3>我们带来</h3><ul><li>稳定的中文读者群体</li><li>选书、导读和讨论主持</li><li>活动策划与现场执行</li><li>中英双语宣传</li></ul></div>
-                <div><h3>希望你们带来</h3><ul><li>场地或线上会议支持</li><li>嘉宾与作者资源</li><li>书籍捐赠或借阅</li><li>互相推荐的宣传渠道</li></ul></div>
-      </div>
+    <section class="band" style="--bb:var(--parch)" id="partner-how"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer">
+      <div class="shead"><div><span class="label">合作怎么开始</span><h2 class="t-h2" data-split>从一封信到一场活动大概分四步</h2><p class="t-body">大多数合作从一次简单的聊天开始。我们是志愿者团队，回复可能慢一两天，但每封信都会认真读。</p></div></div>
+      <ol class="cuts">
+        <li style="--cc:var(--paper)"><em>01</em><b>来信</b><p>写邮件或在公众号留言「合作」，说说你们是谁，想一起做什么，大概在什么时候。</p></li>
+        <li style="--cc:#E9DCB5"><em>02</em><b>见一面</b><p>线上或线下聊半小时，看看双方的读者是否合适，时间和场地能不能对上。</p></li>
+        <li style="--cc:#C6CBA8"><em>03</em><b>定方案</b><p>一起确定书目或主题、活动形式、宣传分工和报名方式，写成一页纸的方案。</p></li>
+        <li style="--cc:var(--pine);--ct:var(--paper)"><em>04</em><b>办活动与回顾</b><p>活动结束后，我们写一篇回顾，发在公众号并收进往期档案，也送一份给合作方。</p></li>
+      </ol>
     </div></section>
-
 
     <section class="band" style="--bb:var(--mist)"><div class="wrap">
       <div class="head"><span class="label">一起走过的伙伴</span><h2 class="t-h2">感谢一直支持我们的伙伴</h2><p class="t-body">伙伴的标志待正式授权后替换，下面是示意。</p></div>
@@ -1637,6 +1871,91 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   </div>
 </div>
 
+<!-- ================= 书友投稿 SUBMIT ================= -->
+<div class="page" data-page="submit">
+  <section class="hxs" data-intro><div class="hxs__bg" data-intro-bg><svg class="waves" data-wave="xs" data-seed="7" aria-hidden="true"></svg></div>
+    <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>书友投稿</h1><p class="t-body" data-intro-para>读完一本书，心里总有话想说。写下来寄给我们，每学期挑选几篇刊登在这里和公众号上，也会在文学夜请作者读给大家听。</p></div></section>
+  <div data-intro-content>
+
+    <section class="plain"><div class="wrap feature">
+      <figure class="mspaper big" style="--r:-2.5deg" aria-label="本期刊登《外婆的腌菜坛》开头">
+        <div class="ms" data-ms="外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒，说坛子也要换口气。我到墨尔本的第三年，在超市里看见一只差不多的坛子，站了很久，没有买。回家路上想，原来想念一个人，是想念她做事情的样子。"></div>
+        <figcaption>第 1 页，共 4 页</figcaption>
+      </figure>
+      <div class="stack">
+        <span class="label">本期刊登</span>
+        <h2 class="t-h2" data-split>外婆的腌菜坛</h2>
+        <p class="byline"><b>林间</b><span>散文 · 2026 年第三学期 · 约 2400 字</span></p>
+        <p class="t-body">读完《呼兰河传》那一周，林间在读书会上说起了外婆的阳台。萧红写祖父的后园，她写外婆的坛子，写一个人怎样把日子腌进时间里。编辑组读完一致决定，把它放在这学期的第一篇。</p>
+        <p class="t-small">编辑手记：文章最打动我们的，是它不急着抒情。坛子、青石、晒太阳的秋天，事情一件一件摆出来，想念就在里面了。</p>
+        <a class="btn" href="#submit-past" data-btn><span class="bt"><span>看看往期刊登</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div></section>
+
+    <section class="band" style="--bb:var(--w1)"><div class="wrap">
+      <ul class="figs">
+        <li><b data-count="38">38</b><span>篇来稿，2026 年至今</span></li>
+        <li><b data-count="12">12</b><span>篇刊登在网站和公众号</span></li>
+        <li><b data-count="21">21</b><span>位作者，最小 16 岁，最大 74 岁</span></li>
+        <li><b data-count="6">6</b><span>篇在文学夜上由作者朗读</span></li>
+      </ul>
+      <p class="t-small figs__note">数字为原型示例。</p>
+    </div></section>
+
+    <section class="plain"><div class="wrap">
+      <div class="shead"><div><span class="label">收稿栏目</span><h2 class="t-h2" data-split>这四类文字我们都收</h2><p class="t-body">篇幅只是参考，写短一点没关系。只要是你自己写的、和阅读或生活有关的中文文字，都可以试试。</p></div></div>
+      <div class="cols">
+        <article class="col4" style="--cl:#3A4A36;--ct:#FAF6EC"><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iI0ZBRjZFQyIgZD0iTTIzLjk3MSAxNC41OTZhNTEuNSA1MS41IDAgMCAwLS40NS04LjcyYTQgNCAwIDAgMCAwLS42MmMtLjEzOS0uNjY5LTIuMTQ3LS45OTktMi45OTYtMS4wNzlhLjMuMyAwIDAgMC0uMzMuMjZjLS4wNS42NiAxIDAgMi42MDggMWExMCAxMCAwIDAgMCAuMTcgMi4xMTdjLjI0IDIuMjM3LjExIDMuNzg2IDAgOS43MjlhMTMuOCAxMy44IDAgMCAwLTMuNjE3LS4zYTEwLjc0IDEwLjc0IDAgMCAwLTYuMzEzIDEuOTk4Yy42OC0yLjYzNyAyLjMzOC0zLjM0NiA0LjY3NS00LjE4NWMuMjY1LS4wODMuNTQyLS4xMi44Mi0uMTFhLjU3LjU3IDAgMCAwIDEuMDg4LS4yN2MtLjM4LTEwLjA5OSAwLTExLjUxNy0uMTYtMTIuNDU2UzE4LjYyNy45MSAxNy42NzguNzdhNi41NiA2LjU2IDAgMCAwLTYuMDYzIDIuNzY3Yy0uMDguMTctLjU1IDEuMjA5LS41OSAxLjMxOWE1LjkgNS45IDAgMCAwLTIuMzA3LTEuMDdhOC43IDguNyAwIDAgMC02LjMwMyAxQTMuMjMgMy4yMyAwIDAgMCAuOTk3IDYuOTI0Qy4xMTcgMTAuNDgtLjQxMiAxMS41My40MDcgMTkuMDkxYzAgLjMxIDAgLjc5LjMgMS4wNzlhLjYuNiAwIDAgMCAuNDkuMTN2Ljc2OWMuMTMgMS43OTggMi41MTcuNyA1LjE0NC40OGMyLjE3Ny0uMTcgMi40MTcuMjk5IDQuMzQ1IDEuNDE4YTQuNjYgNC42NiAwIDAgMCAyLjQ4Ny4yMmE0LjI2IDQuMjYgMCAwIDAgMS44ODgtLjc4YzYuNTgzLTQuODQ0IDYuMzUzLjgyIDcuODkyLTMuMjQ2cS4xMDUtLjI4LjEzLS41OGEuNTMuNTMgMCAwIDAgLjgxOC0uNDA5cS4xMzktMS43ODcuMDctMy41NzZtLTEyLjEwNi05LjIxQzE0Ljg2LS4yNDggMTguNTc3IDIuMjMgMTguNzM3IDIuMzljLjA4LjMtLjM3IDcuMDczLS4zOSA3LjY5MmwuMDkgMy40NDZhOCA4IDAgMCAwLTUuNjAzIDMuMjM3Yy0uNS44NTktLjMzLjk0OS0uNDIuMzhjLS4wMi0uMS0uNTktMTEuNjc4LS41NS0xMS43NThNMS4wNzcgOS43MjFjLjI5LTEuMTA4LjY0OS0zLjkyNSAxLjYwOC00LjI0NWMyLjc5Ny0uOTM5IDUuNTk0LTEuMTY5IDguMTkuMjVjLjMwOS44NTcuNDQ4IDEuNzY2LjQxIDIuNjc3YzAgMi4wNDcuMDYgOC4yMy4zIDEwLjA4OWExMS4yIDExLjIgMCAwIDAtNS4wNzQtMWExMi40IDEyLjQgMCAwIDAtMy45OTYgMS4wNWMtLjEyIDAtLjY4LjU2OS0xLjA3OS43ODljMC0uMTQtLjExLS4zLS4xMi0uMzhjLS4zMi0yLjcxNy0uNzg5LTYuMjkzLS4yNC05LjIzbTIwLjUzNyA5LjgyYy0yLjg3Ny0xLjE1LTUuMTY0LjQ3OS03LjIwMiAxLjkzN2EzLjg0IDMuODQgMCAwIDEtMi45OTcuNTVjLTMuODY2LTIuNzM3LTUuMzY0LTEuNDI5LTguODYtLjljLS4xOCAwLS4zMi4wOS0uNDEgMHMtLjE5LS42NjgtLjQyLS45OThjLjQzLS4yMiAxLS41NyAxLjE0LS42MWMxLjQ2OC0uNDU5IDMuMTI2LTEuNTM4IDYuNzIyLS41MzljMi42NTcuNjkgMi41MTcgMS44NDggMy40MTYgMS4zNTljMS4zMzktLjcyIDMuMjY3LTIuODc3IDkuMy0yLjE0OGEuNC40IDAgMCAwLS4wOS4yNmMtLjU5IDEuMDU5LS41Ni45ODktLjYgMS4wODgiLz48cGF0aCBmaWxsPSIjRkFGNkVDIiBkPSJNMy42NDQgOC45OTJjLjk5OS0uMTQuOTE5LS42MyAyLjIzNy0uNjNhOC42IDguNiAwIDAgMSAyLjE1OC40NGMuMTktLjA3LjMzLS4xNS4zMy0uMzRjMC0uNDI5LS42LS44NjgtMS41MDktLjk5OGMtMi42MjctLjQ5LTIuODc3Ljc2OS0zLjM3Ni45OTlhLjMuMyAwIDAgMCAuMTYuNTNtMCAzLjUyNWMuOTk5LS4xNC45MTktLjYyOSAyLjIzNy0uNjI5Yy43MzUuMDUzIDEuNDYuMjAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zNGMwLS40My0uNi0uODYtMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc2LTMuMzc2Ljk5OWEuMy4zIDAgMSAwIC4xNi41M20wIDMuNTY1Yy45OTktLjE0LjkxOS0uNjI5IDIuMjM3LS42MjlhOSA5IDAgMCAxIDIuMTU4LjQ0Yy4xOS0uMDYuMzMtLjE1LjMzLS4zM2MwLS40NC0uNi0uODctMS41MDktLjk5OWMtMi42MjctLjQ5LTIuODc3Ljc3LTMuMzc2Ljk5OWEuMjk5LjI5OSAwIDAgMC0uMjUuNTEyYS4zLjMgMCAwIDAgLjQxLjAwNyIvPjwvc3ZnPg==" alt=""><h3>读后感</h3><p>读完一本书，写下你最想和别人说的那件事。不必面面俱到，抓住一个人物、一句话、一个问题就好。</p><span>800 至 3000 字</span></article>
+        <article class="col4" style="--cl:#E9DCB5"><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIzLjk4OSAxNC4xYTI4IDI4IDAgMCAwLTIuOTk5LTQuMTA4cS0uNTEtLjU4LTEuMDUtMS4xNGMwLS4zOCAwLS43NS4wNy0xLjEzYy4wNy0uNzg5LjE3LTEuNTc5LjI2LTIuMzQ4YTkuNSA5LjUgMCAwIDAtLjAyLTEuMzJhMi40IDIuNCAwIDAgMC0uMjYtMS4wOWExLjE0IDEuMTQgMCAwIDAtLjU1LS40NzlhMy43IDMuNyAwIDAgMC0uNjg5LS4xNGE5IDkgMCAwIDAtMS4xNC0uMDZxLS41NzkuMDA4LTEuMTQ5LjEycS0uMjk3LjA1NC0uNTguMTZhMS4zIDEuMyAwIDAgMC0uNDQuM2ExLjIyIDEuMjIgMCAwIDAtLjI0Ljc3di4zNWwtMS43MjktMS45M2EzLjcgMy43IDAgMCAwLS43My0uNjJhMS40IDEuNCAwIDAgMC0uODI5LS4yMmExIDEgMCAwIDAtLjY2LjI3cS0uMzI1LjMyNy0uNTguNzFsLTIuMTE4IDIuNGMtLjg1Ljk5OS0xLjcyIDEuOTk4LTIuNiAyLjk5OGMtLjg3OSAxLTEuNzc4IDEuOTk5LTIuNzA4IDIuOTA4Yy0uNzYuNzktMS41OSAxLjQ1LTIuMzA5IDIuMjRxLS40OS41My0uODkgMS4xMjlhLjMxLjMxIDAgMCAwIC4wOC40MmEuMzEuMzEgMCAwIDAgLjQyLS4wOWE4LjcgOC43IDAgMCAxIDEuMTgtMS4zMWMuNjctLjYzIDEuMzktMS4xNzkgMi4wNzktMS44MjljMS0uOTIgMS45MTktMS44NDkgMi44NTgtMi44MDhhODQgODQgMCAwIDAgMi43My0yLjkzczIuNTg4LTIuOTQ4IDIuNTY4LTIuOTQ4czIuODk5IDIuOTA5IDIuODk5IDIuOTA5YzEuNDUgMS40MiAyLjkzOSAyLjc2OSA0LjM1OCA0LjIwOGwuMDYuMDdjLjM0LjMzLjY3LjY2IDEgMWEyNy4zIDI3LjMgMCAwIDEgMy4wODggMy44OThhLjM0MS4zNDEgMCAxIDAgLjU4LS4zNnptLTcuOTk3LTkuMzM2di0uOTFjMC0uMzIgMC0uMzUuMS0uNDJsLjU3LS4xMXEuMzktLjAyMS43OCAwcS42MDQuMDM4IDEuMi4xNWwuMzQ5LjA4Yy4wOTQuMTcyLjE0Ni4zNjQuMTUuNTZxLjAzNy41OTUgMCAxLjE5djIuNzM5Yy0xLjE1LTEuMS0yLjE1LTIuMTgtMy4yMzktMy4yNzl6Ii8+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTExLjQzNCAxMC42NDJhMiAyIDAgMCAwIDIuNDgtMS41MWMuNDM5LTEuNjItLjkyLTIuOTk4LTMtMi4xOTlhMi4xNCAyLjE0IDAgMCAwLS45OTkuODdhMS43NSAxLjc1IDAgMCAwIC4wOCAxLjgyOWMuMzM2LjUwNS44NS44NjUgMS40NCAxLjAxbS0uNjQtMi40MWExLjMyIDEuMzIgMCAwIDEgLjcyLS42N2MxLS40NDkgMS44OC4yNSAxLjQ5IDEuMjhhMSAxIDAgMCAxLTEuMjkuNjhhMS4zMiAxLjMyIDAgMCAxLS43Mi0uNTNhLjc2Ljc2IDAgMCAxLS4yLS43Nm05LjgyNSA1Ljk1OHYtMmEuMzQuMzQgMCAwIDAtLjY4IDB2MmMtLjA3IDEuNTctLjIyIDMuMTM5LS4yNSA0LjY5OHEuMDYuOTQ1IDAgMS44ODlhMS44IDEuOCAwIDAgMS0uMzUuOTRjLS4wOS4xLS4yOCAwLS40NTkgMGMtLjM0IDAtLjY5LS4wNy0uODktLjA4Yy0uNyAwLTQuNDk4LS4yNy01LjA2Ny0uMjdIOS4yODVjLS42NiAwLTEuMzMuMDctMS45OTkuMTVjLS40OS4wNi0xLjA4LjItMS42NC4yM2ExLjg2IDEuODYgMCAwIDEtLjg1OS0uMTNjLS4xNS0uMDctLjItLjI3LS4yNS0uNDdhOSA5IDAgMCAxLS4xNC0xLjRjLS4wOS0xLS4xNS0xLjkyOS0uMTktMi44ODhjMC0xLjQ2LS4wNi0yLjkwOS0uMDctNC4zNjhhLjMuMyAwIDEgMC0uNi0uMDFjLS4wNSAxLjQ2OS0uMSAyLjkyOC0uMTEgNC4zODhjMCAxIDAgMS45OTkuMDcgMi45NDhhOCA4IDAgMCAwIC4xNyAxLjgyYy4wOTYuMzY4LjMzMy42ODUuNjYuODhhMi43IDIuNyAwIDAgMCAxIC4yNjlxMS4wMzYtLjAwNiAyLjA2LS4xN2MuNzE5LS4wNyAxLjQ0OC0uMSAyLjE4OC0uMTJoMy4zMjlsNC45OTcuMThxLjY4NS4wNjMgMS4zNyAwYy4zMS0uMDMuNTk3LS4xNzMuODEtLjRhMi40IDIuNCAwIDAgMCAuNDgtMS4xMWExMi43IDEyLjcgMCAwIDAgMC0yLjM2OGMtLjA0LTEuNDguMDQtMy4wNDkuMDYtNC42MDgiLz48cGF0aCBmaWxsPSIjMkIzMzI2IiBkPSJNOS43NDUgMjAuOTE3YzAtLjUyLS4xNC0xLjA3LS4xLTEuNjJjLjA2Mi0uODcuMzQtMS43MTIuODEtMi40NDhhMS43NSAxLjc1IDAgMCAxIDEuNTQtLjhhMi4xNyAyLjE3IDAgMCAxIDEuNjc4Ljc0Yy40NS41MTUuNzI2IDEuMTU4Ljc5IDEuODM5cS4wOTYgMS4xMzguMDcgMi4yNzljMCAuMjkuNjIuNDUuNzUgMGMuMTItMS4wMTMuMTItMi4wMzYgMC0zLjA0OWE0IDQgMCAwIDAtLjgtMS44MDlhMy4yNSAzLjI1IDAgMCAwLTIuNDg5LTEuMThhMi44NCAyLjg0IDAgMCAwLTIuNDQ5IDEuNGE2LjM1IDYuMzUgMCAwIDAtLjcyIDIuOTk5Yy4wMDYuNTcxLjA5IDEuMTQuMjUgMS42ODljLjEyLjI5LjY0LjI5LjY3LS4wNCIvPjwvc3ZnPg==" alt=""><h3>散文随笔</h3><p>故乡、移居、家人、在墨尔本的日常。真实的经历和细节，比漂亮的句子更动人。</p><span>1000 至 4000 字</span></article>
+        <article class="col4" style="--cl:#C9DEE3"><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik0yMy4yMjUgMGEzMCAzMCAwIDAgMC00LjUwNy45MDFjLTEuMDgyLjMzMS0yLjE0My43NjItMy4yMjUgMS4xMTJjLTEuNzczLjU3MS0xLjM3Mi4xNy0zLjc1NiA0LjQ2N2E3LjIgNy4yIDAgMCAwLTEuMDAyLTIuNDk0Yy0xLjAwMS0xLjAwMS0yLjAwMy41MTEtMi43MTQgMS42NjNjLTIuMTE0IDMuNDU2LTQuMDQ3IDYuNTYtNC40NDcgMTEuNzZhLjMwMi4zMDIgMCAwIDAgLjYuMDVjLjQ0MS00Ljk0OSAyLjQwNC04LjAxNCA0LjU1OC0xMS4zNWE0LjcgNC43IDAgMCAxIDEuMjUyLTEuNTAyYy4wNi4xLjEyIDAgLjM4LjY4MmMuMjYxLjY4LjQ2MSAyLjEwMy44NTIgMi40MDNzLjg4MSAwIDEuMTkyLS40M3MxLjk2My0zLjYzNiAyLjU4NC0zLjkxN3EuNDMzLS4xNzcuODkxLS4yN2EzMi43IDMyLjcgMCAwIDEgNi44ODItMS44MjNhOC42IDguNiAwIDAgMS0uMyAyLjUwNGEzOSAzOSAwIDAgMS0yLjM1NSA3LjA4MWMtLjMuNjcyLS43OCAyLjIwNC0xLjQ2MiAyLjY5NWMtLjA3LS4xLS4yOC0uMTgtLjM0LS4yNGE4LjcgOC43IDAgMCAwLTIuODU1LTEuNzAzYy0xLjI4Mi0uMTctLjYzMSAyLjY4NC0uNjkxIDMuMzY1Yy0uNzQxLS41MS0yLjU3NC0xLjQ0Mi0yLjkwNS0uNjZjLS4yMi41Mi4xIDEuMTkxLjIgMS42MDJjLjIzLjg3MS43OTIgMi41NTQuMTIgMy4xNzVhNi43OCA2Ljc4IDAgMCAxLTQuNzk3IDEuMTkyYy0yLjQwNC0uMjMtMS42NTMtMS4yMzItMi4xNzQtLjg1MmMtLjIuMDgtLjQyLjI2LS4yLjUyMWMuMjkyLjQyNi43My43MyAxLjIzMi44NTJjMS44OTMuNTUgNC44OTguMjQgNi40My0xLjExMmMxLjEyMi0xLjAwMi40NDEtMy4xNzUgMC00LjcxOGMuODIuMjQyIDEuNTU3LjcwMyAyLjEzNCAxLjMzMmEuNTguNTggMCAwIDAgLjc0MSAwYy4zOC0uNDMgMC0yLjI4My4wOC0zLjQ5NWguMTlxLjg5My41NTMgMS42OTMgMS4yMzJjLjIuMjM3LjQzNi40NC43MDEuNmMuNjExLjI1MSAxLjMwMi0uMzkgMS42NzMtLjg5QzIxLjEzMiAxMi4wNzggMjUuNjMuMjYgMjMuMjI1IDAiLz48cGF0aCBkPSJNNy4wNCAxNi4yNTZDMTMuOTkgOC40NDQgMTcuMzg1IDYuMTIgMTkuNTUgNC41MTdhLjM0NC4zNDQgMCAwIDAtLjQwMS0uNTZjLTEuNDAyIDEuMDAxLTIuNzc1IDEuODUyLTQuMDY3IDIuODk0QzcuNzcgMTIuODYxIDUuMTE2IDE2Ljg2Ny44OCAyMi40MTZsLS43NzEgMS4xNDJhLjMxLjMxIDAgMCAwIC41MS4zNGMyLjAyNC0yLjY0NCA1LjI4LTYuMzYgNi40MjEtNy42NDIiLz48L2c+PC9zdmc+" alt=""><h3>诗歌</h3><p>新诗、旧体诗都可以。一次最多寄三首，请注明写作时间和地点。</p><span>每首 40 行以内</span></article>
+        <article class="col4" style="--cl:#E7CFC4"><img class="sk" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+PGcgZmlsbD0iIzJCMzMyNiIgZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiPjxwYXRoIGQ9Ik02LjcwMiAxNy40MWMtLjA3LjI3OSAzLjQ0OS40NjkgMy43MDkuNDc5YzEuNzkuMDggMi43MyAwIDUuNDY5LS4xM2MuMzgtLjA2IDEuMDcuMTQgMS4wOC0uMzZzLS42OS0uMzMtMS4wOC0uNDFhMzYuNSAzNi41IDAgMCAwLTYuNTE5LS4xMWMtMS41Ny4xMi0yLjg2LjA2LTIuNjYuNTNtLS4wMzktMi41MjljLjE5LS42Ni0uMzYtMS4zMy0xLjM0LTEuMDZjLS41Ny4xNi0uNTEgMS4xNi0uMDkgMS40N2EuOTMuOTMgMCAwIDAgMS40My0uNDFNNS4xNTIgMThjLjE5LS42Ni0uMzYtMS4zMi0xLjM1LTEuMDVjLS41Ny4xNS0uNTEgMS4xNi0uMDkgMS40NmEuOTMuOTMgMCAwIDAgMS40NC0uNDFtOS4yNzgtMy4xMmMuMTktLjY2LS4zNi0xLjMzLTEuMzUtMS4wNmMtLjU3LjE2LS41MSAxLjE2LS4wOSAxLjQ3YS45NC45NCAwIDAgMCAxLjQ0LS40MW0tMy41MzktLjA1Yy4xOS0uNjYtLjM2LTEuMzItMS4zNS0xLjA2Yy0uNTcuMTYtLjUxIDEuMTctLjA5IDEuNDdhLjk0Ljk0IDAgMCAwIDEuNDQtLjQxbTcuNzU5IDBjLjE5LS42Ni0uMzYtMS4zMi0xLjM1LTEuMDZjLS41Ni4xNi0uNSAxLjE3LS4wOSAxLjQ3YS45My45MyAwIDAgMCAxLjQ0LS40MW0uMjQ5IDMuNDdhLjkzLjkzIDAgMCAwIDEuNDQtLjQxYy4xOS0uNjYtLjM2LTEuMzItMS4zNS0xLjA2Yy0uNTYuMTctLjUxIDEuMTctLjA5IDEuNDdNNS4yNTIgNy42NTFjLS4xMy0xLS4zMy0yLjI3LS4zOC0zLjM5OWMxLjExLjQ1IDIuOTIgMSAzLjg1LjM3Yy41OC0uNC40NC0xLjE2LjEtMy4zM2MyLjYxOS0uMSA1LjIxOC0uMjMgNy4yNTgtLjEzYTUgNSAwIDAgMSAxLjI5LjA4Yy42Ni41LjY2IDQuMzQuNjcgNi40NGMwIC44Ni42OTkuODUuNzE5IDBjLjA2LTIgLjA5LTMuMjggMC00LjI3YTUuOCA1LjggMCAwIDAtLjMzLTIuNDFhMS4zNSAxLjM1IDAgMCAwLTEuMTEtLjgzOWMtMi4zMi0uNDItOS4xMDguMS05LjU4OC4xM2MtMS4xNS4xMi0zLjMyOSAxLjU5LTMuNjE5IDIuOTFjLS4xOS44Mi4zNyAzLjUxOS41NSA0LjUzOGEuMy4zIDAgMCAwIC41OS0uMDltMi41Ni02LjMxOGguMjVxLjA4NCAxLjE5IDAgMi4zOGE2LjM0IDYuMzQgMCAwIDEtMy4xOS0uMTRjLjEzLS45OSAyLjEzLTIuMiAyLjk0LTIuMjQiLz48cGF0aCBkPSJNMjMuNzk4IDIxLjM2OGExNS40IDE1LjQgMCAwIDAtMS4xOS0zLjI1OWMtMS4wNi0xLjgzLTEuMjctMy42OS0yLjgzLTQuOTk5bC4yMi0uMTFjLjY5IDEgMy4wOSAxLjE2IDMuNDgtLjA5YTEuOCAxLjggMCAwIDAgMC0uODRhNi42IDYuNiAwIDAgMSAuMDYtMS4xN2E2LjggNi44IDAgMCAwLS4zLTEuNjk5Yy0uMzEtLjc2LS45Mi0xLjE3LTIuMTQtMS4wNmMtLjc5LjA3LTEuNi4yOC0xLjYyIDEuMDdhOTEgOTEgMCAwIDAtOS40NzcgMGMtLjY3IDAtMS4zOS0uMDYtMi4wOS0uMDdzLTEuNjEuMTUtMy42ODkuMjJjLjEtLjkyLS42Mi0xLjE5LTEuNTUtMS4yOGExLjc3IDEuNzcgMCAwIDAtMi4xMjkgMS4wNWExMyAxMyAwIDAgMC0uMTkgMy44N2EuODMuODMgMCAwIDAgLjU1LjQ1OWEzIDMgMCAwIDAgMi40NS0uMzNxLjIxNi4xNDIuNDcuMmMtMS45NCAyLjQzLTIuNjMgNC44OTktMy40NSA3Ljc2OGMtLjMgMS0uNTEgMi4zNC41MSAyLjYzYzEuNDQuNDEgNS4xNjkuMTUgNy44MDguMTNjMi4yIDAgNS4zMDkuMjEgNy44MDguMTJjNS42OS0uMjQgNy44MTkuODQgNy4yOTktMi42MW0tMy43My0xMi4yMTdjLjA5LS4yOSAxLjQ5LS4yNiAxLjg3IDBzLjM0IDEuMS40MSAxLjUxYy40MiAyLjE3IDAgMi4zMS0xIDIuMjFhMiAyIDAgMCAxLS43MS0uMThjLS4xOC0uMDktLjE3IDAtLjItLjE5Yy42OS0uOTEuNTktMi43OC0uNDItMy4xNWEuOC44IDAgMCAxIC4wNS0uMm0tMTYuOTQ1IDEuNzZhMy45IDMuOSAwIDAgMC0uMTIgMS42M2EyIDIgMCAwIDEtMS43NCAwYy4yNi0zLjMyLjE0LTMuNTQgMS4zNS0zLjY1cy45My4yNSAxIC41MmMtLjQ5LjE4LS4zOSAxLjEzLS40OSAxLjVtLjY0IDEuNjZjLS4xOS0uMDctLjE3LS4zNS0uMTctLjU1cy4xNi0xLjkzLjE4LTJjMTEuNjM3LjE1IDEyLjk5Ni0uMTQgMTUuMjM2LjIyYy4xNSAwIC41NC4zMS42OC4yM2MuMDczLjMyOS4wNzMuNjcgMCAxYy0uMjYgMS4xNy0yLjIzLjg3LTMuODQgMWMtLjM4IDAtLjc3LjA2LTEuMTYuMDljLS4wOS0xLTEuNzc5LTIuNC0zLjUxOC0yLjA5YTMuMDkgMy4wOSAwIDAgMC0yLjU1IDIuMzdjLTEuNjIxLjIzLTMuMjczLjE0LTQuODU5LS4yN00xNCAxMi42Yy0xLjU1LjA2LTMuMTEuMDUtNC42NTkuMThjMC0uMTMuMzEtLjQ4Ljg0LS44YzEuNDctLjkxIDMuNTU5LS4xMyAzLjgxOS42Mm04LjkwOCA5Ljc5N2MtLjA3LjY5LjkzLjYtMTQuMjY3LjM0Yy0yLjU2LjA2LTYuMzY4LjM3LTcuNTQ4LjA4Yy0uMjMtLjA2IDAtMS4yNy4wOC0xLjVjLjcyLTIuODYgMS4zMi01LjM1OSAzLjI0LTcuNzk4YzEuNjQ5LjI5NiAzLjMzMS4zNiA0Ljk5OC4xOWMxLjUyLS4wOCAzIDAgNC41NTkgMGMuNTMgMCA0LjMzOS0uMTggNS4wNTktLjM1YTQuOCA0LjggMCAwIDEgMS4xNCAxLjMyYy42NyAxLjE1IDEgMi41MiAxLjY5IDMuODQ5cS4zOTEuODQ4LjY3OSAxLjc0Yy0zIC4zMy03LjYwOC0uMTgtMTEuMTg3LS4xOGE4NSA4NSAwIDAgMS04LjcwOC4xOGEuMy4zIDAgMCAwLS4wNi41OWMyLjkxMi4zMDIgNS44NC40MjUgOC43NjguMzdjMS42MSAwIDguNDY4LjMgMTEuMzg3LS4zMmMuMTUuNDgxLjIxOC45ODUuMiAxLjQ4OXoiLz48L2c+PC9zdmc+" alt=""><h3>小说片段</h3><p>短篇小说，或者长篇里能单独读的一章。请附一段一两百字的说明，交代前后发生了什么。</p><span>5000 字以内</span></article>
+      </div>
+    </div></section>
+
+    <section class="band" style="--bb:var(--parch)" id="submit-how"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer fsplit">
+      <div class="side"><span class="label">投稿流程</span><h2 class="t-h2">一篇稿子会这样走完全程</h2><p class="t-body">编辑组由三位志愿者轮流值班。收到稿子会先回一封确认信，一周内给出是否刊登的答复。没有入选的稿子，我们也会写几句读后的意见。</p>
+        <img class="sk fill-ill" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMy4xOCAyNCAxNy42NCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+PHBhdGggZmlsbD0iIzJCMzMyNiIgZD0iTTIzLjU3OCA1LjA5NmEyLjczIDIuNzMgMCAwIDAtLjcxLTEuNDNhNC4yIDQuMiAwIDAgMC0xLjYyLS4zNGE5OSA5OSAwIDAgMC0xMS44ODQuMDdjLTQuMDE4LjI2LTcuNjU3Ljc5LTguODA2IDEuNjFhMS4xMiAxLjEyIDAgMCAwLS4zNS42OGEyNiAyNiAwIDAgMC0uMiAzLjkxOGE5MyA5MyAwIDAgMCAuNSAxMC4wODVhLjMxLjMxIDAgMSAwIC42MS0uMTFjLS4xNS0uOTUtLjI5LTMuOTk4LS4zMS03LjEwNmE1NiA1NiAwIDAgMSAuMi02LjEwOGMxLjY0IDEuMSA0Ljg3OCAzLjI0OSA3LjUyNyA0LjY4OGwxLjQ1OS43MmMuNzg0LjQzIDEuNjQyLjcwNyAyLjUyOS44MmMuNDAzLS4wNjUuNzktLjIwOCAxLjE0LS40MnEuNDA3LS4yMTkuNzg5LS40OGwxLjQ0LTFjLjM0LS4yNS42NjktLjQ5Ljk5OS0uNzdhNDQuMyA0NC4zIDAgMCAwIDUuNDI4LTQuOTE3YzAgLjExLjA3LjI0LjEuMzhjLjI5IDEuNTY1LjQyOCAzLjE1NS40MSA0Ljc0OGE2NSA2NSAwIDAgMS0uMzYgOC4xNjZjMCAuMjItLjA3LjQ1LS4xLjU4aC0uNjljLTEuNzkuMTgtNS41OTguNDYtOS40NzYuN2MtNC4zODguMjctOC44NTYuNS0xMC41NTUuNTRhLjM1LjM1IDAgMCAwLS4zNS4zNDlhLjM2LjM2IDAgMCAwIC4zNi4zNWMyLjI2OSAwIDkuNDQ1LS4yOSAxNC44MjMtLjU4YzIuNTU5LS4xMyA0LjcwOC0uMjcgNS43MjgtLjM3Yy4yOTUtLjAxNi41ODUtLjA4Ljg2LS4xOWEuNi42IDAgMCAwIC4yMzktLjNjLjExLS4zMDMuMTgzLS42MTkuMjItLjk0Yy4zMzMtMi43NjUuNDktNS41NS40Ny04LjMzNWEyNiAyNiAwIDAgMC0uNDItNS4wMDhNMTcuMjUgOC4zNzRjLTEuMjMuOTItMi40OCAxLjc4LTMuNDM5IDIuMzZjLS40MS4zMDEtLjg3LjUyOC0xLjM2LjY2OWEzLjggMy44IDAgMCAxLTEuMjY5LS40Yy0uOS0uMzctMi4wNTktLjk0LTMuMjg4LTEuNTljLTIuNTUtMS4zMDktNS4zNjgtMi45MTgtNi43NTctMy43MjhjMS4xOC0uNjkgNC41NjgtMSA4LjI4Ni0xLjE5OWExMDYgMTA2IDAgMCAxIDExLjczNSAwaC42MmEzOSAzOSAwIDAgMS00LjUyOCAzLjg4OCIvPjxwYXRoIGZpbGw9IiMyQjMzMjYiIGQ9Ik0xNy42OCAxNC40MTJjLjM0LjMzLjY5LjY1IDEgLjk1YzEgLjkyOSAyIDEuNzM5IDIuNDU5IDIuMTg4YS4zNi4zNiAwIDAgMCAuNSAwYS4zNS4zNSAwIDAgMCAwLS41Yy0uNDMtLjUxLTEuMjMtMS40NTktMi4xOC0yLjQ4OHEtLjQ4LS41MS0uOTk5LTFjLS4zNC0uMzMtLjY5LS42Ni0xLTFzLS44MDktLjY4LTEuMTg5LTFjLS42OS0uNDY5LTEuMiAwLS43MS41OWMuMzQuMzcuNzEuNzggMS4xMiAxLjJzLjY2LjczIDEgMS4wNm0tMTMuMDg1LjkzOUE0MCA0MCAwIDAgMCAxLjY1OCAxOC42YS4zNTEuMzUxIDAgMCAwIC41My40NmMuNTktLjYgMS42ODktMS41MSAyLjg4OC0yLjU4Yy42My0uNTY5IDEuMjktMS4xNjkgMS45LTEuNzg5czEuNDE5LTEuNTE5IDEuOTk4LTIuMjA5Yy41OC0uNjktLjE0LTEtLjgyLS4zOWMtLjUxOS40Ni0xLjA3OS45NC0xLjY2OSAxLjQ3cy0xLjI3OSAxLjE5LTEuODg5IDEuNzkiLz48L3N2Zz4=" alt=""></div>
+      <div class="slip" aria-label="稿件流转单">
+        <div class="slip__head"><b>稿件流转单</b><span>莎士比亚的猫文学社 编辑组</span></div>
+        <ol>
+          <li><i></i><div><b>写好稿子</b><p>Word 文档或直接贴在邮件正文里，标题、署名、栏目写在最前面。</p></div><span>作者</span></li>
+          <li><i></i><div><b>发到投稿邮箱</b><p>邮件标题写「投稿 + 栏目 + 篇名」，例如「投稿 散文 外婆的腌菜坛」。</p></div><span>作者</span></li>
+          <li><i></i><div><b>确认收到</b><p>两三天内回一封确认信，告诉你稿子交给了哪位编辑。</p></div><span>编辑组</span></li>
+          <li><i></i><div><b>读稿与回信</b><p>一周内答复。入选的稿子可能会提出小的修改建议，改不改由你决定。</p></div><span>编辑组</span></li>
+          <li><i></i><div><b>刊登与朗读</b><p>刊登在网站和公众号，学期末的文学夜会邀请作者上台朗读。</p></div><span>双方</span></li>
+        </ol>
+        <span class="slip__seal">已刊登</span>
+      </div>
+    </div></section>
+
+    <section class="plain" id="submit-past"><div class="wrap">
+      <div class="shead"><div><span class="label">往期刊登</span><h2 class="t-h2" data-split>这些文字已经和大家见过面了</h2><p class="t-body">按刊登时间排列，这里放的是每篇的开头。完整的文章都发在公众号上，搜索篇名就能找到。</p></div></div>
+      <div class="mss" id="mss"></div>
+    </div></section>
+
+    <section class="plain" style="padding-top:0"><div class="wrap fsplit">
+      <div class="side"><span class="label">投稿须知</span><h2 class="t-h2">寄稿之前请读一读这几条</h2><p class="t-body">有拿不准的地方，在公众号留言问我们就好。</p></div>
+      <div class="acc">
+        <details open><summary>必须是原创吗？<i></i></summary><div class="ans">是的。请寄你自己写的、没有在其他公开平台发表过的文字。读后感里引用原书的句子没问题，注明出处、控制在几句以内就好。</div></details>
+        <details><summary>可以用笔名吗？<i></i></summary><div class="ans">可以。刊登时用你希望的署名，真实姓名只有编辑组知道，不会公开。</div></details>
+        <details><summary>版权归谁？<i></i></summary><div class="ans">版权始终属于作者。你只是授权文学社在网站、公众号和活动中非商业地使用这篇文字，随时可以要求撤下。</div></details>
+        <details><summary>有稿费吗？<i></i></summary><div class="ans">文学社是公益社群，暂时没有稿费。刊登的作者会收到一本文学社准备的书，学期末的文学夜也会请你朗读自己的作品。</div></details>
+        <details><summary>编辑会改我的稿子吗？<i></i></summary><div class="ans">只会改明显的错别字和标点。涉及内容的修改，都会先写信和你商量，你不同意就不改。</div></details>
+        <details><summary>未满 18 岁可以投稿吗？<i></i></summary><div class="ans">欢迎。请在邮件里附上家长或监护人的同意，刊登时只用笔名，不公开学校和照片。</div></details>
+      </div>
+    </div></section>
+
+    <section class="band dark" id="submit-send"><div class="wrap duo2">
+      <div class="lhs"><span class="label">投稿邮箱</span><h2 class="t-h2">把稿子寄到这里</h2></div>
+      <div class="rhs"><p class="t-body">邮件标题写「投稿 + 栏目 + 篇名」，正文里留一个方便联系的称呼。不用微信邮件的朋友，也可以在公众号后台留言「投稿」，编辑会把邮箱发给你。</p>
+        <div class="copy"><code id="mail2">submit@example.org</code><button type="button" data-copy="mail2">复制</button></div>
+        <p class="t-small">投稿邮箱为占位，正式上线前替换。</p></div>
+    </div></section>
+
+    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#archive">往期活动</a></li><li><a href="#join">加入我们</a></li><li><a href="#about-modules">五个活动模块</a></li></ul></div></div></section>
+  </div>
+</div>
+
 <!-- ================= 隐私说明 PRIVACY ================= -->
 <div class="page" data-page="privacy">
   <section class="hxs" data-intro><div class="hxs__bg" data-intro-bg><svg class="waves" data-wave="xs" data-seed="6" aria-hidden="true"></svg></div>
@@ -1658,9 +1977,9 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
     <div class="ft__wx"><div class="qr" aria-label="公众号二维码占位"></div><p class="t-body">关注公众号<br>了解每场活动</p></div>
   </div>
   <nav class="wrap ft__nav" aria-label="页脚导航">
-    <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
+    <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#submit"><span>书友投稿</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v16，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v17，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -1776,25 +2095,6 @@ const BOOKS=[
   ['eergu','额尔古纳河右岸','迟子建','2026 秋 · 11 月 28 日','一个人讲完一个民族的百年。','#5B4A2E']];
 $('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,noSlip:true,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
-const TERMS=[
-  {id:'t3',tf:'#C9DEE3',books:['hulanhe','eergu'],name:'2026 年第三学期',theme:'故乡与远方',intro:'进行中。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后补充回顾与照片。',kv:[['书目','《呼兰河传》《额尔古纳河右岸》'],['活动','6 场，全部免费'],['状态','进行中']],list:EV.map(e=>[fmt(e.d),e.type,e.title])},
-  {id:'t2',tf:'#E7CFC4',books:['qingcheng','jinsuo'],name:'2026 年第二学期',theme:'张爱玲的城',intro:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题是：白流苏到底赢了没有。',kv:[['书目','《倾城之恋》《金锁记》'],['活动','4 场，含首场线上讲座'],['人次','约 120 人次（示例）']],list:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']]},
-  {id:'t1',tf:'#E9DCB5',books:['huozhe','xusan'],name:'2026 年第一学期',theme:'从人物出发',intro:'第一次以学期为单位读书。两本余华，从福贵读到许三观，很多人说第一次在读书会上哭。',kv:[['书目','《活着》《许三观卖血记》'],['活动','4 场'],['人次','约 80 人次（示例）']],list:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']]},
-  {id:'t0',tf:'#C6CBA8',books:['biancheng'],name:'2025 年 · 创社',theme:'一张长桌',intro:'从几位朋友在家里读《边城》开始，后来有了微信群、公众号和这个名字。',kv:[['书目','《边城》'],['活动','2 场'],['地点','成员家中']],list:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']]}];
-const TYPES=['全部','线下读书会','文学夜','线上讨论','嘉宾讲座'];
-const bkOf=c=>(BOOKS.find(b=>b[0]===c)||[])[5]||'#2B3326';
-$('#terms').innerHTML=TERMS.map(t=>`<article class="tfeat" id="${t.id}" style="--tf:${t.tf}"><div class="tfeat__books">${t.books.map(c=>{const b=BOOKS.find(x=>x[0]===c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div><div class="tfeat__txt"><span class="chip">${t.name}</span><h2 class="t-h2">「${t.theme}」</h2><p class="t-body">${t.intro}</p><dl class="kv">${t.kv.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl><div class="list">${t.list.map(l=>`<div class="r" data-type="${l[1]}"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div></article>`).join('');
-$('#filters').innerHTML=TYPES.map((t,i)=>`<button type="button" aria-pressed="${i===0}" data-f="${t}">${t}</button>`).join('');
-$('#filters').addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;$$('#filters button').forEach(x=>x.setAttribute('aria-pressed',x===b));const f=b.dataset.f;
-  $$('#terms .r').forEach(r=>r.hidden=f!=='全部'&&r.dataset.type!==f);
-  $$('#terms .tfeat').forEach(t=>t.hidden=f!=='全部'&&!$$('.r',t).some(r=>!r.hidden));
-  if(ST)ScrollTrigger.refresh();});
-
-const GEN=[['中文原著','huozhe','qingcheng','biancheng','hulanhe'],['世界译作','bainian','bianxing','juwai','xueguo'],['莎士比亚','hamlet','macbeth','tempest','sonnets'],['诗歌与散文','ditan','feiniao','beiying','walden'],['科幻与推理','santi','baiye','dune','gudu'],['历史与非虚构','wanli','jiangcheng','juliu','renlei']];
-$('#glist').innerHTML=GEN.map((g,i)=>`<li data-i="${i}">${g[0]}</li>`).join('');
-/* preload every cover once so the hover never waits on the network */
-[...new Set(GEN.flatMap(g=>g.slice(1)))].forEach(c=>{const i=new Image();i.src=CV(c);});
-
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
 /* covers appear beside the list (never on top of the words), swing in, drift a little with the pointer */
 function sideCovers(sec,list,items,getCovers){
@@ -1816,7 +2116,6 @@ function sideCovers(sec,list,items,getCovers){
   sec.addEventListener('pointermove',e=>{if(cur<0)return;const r=sec.getBoundingClientRect(),dx=(e.clientX-r.left)/r.width-.5,dy=(e.clientY-r.top)/r.height-.5;covs.forEach((c,k)=>{px[k](dx*(8+k*3));py[k](dy*(6+k*2));});});
   list.addEventListener('pointerleave',()=>{cur=-1;sec.dataset.active='false';$$(items,list).forEach(x=>x.classList.remove('on'));
     covs.forEach((c,k)=>{gsap.killTweensOf(c,'opacity,scale');gsap.to(c,{opacity:0,scale:.8,duration:.4,delay:k*.03,ease:'power2.in'});$('img',c).dataset.src='';});});}
-sideCovers($('#genre'),$('#glist'),'li',i=>GEN[i].slice(1));
 
 /* manifesto phrases */
 $$('[data-manifesto]').forEach(m=>{m.innerHTML=m.textContent.split(/(?<=[，。、])/).map(t=>`<span class="ph${RM?'':' dim'}">${t}</span>`).join('');});
@@ -1933,14 +2232,15 @@ if(lenis)lenis.on('scroll',sweepHover);addEventListener('scroll',sweepHover,{pas
 document.addEventListener('pointerleave',()=>HOV.forEach(o=>o.close()));
 
 /* 3D books: turn toward the pointer (spine side stays visible), lift; books that carry a reading slip raise it */
-$$('[data-book]').forEach(b=>{const inn=$('.book__in',b),slip=$('.book__slip',b),sh=$('.book__shadow',b);
+function bindBook(b){if(b.dataset.bk3)return;b.dataset.bk3=1;const inn=$('.book__in',b),slip=$('.book__slip',b),sh=$('.book__shadow',b);
   if(!MOTION)return;
   gsap.set(inn,{rotationY:28,rotationX:4});if(!FINE)return;
   const ry=gsap.quickTo(inn,'rotationY',{duration:1,ease:'power3'}),rx=gsap.quickTo(inn,'rotationX',{duration:1,ease:'power3'});
   const tl=gsap.timeline({paused:true}).to(b,{y:-12,duration:.6,ease:'power3.out'},0).to(sh,{scaleX:.85,opacity:.6,duration:.6},0);
   if(slip&&!b.closest('.realshelf'))tl.fromTo(slip,{yPercent:0},{yPercent:-52,duration:.7,ease:'back.out(1.3)'},.05);
   hoverTL(b,tl,{onLeave:()=>{ry(28);rx(4);}});
-  if(FINE)b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(18+(1-px)*22);rx(6-(py-.5)*12);});});
+  if(FINE)b.addEventListener('pointermove',e=>{const r=b.getBoundingClientRect(),px=(e.clientX-r.left)/r.width,py=(e.clientY-r.top)/r.height;ry(18+(1-px)*22);rx(6-(py-.5)*12);});}
+$$('[data-book]').forEach(bindBook);
 
 /* postmarks drawn in the same round brush line as the stamp icons */
 $$('.stamp__pm').forEach((pm,i)=>{const t=pm.textContent.trim();const pts=[];for(let k=0;k<=40;k++){const a=k/40*Math.PI*2,r=17+Math.sin(a*3+i)*.5+Math.cos(a*5+i*2)*.4;pts.push((22+Math.cos(a)*r).toFixed(1)+' '+(22+Math.sin(a)*r).toFixed(1));}
@@ -2007,6 +2307,93 @@ const HIST=[
   bs.forEach((b,i)=>b.addEventListener('click',()=>show(i,true)));$('#tlPrev').onclick=()=>show(ti-1,true);$('#tlNext').onclick=()=>show(ti+1,true);
   addEventListener('resize',paint);show(ti,false);
   window.__tlPaint=paint;})();
+
+
+/* ---------- 往期活动：学期索引 + 统一的学期档案模板 ----------
+   每个学期只填一份 TERMS 数据，页面按同一个模板渲染，内容再多也只显示当前选中的那个学期。 */
+const TERMS=[
+  {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'10 月 5 日至 12 月 13 日',now:true,books:['hulanhe','eergu'],
+   stat:[['6','场活动'],['进行中','学期状态'],['2','本书']],
+   recap:'这个学期还在进行。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后，内容组会把回顾、讨论记录和照片补进这里。',
+   qs:['萧红为什么把悲凉写得这么亮？','我们自己的故乡，又在怎样消失？'],
+   ev:EV.map(e=>[fmt(e.d),e.type,e.title]),photos:['十月的读书会','春夜朗读','学期末写作分享']},
+  {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'4 月 25 日至 6 月 27 日',books:['qingcheng','jinsuo'],
+   stat:[['4','场活动'],['约 120','人次参加'],['31','位新朋友']],
+   recap:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题，是白流苏到底赢了没有；读《金锁记》那天，有位书友说曹七巧让她想起了自己的外婆，屋子里安静了很久。',
+   qs:['白流苏到底赢了没有？','曹七巧的那副金锁，锁住的是谁？','张爱玲笔下的城市，为什么总像一座戏台？'],
+   ev:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']],
+   photos:['第一场线上讲座','冬夜朗读','《金锁记》读书会']},
+  {id:'t1',y:2026,n:'第一学期',theme:'从人物出发',range:'2 月 14 日至 4 月 18 日',books:['huozhe','xusan'],
+   stat:[['4','场活动'],['约 80','人次参加'],['24','位新朋友']],
+   recap:'第一次以学期为单位读书，也是读书会搬进 Nunawading Community Hub 的第一个学期。两本余华，从福贵读到许三观。很多人说，这是他们第一次在读书会上哭，也是第一次在读书会上笑出声。',
+   qs:['福贵为什么还能活下去？','许三观卖血，卖掉的是什么？'],
+   ev:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']],
+   photos:['搬进新场地','开学书单交换','《活着》读书会']},
+  {id:'t0',y:2025,n:'创社学期',theme:'一张长桌',range:'2025 年 9 月至 12 月',books:['biancheng'],
+   stat:[['2','场活动'],['约 30','人次参加'],['7','位创社书友']],
+   recap:'从几位朋友在客厅里读《边城》开始。那天椅子不够，有人坐在地毯上，一直聊到天黑。后来有了微信群、公众号和「莎士比亚的猫」这个名字，年底办了第一次公开朗读会。',
+   qs:['翠翠在等的，究竟是一个人还是一种生活？'],
+   ev:[['2025 秋','线下读书会','《边城》'],['2025 冬','文学夜','第一次公开朗读会']],
+   photos:['客厅里的第一次','第一次公开朗读会','创社合影']}];
+(function(){const idx=$('#tindex'),sh=$('#tsheet');if(!idx||!sh)return;
+  const years=[...new Set(TERMS.map(t=>t.y))];
+  idx.innerHTML=years.map(y=>`<div class="tindex__yr"><b>${y}</b><div>${TERMS.filter(t=>t.y===y).map(t=>`<button type="button" data-t="${t.id}" aria-pressed="false">${t.n}${t.now?'<small>进行中</small>':''}</button>`).join('')}</div></div>`).join('');
+  const bk=c=>BOOKS.find(x=>x[0]===c);
+  const tpl=t=>{const i=TERMS.indexOf(t),newer=TERMS[i-1],older=TERMS[i+1];return `
+    <header class="ts__head"><div class="stack"><span class="label">${t.y} 年${t.n}</span><h3 class="t-h2">「${t.theme}」</h3><p class="t-small">${t.range}</p></div>
+      <ul class="ts__stat">${t.stat.map(([a,b])=>`<li><b>${a}</b><span>${b}</span></li>`).join('')}</ul></header>
+    <div class="ts__body">
+      <div class="ts__books">${t.books.map(c=>{const b=bk(c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div>
+      <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>讨论里留下的问题</h4><ul class="qs">${t.qs.map(q=>`<li>${q}</li>`).join('')}</ul></div>
+    </div>
+    <div class="ts__ev"><h4>活动记录</h4><div class="list">${t.ev.map(l=>`<div class="r"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div>
+    <div class="ts__ph">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__nav">${older?`<button type="button" class="ts__go" data-t="${older.id}">← ${older.y} 年${older.n}</button>`:'<span></span>'}${t.now?'<a class="ts__go" href="#events">去看本学期安排 →</a>':newer?`<button type="button" class="ts__go" data-t="${newer.id}">${newer.y} 年${newer.n} →</button>`:''}</div>
+    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。</p>`;};
+  let cur=null;
+  const show=(id,anim)=>{const t=TERMS.find(x=>x.id===id);if(!t||t===cur)return;cur=t;
+    $$('button',idx).forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===id));
+    const put=()=>{sh.innerHTML=tpl(t);$$('[data-book]',sh).forEach(bindBook);if(ST)ScrollTrigger.refresh();};
+    if(!anim||!MOTION){put();return;}
+    gsap.to(sh,{opacity:0,y:-16,duration:.25,ease:'power2.in',onComplete:()=>{put();gsap.fromTo(sh,{opacity:0,y:24},{opacity:1,y:0,duration:.6,ease:EN});
+      gsap.fromTo($$('.ts__books .book, .ts__photo',sh),{y:40,opacity:0},{y:0,opacity:1,duration:.7,stagger:.06,ease:'back.out(1.4)',delay:.1});}});};
+  const jump=id=>{show(id,true);const top=$('#archive-terms');if(top&&top.getBoundingClientRect().top<0){const y=top.getBoundingClientRect().top+scrollY-90;lenis?lenis.scrollTo(y,{duration:.9}):window.scrollTo({top:y,behavior:'smooth'});}};
+  idx.addEventListener('click',e=>{const b=e.target.closest('button[data-t]');if(b)show(b.dataset.t,true);});
+  sh.addEventListener('click',e=>{const b=e.target.closest('button[data-t]');if(b)jump(b.dataset.t);});
+  show('t2',false);})();
+
+/* ---------- 关于我们：五个活动模块，书脊式展开 ---------- */
+(function(){const box=$('#spines');if(!box)return;const sps=$$('.sp',box);
+  const open=sp=>{sps.forEach(x=>{const on=x===sp;x.dataset.open=String(on);$('.sp__tab',x).setAttribute('aria-expanded',on);});
+    if(MOTION){gsap.fromTo($$('.sp__txt > *, .sp__ic',sp),{opacity:0,y:18},{opacity:1,y:0,duration:.55,stagger:.05,delay:.25,ease:EN});}
+    if(ST)setTimeout(()=>ScrollTrigger.refresh(),700);};
+  sps.forEach(sp=>$('.sp__tab',sp).addEventListener('click',()=>{if(sp.dataset.open==='true'&&DESK())return;open(sp.dataset.open==='true'?null:sp);}));})();
+
+/* ---------- 稿纸：把文字排进方格稿纸，一格一个字 ---------- */
+function msGrid(el,cols,rows){const P='，。、；：？！」』）》';const cells=[];
+  /* 稿纸的规矩：标点不放在行首，挤进上一行最后一格 */
+  [...('　　'+el.dataset.ms)].forEach(ch=>{if(P.includes(ch)&&cells.length&&cells.length%cols===0)cells[cells.length-1]+=ch;else cells.push(ch);});
+  const n=cols*rows;el.style.setProperty('--cols',cols);
+  el.innerHTML=Array.from({length:n},(_,i)=>{const c=cells[i]&&cells[i]!=='　'?cells[i]:'';return `<span${c.length>1?' class="sq"':''}>${c}</span>`;}).join('');}
+$$('.mspaper .ms').forEach(el=>{const big=el.closest('.big'),m=!DESK();msGrid(el,m?12:big?16:14,m?(big?11:9):(big?9:7));});
+const PIECES=[
+  ['外婆的腌菜坛','林间','散文','2026 年第三学期','外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒。'],
+  ['白流苏的那一局','阿梓','读后感','2026 年第二学期','读到最后一页，我一直在想白流苏是不是赢了。一座城的陷落成全了她，可她要的到底是什么？'],
+  ['冬至在墨尔本','老秦','散文','2026 年第二学期','墨尔本的冬至在六月，菜市场里没有卖汤圆的。我们几个人凑在一起，用糯米粉和黑芝麻包了一锅。'],
+  ['渡口','小舟','诗','2026 年第一学期','翠翠站在河边，等一个不说归期的人。一百年后我在南半球，也学会了把渡口留着。'],
+  ['福贵的牛','周周','读后感','2026 年第一学期','福贵给老牛也取名叫福贵。读到这里我笑了一下，接着就说不出地难过。'],
+  ['地铁上的萧红','南方','小说片段','2026 年第三学期','她在弗林德斯街站换车的时候，书包里那本《呼兰河传》掉了出来，正好翻在祖父那一页。']];
+(function(){const box=$('#mss');if(!box)return;
+  box.innerHTML=PIECES.map(([t,a,k,w,x],i)=>`<article class="mscard" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="mspaper"><div class="ms" data-ms="${x}"></div></div><div class="mscard__meta"><span class="chip">${k}</span><h3>《${t}》</h3><p>${a} · ${w}</p></div></article>`).join('');
+  $$('.ms',box).forEach(el=>msGrid(el,12,4));})();
+$$('.mscard').forEach(c=>{const r=rOf(c);if(MOTION){c.style.rotate='0deg';gsap.set(c,{rotation:r});}if(!MOTION||!FINE)return;
+  hoverTL(c,gsap.timeline({paused:true}).to(c,{rotation:0,y:-10,scale:1.03,duration:.5,ease:'power3.out'}),{speed:1.3});});
+$$('.voice').forEach(v=>{const r=adoptRotation(v);if(!MOTION||!FINE)return;
+  hoverTL(v,gsap.timeline({paused:true}).to(v,{rotation:0,y:-10,duration:.5,ease:'power3.out'}),{speed:1.3});});
+$$('.mspaper[style*="--r"]').forEach(m=>{if(m.closest('.mscard'))return;adoptRotation(m);});
+
+/* copy buttons (投稿邮箱) */
+$$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const el=document.getElementById(b.dataset.copy);try{await navigator.clipboard.writeText(el.textContent);b.textContent='已复制';}catch(_){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='已选中，请手动复制';}setTimeout(()=>b.textContent='复制',1800);}));
 
 /* The sleeping cat, alive in place: tools/cat_rig.py cuts the still into body, head, two ears and the tail, plus a
    strip of head frames for a yawn (assets/js/cat-rig.js). A canvas puts them back together every frame: the body
@@ -2089,16 +2476,15 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     $$('[data-split]',page).forEach(h=>{const ch=splitChars(h);gsap.fromTo(ch,{yPercent:30,opacity:0},{yPercent:0,opacity:1,duration:.7,stagger:.04,ease:EN,scrollTrigger:{trigger:h,start:'top 88%',once:true}});});
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
-    [['.icards','.icard'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
-    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more',page).forEach(el=>rise([el],el));
-    $$('.stats b[data-count]',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
+    [['.icards','.icard'],['.ideas','li'],['.voices','.voice'],['.cuts','li'],['.cols','.col4'],['.figs','li'],['.mss','.mscard'],['.slants','.slant'],['.slip ol','li'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
+    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more,.spines,.dossier,.tindex,.feature,.tease',page).forEach(el=>rise([el],el));
+    $$('.stats b[data-count],.figs b',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}
 function home(page){
   const bind=!page.dataset.bound;page.dataset.bound=1;
   rise($$('#termTrack .ecard'),'#termTrack');
   linkScene();
-  rise($$('#glist li'),'#glist');
   gsap.to('#globeBox',{yPercent:8,ease:'none',scrollTrigger:{trigger:'.hero',start:'top top',end:'bottom top',scrub:true}});
 }
 /* accordions (all pages) */
@@ -2128,7 +2514,7 @@ mb.onclick=()=>setMenu(true);$('#menuX').onclick=()=>setMenu(false);addEventList
 
 /* page transition */
 const trPath=$('#trPath'),trLogo=$('#trLogo');
-const routes=['home','about','events','archive','join','partner','privacy'];let cur=null,busy=false;
+const routes=['home','about','events','archive','submit','join','partner','privacy'];let cur=null,busy=false;
 function showPage(r){$$('.page').forEach(p=>p.classList.toggle('on',p.dataset.page===r));cur=r;
   $$('#nav [data-r]').forEach(a=>a.dataset.r===r&&!a.classList.contains('btn')?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   const page=$(`[data-page="${r}"]`);
