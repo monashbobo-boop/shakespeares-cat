@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=16">
+<link rel="stylesheet" href="assets/css/style.css?v=17">
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
 <body>
@@ -27,6 +27,7 @@
       <li><a class="pill" href="#about" data-r="about"><span>关于我们</span></a></li>
       <li><a class="pill" href="#events" data-r="events"><span>本学期活动</span></a></li>
       <li><a class="pill" href="#archive" data-r="archive"><span>往期活动</span></a></li>
+      <li><a class="pill" href="#submit" data-r="submit"><span>书友投稿</span></a></li>
       <li><a class="pill" href="#join" data-r="join"><span>加入我们</span></a></li>
       <li><a class="btn" href="#partner" data-r="partner" data-btn><span class="bt"><span>合作与联系</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></li>
     </ul>
@@ -41,6 +42,7 @@
       <li><a class="pill" href="#about"><span>关于我们</span></a></li>
       <li><a class="pill" href="#events"><span>本学期活动</span></a></li>
       <li><a class="pill" href="#archive"><span>往期活动</span></a></li>
+      <li><a class="pill" href="#submit"><span>书友投稿</span></a></li>
       <li><a class="pill" href="#join"><span>加入我们</span></a></li>
       <li><a class="pill" href="#partner"><span>合作与联系</span></a></li>
     </ul>
@@ -65,6 +67,19 @@
       <div class="hero__globe" id="globeBox" data-intro-visual role="img" aria-label="一颗转动的地球，虚线从墨尔本连向世界各地"><canvas id="globe"></canvas></div>
     </div>
   </section>
+
+  <section class="plain who" id="home-who"><div class="wrap">
+    <div class="who__head">
+      <h2 class="t-h2" data-split>莎士比亚的猫文学社</h2>
+      <p class="t-body">2025 年秋天，几位住在墨尔本的读书人在客厅里读完了沈从文的《边城》。后来来的人越来越多，有了名字，有了固定的长桌。我们是一个公益的中文文学社群，按学期一起读书，办读书会、文学夜和线上讲座，欢迎每一位愿意坐下来读一读、聊一聊的人。</p>
+    </div>
+    <ol class="ideas">
+      <li><img class="sk" src="assets/img/sketch/reader.svg" alt=""><b>以读者为中心</b><p>选书和讨论都从读者出发。没有考试，没有标准答案，第一次来的人和读了几十年书的人坐在同一张桌前。</p></li>
+      <li><img class="sk" src="assets/img/sketch/lamp.svg" alt=""><b>有温度也有深度</b><p>气氛可以轻松，讨论不会敷衍。主持人提前备好问题，陪大家从「好看」聊到「为什么好看」。</p></li>
+      <li><img class="sk" src="assets/img/sketch/laptop.svg" alt=""><b>积极探索 AI 与阅读</b><p>试着用新工具整理笔记、对照译本、练习写作。工具会变，面对面说话的那份认真不变。</p></li>
+    </ol>
+    <div class="center-cta" style="margin-top:4.5em"><a class="btn" href="#about" data-btn><span class="bt"><span>了解我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div>
+  </div></section>
 
   <section class="sec">
     <div class="wrap">
@@ -107,12 +122,6 @@
     </div></div>
   </section>
 
-  <section class="genre sec" id="genre">
-    <div class="wrap head"><h2 class="t-h2" data-split>我们都读些什么</h2><p class="t-body">以中文原著为主，也读世界各地的译作。<span class="hint">把鼠标移到类别上，看看读过和想读的书。</span></p></div>
-    <ul class="glist" id="glist"></ul>
-    <div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div><div class="fcov" data-gc><img alt=""></div>
-  </section>
-
   <section class="sec">
     <div class="wrap">
       <div class="head"><h2 class="t-h2" data-split>我们还在筹备两个新项目</h2><p class="t-body">让阅读走向更多年纪的人。</p></div>
@@ -126,6 +135,20 @@
       </div>
     </div>
   </section>
+
+  <section class="band" style="--bb:var(--rose)"><div class="wrap split2 tease">
+    <figure class="mspaper" style="--r:-3deg" aria-label="书友来稿《外婆的腌菜坛》开头">
+      <div class="ms" data-ms="外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒，说坛子也要换口气。我到墨尔本的第三年，在超市里看见一只差不多的坛子，站了很久，没有买。"></div>
+      <figcaption>书友 林间 · 散文</figcaption>
+    </figure>
+    <div class="stack">
+      <span class="label">书友投稿</span>
+      <h2 class="t-h2" data-split>读完了也可以写下来</h2>
+      <p class="t-body">读后感、散文、诗、小说的片段，只要是你自己写的，都欢迎寄给我们。每学期挑选几篇，刊登在网站和公众号上，也会在文学夜里请作者读给大家听。</p>
+      <p class="t-small">投稿不收费，也不设门槛。第一次写东西的人，同样欢迎。</p>
+      <a class="btn" href="#submit" data-btn><span class="bt"><span>看看怎么投稿</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+    </div>
+  </div></section>
 
   <section class="panel sec">
     <svg class="waves" data-wave="panel2" aria-hidden="true"></svg>
@@ -196,15 +219,30 @@
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--w1)" id="about-term"><div class="wrap">
-      <div class="head"><span class="label">阅读方式</span><h2 class="t-h2" data-split>一个学期大概这样安排</h2><p class="t-body">从定下主题到写进档案，大约十周。每一步都像寄出一封信。</p></div>
-      <ol class="stamps">
-        <li class="stamp"><div class="stamp__face" style="--r:-3deg"><div class="stamp__in" style="--sc:#E9DCB5"><em>壹</em><img class="sk stamp__ic" src="assets/img/sketch/calendar.svg" alt=""><small>第一周</small></div></div><span class="stamp__pm">定主题</span><b>定主题</b><p>开学前两周，公众号公布主题和书单。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:2deg"><div class="stamp__in" style="--sc:#C6CBA8"><em>贰</em><img class="sk stamp__ic" src="assets/img/sketch/signup.svg" alt=""><small>第二周</small></div></div><span class="stamp__pm">已报名</span><b>报名</b><p>每场单独报名，线下名额满了开候补。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:-1.5deg"><div class="stamp__in" style="--sc:#C9DEE3"><em>叁</em><img class="sk stamp__ic" src="assets/img/sketch/book.svg" alt=""><small>三至八周</small></div></div><span class="stamp__pm">共读中</span><b>共读</b><p>群里按周推进度，读到哪里都能聊。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:3deg"><div class="stamp__in" style="--sc:#E7CFC4"><em>肆</em><img class="sk stamp__ic" src="assets/img/sketch/chat.svg" alt=""><small>每两周</small></div></div><span class="stamp__pm">讨论</span><b>讨论</b><p>读书会、文学夜、讲座轮流来。</p></li>
-        <li class="stamp"><div class="stamp__face" style="--r:-2.5deg"><div class="stamp__in" style="--sc:#DEDAC1"><em>伍</em><img class="sk stamp__ic" src="assets/img/sketch/quill.svg" alt=""><small>第十周</small></div></div><span class="stamp__pm">已归档</span><b>记录</b><p>学期末写成回顾，放进往期档案。</p></li>
-      </ol>
+    <section class="band" style="--bb:var(--w1)" id="about-modules"><div class="wrap">
+      <div class="shead"><div><span class="label">活动模块和形式</span><h2 class="t-h2" data-split>文学社的活动分成五个模块</h2><p class="t-body">三个模块每学期都在进行，两个还在筹备。点开一本书脊，看看它是做什么的、多久一次、在哪里办。</p></div></div>
+      <div class="spines" id="spines">
+        <article class="sp" style="--sc:#F0CF72" data-open="true"><button class="sp__tab" type="button" aria-expanded="true"><em>壹</em><b>文学夜</b><small>每学期两次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>文学夜</h3><p class="t-body">晚上的轻松聚会，是认识文学社最容易的入口。每人带一段喜欢的文字，诗、小说、歌词、家书都可以，朗读三分钟，再说说为什么选它。学期末的文学夜会换成写作分享，大家把这学期写下的短文读出来。</p>
+            <dl class="kv"><dt>形式</dt><dd>朗读、闲谈、交换书单</dd><dt>时长</dt><dd>约 2 小时，周六晚上</dd><dt>人数</dt><dd>15 至 25 人</dd><dt>地点</dt><dd>墨尔本东区的社区空间</dd></dl></div>
+            <img class="sk sp__ic" src="assets/img/sketch/night.svg" alt=""></div></article>
+        <article class="sp" style="--sc:#B5C48F"><button class="sp__tab" type="button" aria-expanded="false"><em>贰</em><b>线下读书会</b><small>每学期三次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>线下读书会</h3><p class="t-body">文学社最核心的活动。每学期精读两本书，长一点的分两次读完。主持人先做十分钟导读，然后分成五六个人的小组，围绕三个问题讨论，最后回到大组交换看法。部分场次改在线上，方便住得远的书友。</p>
+            <dl class="kv"><dt>形式</dt><dd>导读、分组讨论、大组分享</dd><dt>时长</dt><dd>约 2.5 小时，周六下午</dd><dt>人数</dt><dd>10 至 20 人</dd><dt>地点</dt><dd>Nunawading Community Hub</dd></dl></div>
+            <img class="sk sp__ic" src="assets/img/sketch/book.svg" alt=""></div></article>
+        <article class="sp" style="--sc:#A9D0DB"><button class="sp__tab" type="button" aria-expanded="false"><em>叁</em><b>嘉宾讲座</b><small>每学期一次</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>嘉宾讲座</h3><p class="t-body">请作家、译者和研究文学的学者，聊一本书、一位作家，或者写作这件事本身。讲座都在线上，免费向公众开放，悉尼、布里斯班和国内的朋友也能来听。讲座录音征得嘉宾同意后，会整理成文字放进往期档案。</p>
+            <dl class="kv"><dt>形式</dt><dd>主讲 60 分钟，问答 30 分钟</dd><dt>时长</dt><dd>约 1.5 小时，周日晚上</dd><dt>人数</dt><dd>不限</dd><dt>地点</dt><dd>Zoom</dd></dl></div>
+            <img class="sk sp__ic" src="assets/img/sketch/podium.svg" alt=""></div></article>
+        <article class="sp" style="--sc:#E7CFC4"><button class="sp__tab" type="button" aria-expanded="false"><em>肆</em><b>青少年阅读推广</b><small>筹备中</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>青少年阅读推广</h3><p class="t-body">面向在澳洲长大的孩子、他们的家长和中文老师。我们想做分级书单、亲子共读和小读者的读书会，让孩子读中文书时不只是为了考试，也能读出乐趣。目前正在和几所中文学校聊合作。</p>
+            <dl class="kv"><dt>对象</dt><dd>儿童、青少年、家长和老师</dd><dt>形式</dt><dd>亲子共读、分级书单、小读者读书会</dd><dt>进度</dt><dd>筹备中，欢迎有经验的志愿者</dd></dl></div>
+            <img class="sk sp__ic" src="assets/img/sketch/school.svg" alt=""></div></article>
+        <article class="sp" style="--sc:#C6CBA8"><button class="sp__tab" type="button" aria-expanded="false"><em>伍</em><b>长者阅读推广</b><small>筹备中</small></button>
+          <div class="sp__body"><div class="sp__txt"><h3>长者阅读推广</h3><p class="t-body">面向来澳洲生活或探亲的长辈。白天的小组聚会，大字版的读物，有人领读的朗读会，书里的故事常常会引出他们自己的故事。我们希望在社区中心和长者活动室里，找到适合他们的读书方式。</p>
+            <dl class="kv"><dt>对象</dt><dd>老年读者</dd><dt>形式</dt><dd>白天小组、大字读物、领读朗读会</dd><dt>进度</dt><dd>筹备中，正在寻找合适的场地</dd></dl></div>
+            <img class="sk sp__ic" src="assets/img/sketch/together.svg" alt=""></div></article>
+      </div>
     </div></section>
 
     <section class="plain" id="about-history"><div class="wrap">
@@ -217,10 +255,32 @@
       </div>
     </div></section>
 
-    <section class="band dark"><div class="wrap duo2">
-      <div class="lhs"><span class="label">公益与组织</span><h2 class="t-h2">我们是公益社群</h2></div>
-      <div class="rhs"><p class="t-body">文学社是非营利的公益社群，活动由志愿者组织，以免费为主。偶尔需要分摊场地或茶点费用时，会在报名时提前说明。</p><p class="t-body">组织注册正在筹备中。感谢 Nunawading Community Hub 长期为读书会提供场地。</p>
-        <div class="btns" style="justify-content:flex-start"><a class="btn lt" href="#join" data-btn><span class="bt"><span>加入我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div></div>
+    <section class="band dark" id="about-org"><div class="wrap">
+      <div class="duo2 org">
+        <div class="lhs"><span class="label">公益性质与组织情况</span><h2 class="t-h2">我们是一个公益社群</h2>
+          <p class="t-body">文学社不以营利为目的，所有活动由志愿者组织。读书会、文学夜和讲座以免费为主，偶尔需要分摊场地或茶点费用时，会在报名时写清楚每一笔用在哪里。</p>
+          <p class="t-body">感谢 Nunawading Community Hub 长期为读书会提供场地，也感谢每一位带着书和问题来的书友。</p>
+          <div class="btns" style="justify-content:flex-start"><a class="btn lt" href="#join" data-btn><span class="bt"><span>加入我们</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a></div></div>
+        <div class="rhs">
+          <div class="slants">
+            <div class="slant" style="--sl:#E9DCB5"><b>0 元</b><span>大部分活动的参与费用</span></div>
+            <div class="slant" style="--sl:#B5C48F"><b>100%</b><span>由志愿者组织和运营</span></div>
+            <div class="slant" style="--sl:#E7CFC4"><b>3 城</b><span>墨尔本、悉尼、布里斯班的读者都来过</span></div>
+          </div>
+          <div class="dossier">
+            <div class="dossier__tab">组织档案</div>
+            <dl>
+              <dt>组织性质</dt><dd>非营利的公益文学社群</dd>
+              <dt>所在地</dt><dd>墨尔本，维多利亚州</dd>
+              <dt>运营方式</dt><dd>志愿者协作，按活动组、内容组、宣传组、技术组分工</dd>
+              <dt>组织架构</dt><dd class="tbd">11 月 15 日后公布</dd>
+              <dt>官方注册信息</dt><dd class="tbd">11 月 15 日后公布</dd>
+            </dl>
+            <span class="dossier__stamp">待公布</span>
+            <p class="t-small">组织架构和注册名称、编号确定后，会在这里和公众号同时发布。</p>
+          </div>
+        </div>
+      </div>
     </div></section>
 
     <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">本学期活动</a></li><li><a href="#archive">往期活动</a></li><li><a href="#join">加入我们</a></li><li><a href="#join-faq">常见问题</a></li><li><a href="#partner">合作与联系</a></li></ul></div></div></section>
@@ -300,7 +360,7 @@
       </div>
     </div></section>
 
-    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#archive">往期读过的书</a></li><li><a href="#join-first">第一次来读书会</a></li><li><a href="#join">加入社群</a></li><li><a href="#about">关于我们</a></li></ul></div></div></section>
+    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#archive">往期读过的书</a></li><li><a href="#join-faq">参加前的常见问题</a></li><li><a href="#join">加入社群</a></li><li><a href="#about">关于我们</a></li></ul></div></div></section>
   </div>
 </div>
 
@@ -314,13 +374,13 @@
       <div class="shelf-wrap"><div class="realshelf" id="shelf" aria-label="读过的书"></div></div>
     </div></section>
 
-    <section class="plain"><div class="wrap">
-      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>每个学期我们都读了这些</h2></div>
-        <div class="filters" id="filters" role="group" aria-label="按活动类型筛选"></div></div>
-      <div id="terms"></div>
+    <section class="plain" id="archive-terms"><div class="wrap">
+      <div class="shead"><div><span class="label">按学期回看</span><h2 class="t-h2" data-split>选一个学期看看我们读了什么</h2><p class="t-body">每个学期结束，内容组会把读过的书、办过的活动、讨论里留下的问题和几张照片整理成一份档案。先选年份，再选学期。</p></div></div>
+      <div class="tindex" id="tindex" role="group" aria-label="学期索引"></div>
+      <div class="tsheet" id="tsheet" aria-live="polite"></div>
     </div></section>
 
-    <section class="plain" style="padding-top:0"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#about-term">一个学期怎么过</a></li><li><a href="#join">加入我们</a></li></ul></div></div></section>
+    <section class="plain" style="padding-top:0"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#about-modules">五个活动模块</a></li><li><a href="#join">加入我们</a></li></ul></div></div></section>
   </div>
 </div>
 
@@ -342,16 +402,14 @@
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--parch)" id="join-first"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer fsplit">
-      <div class="side"><span class="label">第一次来</span><h2 class="t-h2">一场读书会大概是这样的</h2><p class="t-body">带上书（纸质、电子都可以）和一个你想聊的问题就够了。不想发言也没关系。</p></div>
-      <ol class="clock">
-        <li><time>13:50</time><p>签到，领一张名牌，写上你希望被怎么称呼。</p></li>
-        <li><time>14:00</time><p>每人一句话：你是谁，最近在读什么。</p></li>
-        <li><time>14:15</time><p>主持人导读，没读完的朋友从这里跟上。</p></li>
-        <li><time>14:30</time><p>分组讨论，每组五六个人，围绕三个问题。</p></li>
-        <li><time>15:30</time><p>回到大组，每组分享一个最有意思的分歧。</p></li>
-        <li><time>16:00</time><p>茶歇，自由交流，16:30 结束。</p></li>
-      </ol>
+    <section class="band" style="--bb:var(--rose)" id="join-voices"><div class="wrap">
+      <div class="shead"><div><span class="label">书友说</span><h2 class="t-h2" data-split>听听已经来过的人怎么说</h2><p class="t-body">他们第一次来的时候，也有点紧张。以下几段话来自往期活动后的留言，征得同意后整理，名字用的是他们在群里的称呼。</p></div></div>
+      <div class="voices">
+        <figure class="voice" style="--r:-2deg"><blockquote>我书没读完就去了，本来想坐在角落只听。结果小组里一位阿姨问我怎么看福贵，我说着说着就停不下来了。</blockquote><figcaption><b>小周</b><span>研究生，2026 年春天第一次来</span></figcaption></figure>
+        <figure class="voice" style="--r:1.5deg"><blockquote>来澳洲带孙子，白天家里只有我一个人。读书会让我又有了可以聊书的朋友，她们叫我王老师，我很高兴。</blockquote><figcaption><b>王阿姨</b><span>退休语文老师，常来线下读书会</span></figcaption></figure>
+        <figure class="voice" style="--r:-1deg"><blockquote>下班开四十分钟车过去，进门就有人递茶。那天聊白流苏聊到快六点，回家路上一直在想她到底赢了没有。</blockquote><figcaption><b>Kelvin</b><span>工程师，文学夜和读书会都来</span></figcaption></figure>
+      </div>
+      <p class="t-small" style="margin-top:2.5em">以上留言为原型示例，正式上线前替换成书友授权的原话。</p>
     </div></section>
 
     <section class="plain" id="join-group"><div class="wrap split2">
@@ -424,14 +482,15 @@
       </div>
     </div></section>
 
-    <section class="band" style="--bb:var(--parch)"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer">
-      <div class="head"><span class="label">双方各出什么</span><h2 class="t-h2">合作的时候我们各出一份力</h2></div>
-      <div class="amp">
-        <div><h3>我们带来</h3><ul><li>稳定的中文读者群体</li><li>选书、导读和讨论主持</li><li>活动策划与现场执行</li><li>中英双语宣传</li></ul></div>
-                <div><h3>希望你们带来</h3><ul><li>场地或线上会议支持</li><li>嘉宾与作者资源</li><li>书籍捐赠或借阅</li><li>互相推荐的宣传渠道</li></ul></div>
-      </div>
+    <section class="band" style="--bb:var(--parch)" id="partner-how"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer">
+      <div class="shead"><div><span class="label">合作怎么开始</span><h2 class="t-h2" data-split>从一封信到一场活动大概分四步</h2><p class="t-body">大多数合作从一次简单的聊天开始。我们是志愿者团队，回复可能慢一两天，但每封信都会认真读。</p></div></div>
+      <ol class="cuts">
+        <li style="--cc:var(--paper)"><em>01</em><b>来信</b><p>写邮件或在公众号留言「合作」，说说你们是谁，想一起做什么，大概在什么时候。</p></li>
+        <li style="--cc:#E9DCB5"><em>02</em><b>见一面</b><p>线上或线下聊半小时，看看双方的读者是否合适，时间和场地能不能对上。</p></li>
+        <li style="--cc:#C6CBA8"><em>03</em><b>定方案</b><p>一起确定书目或主题、活动形式、宣传分工和报名方式，写成一页纸的方案。</p></li>
+        <li style="--cc:var(--pine);--ct:var(--paper)"><em>04</em><b>办活动与回顾</b><p>活动结束后，我们写一篇回顾，发在公众号并收进往期档案，也送一份给合作方。</p></li>
+      </ol>
     </div></section>
-
 
     <section class="band" style="--bb:var(--mist)"><div class="wrap">
       <div class="head"><span class="label">一起走过的伙伴</span><h2 class="t-h2">感谢一直支持我们的伙伴</h2><p class="t-body">伙伴的标志待正式授权后替换，下面是示意。</p></div>
@@ -458,6 +517,91 @@
   </div>
 </div>
 
+<!-- ================= 书友投稿 SUBMIT ================= -->
+<div class="page" data-page="submit">
+  <section class="hxs" data-intro><div class="hxs__bg" data-intro-bg><svg class="waves" data-wave="xs" data-seed="7" aria-hidden="true"></svg></div>
+    <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>书友投稿</h1><p class="t-body" data-intro-para>读完一本书，心里总有话想说。写下来寄给我们，每学期挑选几篇刊登在这里和公众号上，也会在文学夜请作者读给大家听。</p></div></section>
+  <div data-intro-content>
+
+    <section class="plain"><div class="wrap feature">
+      <figure class="mspaper big" style="--r:-2.5deg" aria-label="本期刊登《外婆的腌菜坛》开头">
+        <div class="ms" data-ms="外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒，说坛子也要换口气。我到墨尔本的第三年，在超市里看见一只差不多的坛子，站了很久，没有买。回家路上想，原来想念一个人，是想念她做事情的样子。"></div>
+        <figcaption>第 1 页，共 4 页</figcaption>
+      </figure>
+      <div class="stack">
+        <span class="label">本期刊登</span>
+        <h2 class="t-h2" data-split>外婆的腌菜坛</h2>
+        <p class="byline"><b>林间</b><span>散文 · 2026 年第三学期 · 约 2400 字</span></p>
+        <p class="t-body">读完《呼兰河传》那一周，林间在读书会上说起了外婆的阳台。萧红写祖父的后园，她写外婆的坛子，写一个人怎样把日子腌进时间里。编辑组读完一致决定，把它放在这学期的第一篇。</p>
+        <p class="t-small">编辑手记：文章最打动我们的，是它不急着抒情。坛子、青石、晒太阳的秋天，事情一件一件摆出来，想念就在里面了。</p>
+        <a class="btn" href="#submit-past" data-btn><span class="bt"><span>看看往期刊登</span></span><span class="bi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span></a>
+      </div>
+    </div></section>
+
+    <section class="band" style="--bb:var(--w1)"><div class="wrap">
+      <ul class="figs">
+        <li><b data-count="38">38</b><span>篇来稿，2026 年至今</span></li>
+        <li><b data-count="12">12</b><span>篇刊登在网站和公众号</span></li>
+        <li><b data-count="21">21</b><span>位作者，最小 16 岁，最大 74 岁</span></li>
+        <li><b data-count="6">6</b><span>篇在文学夜上由作者朗读</span></li>
+      </ul>
+      <p class="t-small figs__note">数字为原型示例。</p>
+    </div></section>
+
+    <section class="plain"><div class="wrap">
+      <div class="shead"><div><span class="label">收稿栏目</span><h2 class="t-h2" data-split>这四类文字我们都收</h2><p class="t-body">篇幅只是参考，写短一点没关系。只要是你自己写的、和阅读或生活有关的中文文字，都可以试试。</p></div></div>
+      <div class="cols">
+        <article class="col4" style="--cl:#3A4A36;--ct:#FAF6EC"><img class="sk" src="assets/img/sketch/book-light.svg" alt=""><h3>读后感</h3><p>读完一本书，写下你最想和别人说的那件事。不必面面俱到，抓住一个人物、一句话、一个问题就好。</p><span>800 至 3000 字</span></article>
+        <article class="col4" style="--cl:#E9DCB5"><img class="sk" src="assets/img/sketch/home.svg" alt=""><h3>散文随笔</h3><p>故乡、移居、家人、在墨尔本的日常。真实的经历和细节，比漂亮的句子更动人。</p><span>1000 至 4000 字</span></article>
+        <article class="col4" style="--cl:#C9DEE3"><img class="sk" src="assets/img/sketch/feather.svg" alt=""><h3>诗歌</h3><p>新诗、旧体诗都可以。一次最多寄三首，请注明写作时间和地点。</p><span>每首 40 行以内</span></article>
+        <article class="col4" style="--cl:#E7CFC4"><img class="sk" src="assets/img/sketch/typewriter.svg" alt=""><h3>小说片段</h3><p>短篇小说，或者长篇里能单独读的一章。请附一段一两百字的说明，交代前后发生了什么。</p><span>5000 字以内</span></article>
+      </div>
+    </div></section>
+
+    <section class="band" style="--bb:var(--parch)" id="submit-how"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><div class="wrap layer fsplit">
+      <div class="side"><span class="label">投稿流程</span><h2 class="t-h2">一篇稿子会这样走完全程</h2><p class="t-body">编辑组由三位志愿者轮流值班。收到稿子会先回一封确认信，一周内给出是否刊登的答复。没有入选的稿子，我们也会写几句读后的意见。</p>
+        <img class="sk fill-ill" src="assets/img/sketch/envelope.svg" alt=""></div>
+      <div class="slip" aria-label="稿件流转单">
+        <div class="slip__head"><b>稿件流转单</b><span>莎士比亚的猫文学社 编辑组</span></div>
+        <ol>
+          <li><i></i><div><b>写好稿子</b><p>Word 文档或直接贴在邮件正文里，标题、署名、栏目写在最前面。</p></div><span>作者</span></li>
+          <li><i></i><div><b>发到投稿邮箱</b><p>邮件标题写「投稿 + 栏目 + 篇名」，例如「投稿 散文 外婆的腌菜坛」。</p></div><span>作者</span></li>
+          <li><i></i><div><b>确认收到</b><p>两三天内回一封确认信，告诉你稿子交给了哪位编辑。</p></div><span>编辑组</span></li>
+          <li><i></i><div><b>读稿与回信</b><p>一周内答复。入选的稿子可能会提出小的修改建议，改不改由你决定。</p></div><span>编辑组</span></li>
+          <li><i></i><div><b>刊登与朗读</b><p>刊登在网站和公众号，学期末的文学夜会邀请作者上台朗读。</p></div><span>双方</span></li>
+        </ol>
+        <span class="slip__seal">已刊登</span>
+      </div>
+    </div></section>
+
+    <section class="plain" id="submit-past"><div class="wrap">
+      <div class="shead"><div><span class="label">往期刊登</span><h2 class="t-h2" data-split>这些文字已经和大家见过面了</h2><p class="t-body">按刊登时间排列，这里放的是每篇的开头。完整的文章都发在公众号上，搜索篇名就能找到。</p></div></div>
+      <div class="mss" id="mss"></div>
+    </div></section>
+
+    <section class="plain" style="padding-top:0"><div class="wrap fsplit">
+      <div class="side"><span class="label">投稿须知</span><h2 class="t-h2">寄稿之前请读一读这几条</h2><p class="t-body">有拿不准的地方，在公众号留言问我们就好。</p></div>
+      <div class="acc">
+        <details open><summary>必须是原创吗？<i></i></summary><div class="ans">是的。请寄你自己写的、没有在其他公开平台发表过的文字。读后感里引用原书的句子没问题，注明出处、控制在几句以内就好。</div></details>
+        <details><summary>可以用笔名吗？<i></i></summary><div class="ans">可以。刊登时用你希望的署名，真实姓名只有编辑组知道，不会公开。</div></details>
+        <details><summary>版权归谁？<i></i></summary><div class="ans">版权始终属于作者。你只是授权文学社在网站、公众号和活动中非商业地使用这篇文字，随时可以要求撤下。</div></details>
+        <details><summary>有稿费吗？<i></i></summary><div class="ans">文学社是公益社群，暂时没有稿费。刊登的作者会收到一本文学社准备的书，学期末的文学夜也会请你朗读自己的作品。</div></details>
+        <details><summary>编辑会改我的稿子吗？<i></i></summary><div class="ans">只会改明显的错别字和标点。涉及内容的修改，都会先写信和你商量，你不同意就不改。</div></details>
+        <details><summary>未满 18 岁可以投稿吗？<i></i></summary><div class="ans">欢迎。请在邮件里附上家长或监护人的同意，刊登时只用笔名，不公开学校和照片。</div></details>
+      </div>
+    </div></section>
+
+    <section class="band dark" id="submit-send"><div class="wrap duo2">
+      <div class="lhs"><span class="label">投稿邮箱</span><h2 class="t-h2">把稿子寄到这里</h2></div>
+      <div class="rhs"><p class="t-body">邮件标题写「投稿 + 栏目 + 篇名」，正文里留一个方便联系的称呼。不用微信邮件的朋友，也可以在公众号后台留言「投稿」，编辑会把邮箱发给你。</p>
+        <div class="copy"><code id="mail2">submit@example.org</code><button type="button" data-copy="mail2">复制</button></div>
+        <p class="t-small">投稿邮箱为占位，正式上线前替换。</p></div>
+    </div></section>
+
+    <section class="plain"><div class="wrap"><div class="more"><svg class="waves" data-wave="panel" aria-hidden="true"></svg><h2 class="layer">你可能还想看看这些</h2><ul class="layer"><li><a href="#events">这学期读什么</a></li><li><a href="#archive">往期活动</a></li><li><a href="#join">加入我们</a></li><li><a href="#about-modules">五个活动模块</a></li></ul></div></div></section>
+  </div>
+</div>
+
 <!-- ================= 隐私说明 PRIVACY ================= -->
 <div class="page" data-page="privacy">
   <section class="hxs" data-intro><div class="hxs__bg" data-intro-bg><svg class="waves" data-wave="xs" data-seed="6" aria-hidden="true"></svg></div>
@@ -479,9 +623,9 @@
     <div class="ft__wx"><div class="qr" aria-label="公众号二维码占位"></div><p class="t-body">关注公众号<br>了解每场活动</p></div>
   </div>
   <nav class="wrap ft__nav" aria-label="页脚导航">
-    <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
+    <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#submit"><span>书友投稿</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v16，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社 · 设计原型 v17，活动、书单与照片均为示例</span><span>插画 Open Doodles（Pablo Stanley，CC0）· 手绘图标 Streamline Freehand（CC BY 4.0）· 书封来自豆瓣，仅作原型展示</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -492,6 +636,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="assets/js/land.js"></script>
 <script src="assets/js/cat-rig.js?v=16"></script>
-<script src="assets/js/main.js?v=16"></script>
+<script src="assets/js/main.js?v=17"></script>
 </body>
 </html>
