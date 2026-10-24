@@ -1521,3 +1521,12 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .slip li > .slip__st{padding:0;border-radius:50%;background:transparent;white-space:normal;font-size:1.15em}
 @media (max-width:991px){.slip li > .slip__st{grid-column:auto;font-size:.75em}}
 @media (max-width:991px){.story__q{padding-top:3.2em}.story__mark{top:-.15em}}
+/* v19.1 */
+.cat{top:-.585em}
+.who__head{margin-bottom:4em}
+.who__cta{margin-top:2.6em}
+.slip__ill{width:30em;max-width:100%;height:auto;margin-top:1.4em}
+.termband{margin-top:0}
+.termband .ecard{box-shadow:0 1.2em 2em -1.6em rgba(43,51,38,.35)}
+@media (max-width:991px){.slip__ill{width:16em}.who__cta{margin-top:1.6em}.who__head{margin-bottom:2em}}
+.termband{margin-bottom:1.5em}@media (max-width:991px){.termband{margin-bottom:.8em}}

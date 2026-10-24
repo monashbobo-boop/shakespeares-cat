@@ -354,7 +354,7 @@ const TERMS=[
     <div class="ts__ph" aria-label="代表性活动照片">${t.photos.map((c,k)=>`<figure class="ts__photo"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
     <div class="ts__links"><h4>相关文章</h4><ul>${t.links.map(([a,b])=>`<li><span>${b}：${a}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></li>`).join('')}</ul></div>
     <div class="ts__nav">${older?`<button type="button" class="ts__go" data-t="${older.id}">← ${older.y} 年${older.n}</button>`:'<span></span>'}${t.now?'<a class="ts__go" href="#events">去看本学期安排 →</a>':newer?`<button type="button" class="ts__go" data-t="${newer.id}">${newer.y} 年${newer.n} →</button>`:''}</div>
-    <p class="t-small">档案内容为原型示例，以文学社实际记录为准。上线后「相关文章」链接到对应的公众号文章。</p>`;};
+    `;};
   let cur=null;
   const show=(id,anim)=>{const t=TERMS.find(x=>x.id===id);if(!t||t===cur)return;cur=t;
     $$('button',idx).forEach(b=>b.setAttribute('aria-pressed',b.dataset.t===id));
