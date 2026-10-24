@@ -7,7 +7,7 @@
 import base64, pathlib, re, sys
 
 ROOT = pathlib.Path(__file__).resolve().parent.parent
-MIME = {'.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml'}
+MIME = {'.webp': 'image/webp', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml', '.woff2': 'font/woff2'}
 
 
 def data_uri(rel):
@@ -18,6 +18,7 @@ def data_uri(rel):
 def build(artifact=False):
     html = (ROOT / 'index.html').read_text(encoding='utf-8')
     css = (ROOT / 'assets/css/style.css').read_text(encoding='utf-8')
+    css = re.sub(r'url\("\.\./fonts/([^"]+)"\)', lambda m: f'url("{data_uri("assets/fonts/" + m.group(1))}")', css)
     html = re.sub(r'<link rel="stylesheet" href="assets/css/style\.css(?:\?[^\"]*)?">',
                   lambda m: f'<style>\n{css}\n</style>', html)
     for js in ('assets/js/land.js', 'assets/js/cat-rig.js', 'assets/js/main.js'):

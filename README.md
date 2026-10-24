@@ -46,6 +46,8 @@ tools/cut_cat.py        从会员设计稿里抠出猫咪（身体和尾巴分�
 tools/build_single.py   打包成单个 HTML 文件，输出到 dist/
 tools/cat_rig.py    把趴着睡觉的猫拆成身体、头、耳朵、尾巴几层，并生成打哈欠的头部画面，网页用 canvas 让它在原地动
 tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸
+tools/subset_font.py    标题字体霞鹜文楷只保留网站用到的字，改了文字后重新运行
+assets/fonts/           标题字体（霞鹜文楷粗体子集，OFL）
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 ```
 
@@ -55,4 +57,4 @@ docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 - **重新打包单文件**：`python3 tools/build_single.py`。
 - **本批生成素材**：16 张猫帧在 `assets/img/cat/frames/`（1280 × 640），六张标签原图在 `assets/img/tags/src/`（800 × 2000），均为透明 PNG。猫帧共用画布，网页用其中的 01、04、05、06、07、15，运行 `python3 tools/cat_rig.py` 生成图层；标签使用 `python3 tools/build_tags.py`。完整提示词保存在 `docs/generated-assets-prompts.json`。
 
-字体用的是 Google Fonts 的思源宋体（Noto Serif SC）和思源黑体（Noto Sans SC），动画用 GSAP、Lenis，地球用 D3。
+标题字体是霞鹜文楷粗体（只含网站用到的字，存在 assets/fonts/），段落是 Google Fonts 的思源黑体（Noto Sans SC），动画用 GSAP、Lenis，地球用 D3。

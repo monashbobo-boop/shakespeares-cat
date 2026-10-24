@@ -1,6 +1,8 @@
 /* 莎士比亚的猫文学社 · 官网原型 v5
    Layout: one 1260px container; every section = heading, one line, one block. Three layered sage waves (from the member's hero) carry colour; type does the rest.
    Single light look by choice: warm ivory reads well for both younger and older members, so there is no dark theme. */
+/* 霞鹜文楷粗体，只保留网站用到的字（tools/subset_font.py 生成） */
+@font-face{font-family:"LXGW WenKai";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/lxgw-wenkai-bold-subset.woff2") format("woff2")}
 :root{
   color-scheme:light;
   /* colour */
