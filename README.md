@@ -49,9 +49,10 @@ tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸
 tools/subset_font.py    标题字体霞鹜文楷只保留网站用到的字，改了文字后重新运行
 assets/fonts/           标题字体（霞鹜文楷粗体子集，OFL）
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
+docs/WordPress-书友投稿.md  投稿在 WordPress 后台的字段，稿纸每页能放多少字
 ```
 
-- **改活动或书单**：编辑 `assets/js/main.js` 里的 `EV`（本学期）、`TERMS`（往期，每个学期一份，字段相同）、`BOOKS`（书架）、`PIECES`（书友投稿的往期刊登）。
+- **改活动或书单**：编辑 `assets/js/main.js` 里的 `EV`（本学期）、`TERMS`（往期，每个学期一份，字段相同）、`BOOKS`（书架）、`SUBMISSIONS`（书友投稿，本期刊登和往期刊登都读这一份，后台字段见 `docs/WordPress-书友投稿.md`）。
 - **换猫咪原图**：现在的猫是从会员设计稿截图里抠出来的，分辨率有限。拿到原图后，导出两张透明背景图替换 `assets/img/cat-body.webp`（身体）和 `assets/img/cat-tail.webp`（尾巴，单独一层才能摆动）。
 - **本地预览**：在仓库目录运行 `python3 -m http.server`，打开 http://localhost:8000 。
 - **重新打包单文件**：`python3 tools/build_single.py`。

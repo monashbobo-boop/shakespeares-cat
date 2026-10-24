@@ -1,4 +1,4 @@
-/* 莎士比亚的猫文学社 · 官网原型 v5 · 交互脚本
+/* 莎士比亚的猫文学社官网原型的交互脚本
    内容数据（活动、往期、书单）都在下面的 DATA 区，改文字只需改这里。 */
 (function(){
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
@@ -73,26 +73,27 @@ const EV=[
   {d:D(2026,11,28),t:'14:00',title:'《额尔古纳河右岸》',type:'线下读书会',place:NCH,desc:'整本讨论。一个人讲述一个民族的百年，叙述者的「老」给了这本书什么？'},
   {d:D(2026,12,12),t:'18:30',title:'学期末写作分享：一页纸的远方',type:'文学夜',place:'墨尔本东区，报名后通知',desc:'交一篇不超过一千字的短文，写你的故乡或你现在住的地方。现场朗读，不点评对错。'}];
 const fmt=d=>`${d.getMonth()+1}月${d.getDate()}日`;
+const where=p=>p==='Zoom'?'在 Zoom 上举行':`地点在${p}`;
 const next=EV.find(e=>e.d>=today);
 const status=e=>e.d<today?['done','已结束']:e===next?['open','报名中']:['','即将开放'];
 const tk=next||EV[EV.length-1];
-$('#ticket').innerHTML=`<div class="ticket__main"><span class="chip open">下一场 · ${status(tk)[1]}</span><span class="num">${tk.d.getMonth()+1}/${tk.d.getDate()}</span><h3>${tk.title}</h3><p class="t-small">周${wd[tk.d.getDay()]} ${tk.t} · ${tk.type}<br>${tk.place}</p></div><div class="ticket__stub">入场券<small>免费 · FREE</small></div>`;
+$('#ticket').innerHTML=`<div class="ticket__main"><span class="chip open">下一场${status(tk)[1]}</span><span class="num">${tk.d.getMonth()+1}/${tk.d.getDate()}</span><h3>${tk.title}</h3><p class="t-small">周${wd[tk.d.getDay()]} ${tk.t} 的${tk.type}<br>${tk.place}</p></div><div class="ticket__stub">入场券免费</div>`;
 const CB=['#EAE4D2','#DEDAC1','#E6E1CC','#D3D6B9','#EDE8D8','#C6CBA8'];
 const TI={'线下读书会':'book','文学夜':'night','线上讨论':'laptop','嘉宾讲座':'mic'};
-$('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article class="ecard ${hot?'dark':''}" style="--cb:${CB[i]}"><img class="sk" src="${SK(TI[e.type]+(hot?'-light':''))}" alt=""><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what">${hot?'<span class="chip" style="align-self:flex-start;background:var(--paper)">下一场</span>':''}<h3 class="t-h3">${e.title}</h3><p class="meta">${e.type} · ${e.place}</p></div></article>`}).join('');
+$('#termTrack').innerHTML=EV.map((e,i)=>{const hot=e===next;return `<article class="ecard ${hot?'dark':''}" style="--cb:${CB[i]}"><img class="sk" src="${SK(TI[e.type]+(hot?'-light':''))}" alt=""><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月，周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what">${hot?'<span class="chip" style="align-self:flex-start;background:var(--paper)">下一场</span>':''}<h3 class="t-h3">${e.title}</h3><p class="meta">${e.type}<br>${e.place}</p></div></article>`}).join('');
 
-$('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.type} · ${e.t} · ${e.place}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div><span class="chip ${sc}">${sl}</span></article>`}).join('');
+$('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.t} 开始的${e.type}，${where(e.place)}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div><span class="chip ${sc}">${sl}</span></article>`}).join('');
 
 /* real covers, from 豆瓣 (Chinese editions) */
 const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div>${o.noSlip?'':`<div class="book__slip"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div>`}<div class="book__face book__spine"><b>${(o.title||note[0]).replace(/[《》]/g,'')}</b><i></i></div><div class="book__face book__front"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div><span class="book__shadow"></span></div>`;
 const BOOKS=[
-  ['biancheng','边城','沈从文','2025 秋 · 创社第一本','茶峒的渡船和翠翠，是我们的第一张长桌。','#4D5A3E'],
-  ['huozhe','活着','余华','2026 春 · 两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
-  ['xusan','许三观卖血记','余华','2026 春 · 线下读书会','笑着读完，回家路上才难过。','#1E1E1E'],
-  ['qingcheng','倾城之恋','张爱玲','2026 冬 · 第一场讲座','白流苏到底赢了没有？争了一下午。','#26324A'],
-  ['jinsuo','金锁记','张爱玲','2026 冬 · 线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
-  ['hulanhe','呼兰河传','萧红','2026 秋 · 正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
-  ['eergu','额尔古纳河右岸','迟子建','2026 秋 · 11 月 28 日','一个人讲完一个民族的百年。','#5B4A2E']];
+  ['biancheng','边城','沈从文','2025 年秋天，创社读的第一本','茶峒的渡船和翠翠，是我们的第一张长桌。','#4D5A3E'],
+  ['huozhe','活着','余华','2026 年春天分两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
+  ['xusan','许三观卖血记','余华','2026 年春天的线下读书会','笑着读完，回家路上才难过。','#1E1E1E'],
+  ['qingcheng','倾城之恋','张爱玲','2026 年冬天第一场讲座读的书','白流苏到底赢了没有？争了一下午。','#26324A'],
+  ['jinsuo','金锁记','张爱玲','2026 年冬天的线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
+  ['hulanhe','呼兰河传','萧红','2026 年秋天正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
+  ['eergu','额尔古纳河右岸','迟子建','2026 年秋天，11 月 28 日读','一个人讲完一个民族的百年。','#5B4A2E']];
 $('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,noSlip:true,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
@@ -144,7 +145,7 @@ function renderCal(){const m=months[mi],first=new Date(2026,m,1),n=new Date(2026
   for(let d=1;d<=n;d++){const dt=new Date(2026,m,d),ev=EV.find(e=>+e.d===+dt),c=['day'];if(dt>=T0&&dt<=T1)c.push('in');
     if(ev){c.push('has');if(ev===sel)c.push('sel');h+=`<button type="button" class="${c.join(' ')}" data-t="${+dt}" aria-label="${fmt(dt)} ${ev.title}">${d}</button>`;}else h+=`<div class="${c.join(' ')}">${d}</div>`;}
   $('#days').innerHTML=h;}
-function renderDetail(anim){const e=sel,[sc,sl]=status(e);$('#detail').innerHTML=`<span class="stampin">${e.type}</span><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><span class="chip ${sc}" style="align-self:flex-start">${sl}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.d.getMonth()+1} 月 · 周${wd[e.d.getDay()]} ${e.t}<br>${e.type} · ${e.place}</p><p class="t-small">${e.desc}</p>`;
+function renderDetail(anim){const e=sel,[sc,sl]=status(e);$('#detail').innerHTML=`<span class="stampin">${e.type}</span><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><span class="chip ${sc}" style="align-self:flex-start">${sl}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.d.getMonth()+1} 月，周${wd[e.d.getDay()]} ${e.t}<br>${e.type}，${where(e.place)}</p><p class="t-small">${e.desc}</p>`;
   if(G&&!RM&&anim){gsap.killTweensOf('#detail *');gsap.fromTo('#detail > :not(.stampin)',{opacity:0,y:'.8em'},{opacity:1,y:0,duration:.5,stagger:.05,ease:EN});
     gsap.fromTo('#detail .stampin',{scale:2.4,opacity:0,rotation:-20},{scale:1,opacity:1,rotation:-6,duration:.45,ease:'power4.in',onComplete:()=>gsap.fromTo('#detail',{x:-3},{x:0,duration:.35,ease:'elastic.out(1,.3)'})});}}
 $('#days').addEventListener('click',ev=>{const b=ev.target.closest('.day.has');if(!b)return;sel=EV.find(e=>+e.d===+b.dataset.t);$$('.day.has').forEach(x=>x.classList.toggle('sel',x===b));renderDetail(true);});
@@ -311,27 +312,27 @@ const HIST=[
 /* ---------- 往期活动：学期索引 + 统一的学期档案模板 ----------
    每个学期只填一份 TERMS 数据，页面按同一个模板渲染，内容再多也只显示当前选中的那个学期。 */
 const TERMS=[
-  {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'10 月 5 日至 12 月 13 日',now:true,books:['hulanhe','eergu'],
+  {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'从 10 月 5 日到 12 月 13 日',now:true,books:['hulanhe','eergu'],
    stat:[['6','场活动'],['进行中','学期状态'],['2','本书']],
    recap:'这个学期还在进行。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后，内容组会把回顾、讨论记录和照片补进这里。',
    hl:['第一次把文学夜和读书会围绕同一个主题来安排','学期末写作分享会，收到的短文会选几篇放进书友投稿'],
    links:[['学期预告：故乡与远方','公众号'],['十月读书会回顾','公众号']],
    ev:EV.map(e=>[fmt(e.d),e.type,e.title]),photos:['十月的读书会','春夜朗读','学期末写作分享']},
-  {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'4 月 25 日至 6 月 27 日',books:['qingcheng','jinsuo'],
+  {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'从 4 月 25 日到 6 月 27 日',books:['qingcheng','jinsuo'],
    stat:[['4','场活动'],['约 120','人次参加'],['31','位新朋友']],
    recap:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题，是白流苏到底赢了没有；读《金锁记》那天，有位书友说曹七巧让她想起了自己的外婆，屋子里安静了很久。',
    hl:['第一场线上公益讲座，悉尼和布里斯班的读者也来了','四场活动约 120 人次参加，三分之一是第一次来','冬夜朗读会上，有书友读了自己写的信'],
    links:[['学期回顾：张爱玲的城','公众号'],['讲座整理：张爱玲与《倾城之恋》','公众号']],
    ev:[['5月9日','线下读书会','《倾城之恋》'],['5月10日','嘉宾讲座','张爱玲与《倾城之恋》'],['6月6日','文学夜','冬夜朗读'],['6月20日','线下读书会','《金锁记》']],
    photos:['第一场线上讲座','冬夜朗读','《金锁记》读书会']},
-  {id:'t1',y:2026,n:'第一学期',theme:'从人物出发',range:'2 月 14 日至 4 月 18 日',books:['huozhe','xusan'],
+  {id:'t1',y:2026,n:'第一学期',theme:'从人物出发',range:'从 2 月 14 日到 4 月 18 日',books:['huozhe','xusan'],
    stat:[['4','场活动'],['约 80','人次参加'],['24','位新朋友']],
    recap:'第一次以学期为单位读书，也是读书会搬进 Nunawading Community Hub 的第一个学期。两本余华，从福贵读到许三观。很多人说，这是他们第一次在读书会上哭，也是第一次在读书会上笑出声。',
    hl:['开始以学期为单位读书，节奏固定下来','读书会搬进 Nunawading Community Hub，有了固定的长桌','开学书单交换，每人带一本书来，带另一本书走'],
    links:[['学期回顾：从人物出发','公众号']],
    ev:[['2月21日','线下读书会','《活着》（上）'],['3月7日','文学夜','开学书单交换'],['3月21日','线上讨论','《活着》（下）'],['4月11日','线下读书会','《许三观卖血记》']],
    photos:['搬进新场地','开学书单交换','《活着》读书会']},
-  {id:'t0',y:2025,n:'创社学期',theme:'一张长桌',range:'2025 年 9 月至 12 月',books:['biancheng'],
+  {id:'t0',y:2025,n:'创社学期',theme:'一张长桌',range:'从 9 月到 12 月',books:['biancheng'],
    stat:[['2','场活动'],['约 30','人次参加'],['7','位创社书友']],
    recap:'从几位朋友在客厅里读《边城》开始。那天椅子不够，有人坐在地毯上，一直聊到天黑。后来有了微信群、公众号和「莎士比亚的猫」这个名字，年底办了第一次公开朗读会。',
    hl:['七位朋友在客厅里读完《边城》，有了第一次读书会','建立微信群和公众号，取名「莎士比亚的猫」','年底的第一次公开朗读会，来了二十多人'],
@@ -343,7 +344,7 @@ const TERMS=[
   idx.innerHTML=years.map(y=>`<div class="tindex__yr"><b>${y}</b><div>${TERMS.filter(t=>t.y===y).map(t=>`<button type="button" data-t="${t.id}" aria-pressed="false">${t.n}${t.now?'<small>进行中</small>':''}</button>`).join('')}</div></div>`).join('');
   const bk=c=>BOOKS.find(x=>x[0]===c);
   const tpl=t=>{const i=TERMS.indexOf(t),newer=TERMS[i-1],older=TERMS[i+1];return `
-    <header class="ts__head"><div class="stack"><h3 class="t-h2">「${t.theme}」</h3><p class="t-small">${t.y} 年${t.n} · ${t.range}</p></div>
+    <header class="ts__head"><div class="stack"><h3 class="t-h2">「${t.theme}」</h3><p class="t-small">${t.y} 年${t.n}${t.range}</p></div>
       <ul class="ts__stat">${t.stat.map(([a,b])=>`<li><b>${a}</b><span>${b}</span></li>`).join('')}</ul></header>
     <div class="ts__body">
       <div class="ts__books">${t.books.map(c=>{const b=bk(c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div>
@@ -373,42 +374,136 @@ const TERMS=[
     if(ST)setTimeout(()=>ScrollTrigger.refresh(),700);};
   sps.forEach(sp=>$('.sp__tab',sp).addEventListener('click',()=>{if(sp.dataset.open==='true'&&DESK())return;open(sp.dataset.open==='true'?null:sp);}));})();
 
-/* ---------- 稿纸：把文字排进方格稿纸，一格一个字 ---------- */
-function msGrid(el,cols,rows){const P='，。、；：？！」』）》';const cells=[];
-  /* 稿纸的规矩：标点不放在行首，挤进上一行最后一格 */
-  [...('　　'+el.dataset.ms)].forEach(ch=>{if(P.includes(ch)&&cells.length&&cells.length%cols===0)cells[cells.length-1]+=ch;else cells.push(ch);});
-  const n=cols*rows;el.style.setProperty('--cols',cols);
-  el.innerHTML=Array.from({length:n},(_,i)=>{const c=cells[i]&&cells[i]!=='　'?cells[i]:'';return `<span${c.length>1?' class="sq"':''}>${c}</span>`;}).join('');}
-$$('.mspaper .ms').forEach(el=>{const big=el.closest('.big'),m=!DESK();msGrid(el,m?12:big?16:14,m?(big?11:9):(big?9:7));});
-/* 本期刊登：四页稿纸可以翻，换页时字一格一格写上去 */
-(function(){const el=$('#msBig');if(!el)return;const pages=el.dataset.pages.split('|'),n=pages.length,no=$('#msNo'),pv=$('#msPrev'),nx=$('#msNext');let i=0,busy=false;
-  const cols=()=>DESK()?16:12,rows=()=>DESK()?9:11;
-  const go=d=>{const j=i+d;if(j<0||j>=n||busy)return;busy=true;i=j;no.textContent=`第 ${i+1} 页，共 ${n} 页`;pv.classList.toggle('off',i===0);nx.classList.toggle('off',i===n-1);
-    const put=()=>{el.dataset.ms=pages[i];msGrid(el,cols(),rows());};
-    if(!MOTION){put();busy=false;return;}
-    gsap.to(el,{opacity:0,x:d*-24,duration:.25,ease:'power2.in',onComplete:()=>{put();gsap.set(el,{opacity:1,x:0});
-      const cs=$$('span',el).filter(c=>c.textContent);gsap.fromTo(cs,{opacity:0,y:4},{opacity:1,y:0,duration:.25,stagger:.006,ease:'power1.out',onComplete:()=>busy=false});}});};
+/* ---------- 书友投稿：数据 ----------
+   上线后每一篇是 WordPress 后台里的一条「投稿」，字段与下面一一对应（见 docs/WordPress-书友投稿.md）：
+   title 篇名，author 署名，genre 栏目，term 刊登的学期，featured 是否为本期刊登，intro 导语，note 编辑手记，
+   text 正文（段落之间空一行）。正文不用自己分页，网页按稿纸格数自动分页，字多就多几页。 */
+const SUBMISSIONS=[
+  {id:'tan',title:'外婆的腌菜坛',author:'林间',genre:'散文',term:'2026 年第三学期',featured:true,
+   intro:'读完《呼兰河传》那一周，林间在读书会上说起了外婆的阳台。萧红写祖父的后园，她写外婆的坛子，写一个人怎样把日子腌进时间里。编辑组读完一致决定，把它放在这学期的第一篇。',
+   note:'编辑手记：文章不急着抒情。坛子、青石、晒太阳的秋天，事情一件一件摆出来，想念就在里面了。',
+   text:`外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒，说坛子也要换口气。
+
+我到墨尔本的第三年，在超市里看见一只差不多的坛子，站了很久，没有买。回家路上才想明白，想念一个人，是想念她做事情的样子。
+
+青菜要先晾一天，叶子软了才好揉。盐撒下去，手心来回搓，菜汁顺着指缝往下滴，满屋子生涩的青气。外婆不许我碰，说小孩子手热，菜会酸。只好蹲在门槛上看，看她把揉好的菜一把一把塞进坛子，塞得很紧，最后压上那块青石。
+
+开坛总在冬至前后。盖子一揭，酸香先冲出来，然后才看见菜，颜色由青转黄，像旧书的纸页。外婆夹一筷子放在白粥上，叫我先尝。那几年冬天冷，屋里没有暖气，一碗粥喝下去，额头冒出细细的汗。
+
+今年三月，墨尔本入秋。阳台的栏杆上晾着一棵切开的大白菜，学着外婆的样子撒盐、揉搓。没有坛子，用的是一只玻璃罐，也没有青石，压了一本旧字典。
+
+等了二十天，打开，太咸。还是一顿一顿吃完了，就着白米饭。`},
+  {id:'liusu',title:'白流苏的那一局',author:'阿梓',genre:'读后感',term:'2026 年第二学期',
+   intro:'第二学期读张爱玲，读书会上争得最久的问题，阿梓回家写成了这篇。',note:'编辑手记：一个问题追到底，没有绕开难处。',
+   text:`读到最后一页，我一直在想白流苏是不是赢了。一座城的陷落成全了她，可她要的到底是什么？
+
+范柳原说，这堵墙到了地老天荒那一天，也许还剩下一点真心。我读到这里，心里一紧。她赢下的是一张婚书，还是一个可以不再被人议论的位置？
+
+读书会那天下午，有人说她赢了，有人说她输得很体面。我想，她只是在一座会倒的城里，找到了一块暂时站得住的地方。`},
+  {id:'dongzhi',title:'冬至在墨尔本',author:'老秦',genre:'散文',term:'2026 年第二学期',
+   intro:'南半球的冬至在六月。老秦写的是几个人凑在一起包汤圆的那个晚上。',note:'编辑手记：节日写得很轻，人写得很暖。',
+   text:`墨尔本的冬至在六月，菜市场里没有卖汤圆的。我们几个人凑在一起，用糯米粉和黑芝麻包了一锅。
+
+有人包得圆，有人包得像饺子，煮出来破了一半。没有人在意，热汤端上桌，窗外下着小雨，屋里很暖。
+
+吃到一半，有人说，家里这会儿是夏天了。大家都笑了，又都不说话了。`},
+  {id:'dukou',title:'渡口',author:'小舟',genre:'诗',term:'2026 年第一学期',
+   intro:'读完《边城》，小舟写了这首短诗。',note:'编辑手记：短，留白多，读完会想起翠翠。',
+   text:`翠翠站在河边，
+等一个不说归期的人。
+
+一百年后我在南半球，
+也学会了把渡口留着。
+
+船来不来，
+水一直在流。`},
+  {id:'fugui',title:'福贵的牛',author:'周周',genre:'读后感',term:'2026 年第一学期',
+   intro:'第一学期读《活着》，周周记下了读到老牛那一页时的心情。',note:'编辑手记：从一个小细节进去，写出了整本书的分量。',
+   text:`福贵给老牛也取名叫福贵。读到这里我笑了一下，接着就说不出地难过。
+
+一个人把自己的名字分给一头牛，是想让另一个自己替他活下去，还是想让自己也像牛一样，低着头，一直往前走？
+
+读书会结束的时候，主持人问我们，活着为了什么。我没有回答，回家的路上一直在想那头牛。`},
+  {id:'xiaohong',title:'地铁上的萧红',author:'南方',genre:'小说片段',term:'2026 年第三学期',
+   intro:'一篇还在写的小说，南方先寄来了开头的一章。',note:'编辑手记：把萧红放进今天的墨尔本，想法很新，节奏也稳。',
+   text:`她在弗林德斯街站换车的时候，书包里那本《呼兰河传》掉了出来，正好翻在祖父那一页。
+
+一个穿校服的男孩帮她捡起来，看了一眼封面，问她这是什么书。她想了想，说，是一个人写她小时候的家。
+
+车来了，男孩上车前回头说，那她后来回去了吗。她没来得及回答，车门就关上了。`}];
+
+/* ---------- 稿纸：把文字排进方格稿纸 ----------
+   规矩和真的稿纸一样：一格一个字，段首空两格，标点不放在行首（挤进上一行的最后一格）。
+   每页固定 15 列 × 10 行 = 150 格，电脑和手机一样，所以每一页的字数是固定的。 */
+const MS_COLS=15,MS_ROWS=10;
+const PUNCT='，。、；：？！」』）》…';
+function msLines(text,cols){const lines=[];
+  text.replace(/\r/g,'').split(/\n\s*\n/).forEach(par=>{par.split('\n').forEach((ln,k)=>{
+    const cells=k===0&&!/^\s/.test(ln)?['','']:[];
+    [...ln.trim()].forEach(ch=>{if(PUNCT.includes(ch)&&cells.length%cols===0&&cells.length){cells[cells.length-1]+=ch;}else cells.push(ch);});
+    for(let i=0;i<cells.length;i+=cols)lines.push(cells.slice(i,i+cols));if(!cells.length)lines.push([]);});});
+  return lines;}
+function msPages(text){const L=msLines(text,MS_COLS),out=[];for(let i=0;i<L.length;i+=MS_ROWS)out.push(L.slice(i,i+MS_ROWS));return out.length?out:[[]];}
+function msRender(el,lines,cols,rows){el.style.setProperty('--cols',cols);let h='';
+  for(let r=0;r<rows;r++){const ln=lines[r]||[];for(let c=0;c<cols;c++){const ch=ln[c]||'';h+=`<span${ch.length>1?' class="sq"':''}>${ch}</span>`;}}
+  el.innerHTML=h;}
+const plain=t=>t.replace(/\s+/g,'');
+const pieceLine=p=>`${p.author}的${p.genre}，刊登于 ${p.term}`;
+
+/* 首页的书友投稿入口：本期刊登那篇的开头 */
+(function(){const el=$('#msTeaser');if(!el)return;const f=SUBMISSIONS.find(p=>p.featured)||SUBMISSIONS[0];const m=!DESK();
+  msRender(el,msLines(f.text,m?12:14).slice(0,m?9:7),m?12:14,m?9:7);$('#msTeaserCap').textContent=`${f.author}写的${f.genre}`;})();
+
+/* 书友投稿页：稿纸阅读器。翻页时整页一起换，不逐字出现 */
+const READER=(function(){const box=$('#msPages');if(!box)return null;const no=$('#msNo'),pv=$('#msPrev'),nx=$('#msNext');
+  let piece=null,pages=[],i=0,busy=false;
+  const sheet=k=>{const d=document.createElement('div');d.className='ms';msRender(d,pages[k],MS_COLS,MS_ROWS);return d;};
+  const ui=()=>{no.textContent=`第 ${i+1} 页，共 ${pages.length} 页`;pv.classList.toggle('off',i===0);nx.classList.toggle('off',i>=pages.length-1);};
+  const meta=()=>{$('#rdTitle').textContent=piece.title;$('#rdBy').innerHTML=`<b>${piece.author}</b><span>${piece.featured?'本期刊登的':''}${piece.genre}，${plain(piece.text).length} 字，共 ${pages.length} 页</span>`;
+    $('#rdIntro').textContent=piece.intro;$('#rdNote').textContent=piece.note;$('#reader').setAttribute('aria-label',`《${piece.title}》的稿纸，共 ${pages.length} 页`);};
+  const go=d=>{const j=i+d;if(j<0||j>=pages.length||busy)return;const old=box.firstElementChild,nw=sheet(j);i=j;ui();
+    if(!MOTION){box.replaceChildren(nw);return;}busy=true;box.appendChild(nw);
+    gsap.set(nw,{position:'absolute',inset:0,xPercent:d*12,opacity:0});
+    gsap.to(old,{xPercent:d*-12,opacity:0,duration:.45,ease:'power2.inOut'});
+    gsap.to(nw,{xPercent:0,opacity:1,duration:.45,ease:'power2.inOut',onComplete:()=>{old.remove();gsap.set(nw,{clearProps:'all'});busy=false;}});};
+  const load=(p,anim)=>{piece=p;pages=msPages(p.text);i=0;ui();
+    const put=()=>{box.replaceChildren(sheet(0));meta();};
+    if(!anim||!MOTION){put();return;}
+    gsap.to('#reader,#readerTxt',{opacity:0,y:12,duration:.25,ease:'power2.in',onComplete:()=>{put();gsap.to('#reader,#readerTxt',{opacity:1,y:0,duration:.5,ease:EN});}});};
   pv.addEventListener('click',()=>go(-1));nx.addEventListener('click',()=>go(1));
-  let sx=null;el.addEventListener('pointerdown',e=>{sx=e.clientX;});el.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>40)go(dx<0?1:-1);});})();
-const PIECES=[
-  ['外婆的腌菜坛','林间','散文','2026 年第三学期','外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒。'],
-  ['白流苏的那一局','阿梓','读后感','2026 年第二学期','读到最后一页，我一直在想白流苏是不是赢了。一座城的陷落成全了她，可她要的到底是什么？'],
-  ['冬至在墨尔本','老秦','散文','2026 年第二学期','墨尔本的冬至在六月，菜市场里没有卖汤圆的。我们几个人凑在一起，用糯米粉和黑芝麻包了一锅。'],
-  ['渡口','小舟','诗','2026 年第一学期','翠翠站在河边，等一个不说归期的人。一百年后我在南半球，也学会了把渡口留着。'],
-  ['福贵的牛','周周','读后感','2026 年第一学期','福贵给老牛也取名叫福贵。读到这里我笑了一下，接着就说不出地难过。'],
-  ['地铁上的萧红','南方','小说片段','2026 年第三学期','她在弗林德斯街站换车的时候，书包里那本《呼兰河传》掉了出来，正好翻在祖父那一页。']];
+  let sx=null;box.addEventListener('pointerdown',e=>{sx=e.clientX;});box.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>40)go(dx<0?1:-1);});
+  load(SUBMISSIONS.find(p=>p.featured)||SUBMISSIONS[0],false);
+  return {load};})();
+
+/* 往期刊登：每篇的开头，点开在上面的稿纸里读全文 */
 (function(){const box=$('#mss');if(!box)return;
-  box.innerHTML=PIECES.map(([t,a,k,w,x],i)=>`<article class="mscard"><div class="mspaper"><div class="ms" data-ms="${x}"></div></div><div class="mscard__meta"><h3>《${t}》</h3><p>${k} · ${a} · ${w}</p></div></article>`).join('');
-  $$('.ms',box).forEach(el=>msGrid(el,12,4));})();
+  box.innerHTML=SUBMISSIONS.map(p=>`<button type="button" class="mscard" data-id="${p.id}"><span class="mspaper"><span class="ms"></span></span><span class="mscard__meta"><b>《${p.title}》</b><span>${pieceLine(p)}</span></span></button>`).join('');
+  $$('.mscard',box).forEach((c,k)=>msRender($('.ms',c),msLines(SUBMISSIONS[k].text,12).slice(0,4),12,4));
+  box.addEventListener('click',e=>{const c=e.target.closest('.mscard');if(!c||!READER)return;READER.load(SUBMISSIONS.find(p=>p.id===c.dataset.id),true);
+    const y=$('#reader').getBoundingClientRect().top+scrollY-120;lenis?lenis.scrollTo(y,{duration:1}):window.scrollTo({top:y,behavior:'smooth'});});
+  const fp=$('#figPub'),fa=$('#figAuth');if(fp){fp.dataset.count=fp.textContent=SUBMISSIONS.length;}if(fa){const n=new Set(SUBMISSIONS.map(p=>p.author)).size;fa.dataset.count=fa.textContent=n;}})();
 $$('.mscard').forEach(c=>{if(!MOTION||!FINE)return;hoverTL(c,gsap.timeline({paused:true}).to($('.mspaper',c),{y:-8,duration:.5,ease:'power3.out'}),{speed:1.3});});
 
-/* 书友说：一次只读一段，点名字切换 */
-(function(){const box=$('#story');if(!box)return;const qs=$$('blockquote',box),bs=$$('.story__who button',box);let cur=0;
-  const show=i=>{if(i===cur)return;const a=qs[cur],b=qs[i];cur=i;bs.forEach(x=>x.setAttribute('aria-selected',+x.dataset.i===i));
-    if(!MOTION){a.hidden=true;b.hidden=false;return;}
-    gsap.to(a,{opacity:0,y:-12,duration:.25,ease:'power2.in',onComplete:()=>{a.hidden=true;b.hidden=false;gsap.fromTo(b,{opacity:0,y:16},{opacity:1,y:0,duration:.6,ease:EN});}});};
+/* 书友说：一次读一段，点名字切换；引号和底色跟着人一起换 */
+(function(){const box=$('#story');if(!box)return;const band=box.closest('.band'),mark=$('#storyMark'),qs=$$('blockquote',box),bs=$$('.story__who button',box);let cur=0;
+  const paint=b=>{band.style.setProperty('--bb',b.dataset.bg);mark.style.color=b.dataset.q;};paint(bs[0]);
+  const show=i=>{if(i===cur)return;const a=qs[cur],nb=qs[i],btn=bs[i];cur=i;bs.forEach(x=>x.setAttribute('aria-selected',+x.dataset.i===i));
+    if(!MOTION){a.hidden=true;nb.hidden=false;paint(btn);return;}
+    gsap.to(band,{'--bb':btn.dataset.bg,duration:.7,ease:'power2.inOut'});
+    gsap.timeline().to(mark,{rotation:-25,scale:.4,opacity:0,duration:.25,ease:'power2.in'}).set(mark,{color:btn.dataset.q}).to(mark,{rotation:0,scale:1,opacity:.85,duration:.7,ease:'elastic.out(1,.55)'});
+    gsap.to(a,{opacity:0,y:-12,duration:.25,ease:'power2.in',onComplete:()=>{a.hidden=true;nb.hidden=false;gsap.fromTo(nb,{opacity:0,y:16},{opacity:1,y:0,duration:.6,ease:EN});}});};
   bs.forEach(b=>b.addEventListener('click',()=>show(+b.dataset.i)));})();
-$$('.mspaper[style*="--r"]').forEach(m=>{if(m.closest('.mscard'))return;adoptRotation(m);});
+
+/* 关于我们：组织信息公布倒计时（11 月 15 日） */
+(function(){const el=$('#orgDays');if(!el)return;const d=Math.ceil((D(2026,11,15)-today)/864e5);
+  if(d>0)el.textContent=d;else{$('#orgSoon').hidden=true;}})();
+
+/* 稿件流转单：鼠标移到每一步上盖一个章，盖过的留着；手机上滚到哪一步就盖到哪一步 */
+$$('.slip li[data-stamp]').forEach((li,k)=>{const st=$('.slip__st',li);st.textContent=li.dataset.stamp;st.style.setProperty('--sr',[-14,9,-6,12,-10][k%5]+'deg');
+  const stamp=()=>{if(li.classList.contains('done'))return;li.classList.add('done');
+    if(!MOTION)return;gsap.fromTo(st,{opacity:0,scale:2.2},{opacity:.9,scale:1,duration:.3,ease:'power4.in',onComplete:()=>gsap.fromTo(li,{x:-3},{x:0,duration:.35,ease:'elastic.out(1,.3)'})});};
+  if(FINE)li.addEventListener('pointerenter',stamp);else if(ST)ScrollTrigger.create({trigger:li,start:'top 65%',once:true,onEnter:stamp});else stamp();
+  li.addEventListener('click',stamp);});
 
 /* copy buttons (投稿邮箱) */
 $$('[data-copy]').forEach(b=>b.addEventListener('click',async()=>{const el=document.getElementById(b.dataset.copy);try{await navigator.clipboard.writeText(el.textContent);b.textContent='已复制';}catch(_){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent='已选中，请手动复制';}setTimeout(()=>b.textContent='复制',1800);}));

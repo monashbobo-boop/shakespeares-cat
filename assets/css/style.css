@@ -1426,3 +1426,98 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 /* 稿件流转单：去掉角色标签和印章后的列 */
 .slip li{grid-template-columns:3em 1fr}
 @media (max-width:991px){.slip li{grid-template-columns:1.8em 1fr}}
+
+/* ===================== v19 ===================== */
+/* 按钮只有文字 */
+.btn{gap:0}
+.btn .bt{padding:0 1.6em}
+
+/* 首页三条理念：不要分割线 */
+.ideas{border:0;gap:2em}
+.ideas li + li{border-left:0}
+@media (max-width:991px){.ideas{gap:.6em}.ideas li + li{border-top:0}}
+
+/* 公益数字：不要线 */
+.orgfig{border:0;gap:1.2em}
+.orgfig li,.orgfig li + li{border:0;padding:0;background:rgba(250,246,236,.06);border-radius:1.4em;padding:2em 1.8em}
+@media (max-width:991px){.orgfig{gap:.6em}.orgfig li,.orgfig li + li{border:0;padding:1.2em 1.2em}}
+
+/* 组织档案：每一项是一行浅色底，交替深浅；没公布的两项单独做成倒计时 */
+.dossier{border-radius:1.6em;padding:3em;gap:1.8em}
+.dossier__t{font-size:2.6em}
+.dossier__rows{display:flex;flex-direction:column;gap:.5em;margin:0}
+.dossier__rows > div{display:grid;grid-template-columns:7em 1fr;gap:1.5em;align-items:baseline;padding:1.1em 1.4em;border-radius:1em;background:var(--ivory)}
+.dossier__rows > div:nth-child(even){background:transparent}
+.dossier__rows dt{font-weight:700;font-size:1.4em}
+.dossier__rows dd{margin:0;font-size:1.4em;line-height:1.6}
+.soon{display:grid;grid-template-columns:auto 1fr;gap:2em;align-items:center;background:var(--seal);color:#FFF6EE;border-radius:1.2em;padding:1.8em 2em}
+.soon__n{display:flex;flex-direction:column;align-items:center;line-height:1}
+.soon__n b{font-family:var(--display);font-weight:700;font-size:5.2em;font-variant-numeric:tabular-nums}
+.soon__n span{font-size:1.15em;margin-top:.4em;opacity:.85}
+.soon__txt p{font-size:1.4em;line-height:1.7}
+.soon__txt b{display:block;font-family:var(--display);font-size:1.25em;margin-bottom:.2em}
+@media (max-width:991px){.dossier{padding:1.4em 1.1em;gap:1.1em}.dossier__t{font-size:1.4em}.dossier__rows > div{grid-template-columns:1fr;gap:.2em;padding:.8em .9em}.dossier__rows dt,.dossier__rows dd{font-size:.95em}
+  .soon{grid-template-columns:1fr;gap:.8em;padding:1.2em}.soon__n{flex-direction:row;align-items:baseline;gap:.4em}.soon__n b{font-size:2.6em}.soon__n span{font-size:.85em}.soon__txt p{font-size:.92em}}
+
+/* 入场券右侧一行 */
+.ticket__stub{letter-spacing:.2em}
+
+/* 书友说：引号是单独的元素，跟着人换颜色；底色由脚本改 --bb */
+.story__q::before{content:none}
+.story__mark{position:absolute;left:-.05em;top:-.5em;font-family:var(--display);font-weight:700;font-size:12em;line-height:1;opacity:.85;transform-origin:30% 60%;pointer-events:none}
+.story__who{border-top:0;gap:.4em}
+.story__who button{border-bottom:0;border-radius:1em;padding:1.2em 1.4em;transition:background-color .4s,padding .5s var(--spring)}
+.story__who button::before{left:.6em;top:1.2em;bottom:1.2em}
+.story__who button[aria-selected="true"]{background:rgba(250,246,236,.6);padding-left:2.2em}
+.story__who button:hover{background:rgba(250,246,236,.35)}
+@media (max-width:991px){.story__mark{font-size:6em}}
+
+/* 合作时间条：下面的说明不要竖线，用和色块同色的圆点对应 */
+.strip__txt p{border-left:0;padding-left:0}
+.strip__txt p::before{content:"";display:block;width:1.2em;height:1.2em;border-radius:50%;background:var(--dot);box-shadow:inset 0 0 0 1px rgba(43,51,38,.18);margin-bottom:.9em}
+.strip__txt b{display:block;font-family:var(--display);font-weight:700;font-size:1.25em;line-height:1.5;margin-bottom:.35em}
+@media (max-width:991px){.strip__txt p{border-left:0;padding-left:2em;position:relative}.strip__txt p::before{position:absolute;left:0;top:.3em;width:1em;height:1em;margin:0}.strip__txt b{font-size:1.1em}}
+
+/* 投稿栏目：篇幅是一句话，不用虚线隔开 */
+.col4 span{border-top:0;padding-top:.6em;font-family:var(--sans);font-weight:700;font-size:1.3em}
+
+/* 稿纸阅读器：多页叠在一起，翻页整页换 */
+.ms__pages{position:relative;overflow:hidden}
+.ms__pages .ms{will-change:transform,opacity}
+#reader{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+#reader,#readerTxt{will-change:opacity,transform}
+/* 往期刊登卡片是按钮 */
+.mscard{border:0;background:none;padding:0;font:inherit;color:inherit;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:1.2em}
+.mscard .mspaper{display:block}
+.mscard .ms{display:grid}
+.mscard .ms span{display:grid}
+.mscard__meta{display:flex;flex-direction:column;gap:.4em}
+.mscard__meta b{font-family:var(--display);font-weight:700;font-size:2.2em}
+.mscard__meta span{font-size:1.25em;color:var(--moss)}
+.mscard:hover .mscard__meta b{color:var(--seal)}
+@media (max-width:991px){.mscard__meta b{font-size:1.05em}.mscard__meta span{font-size:.8em}}
+
+/* 稿件流转单：没有红竖线和分割线；每一步右边留一个盖章的位置 */
+.slip{background-image:none;padding:3em 3.2em 2.6em}
+.slip__head{border-bottom:0;padding-bottom:.4em}
+.slip ol{display:flex;flex-direction:column;gap:.5em}
+.slip li{position:relative;grid-template-columns:3em 1fr 7em;align-items:center;border-bottom:0;padding:1.2em 1.2em;border-radius:1em;transition:background-color .4s}
+.slip li:nth-child(odd){background:var(--ivory)}
+.slip li i::after{opacity:0;transition:opacity .3s}
+.slip li.done i::after{opacity:1}
+.slip__st{justify-self:center;width:5.6em;height:5.6em;border-radius:50%;border:3px double var(--seal);color:var(--seal);display:grid;place-items:center;font-family:var(--display);font-weight:700;font-size:1.15em;rotate:var(--sr);opacity:0;pointer-events:none}
+.slip li.done .slip__st{opacity:.9}
+.slip li:not(.done){cursor:pointer}
+@media (max-width:991px){.slip{padding:1.4em 1em 1.4em}.slip li{grid-template-columns:1.8em 1fr 4em;padding:.9em .7em;gap:.6em}.slip__st{width:3.8em;height:3.8em;font-size:.75em}}
+
+/* 往期活动档案里的线去掉 */
+.ts__head{border-bottom:0;padding-bottom:0}
+.ts__nav{border-top:0;padding-top:0}
+.tindex{border-top:0}
+.hl{border-top:0;gap:.4em}
+.hl li{border-bottom:0;background:var(--ivory);border-radius:.9em;padding:.8em 1em}
+.dossier dl.dossier__rows{display:flex;font-size:1em;line-height:inherit}
+.dossier .dossier__rows dt,.dossier .dossier__rows dd{border-bottom:0;padding:0}
+.slip li > .slip__st{padding:0;border-radius:50%;background:transparent;white-space:normal;font-size:1.15em}
+@media (max-width:991px){.slip li > .slip__st{grid-column:auto;font-size:.75em}}
+@media (max-width:991px){.story__q{padding-top:3.2em}.story__mark{top:-.15em}}
