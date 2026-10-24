@@ -18,10 +18,10 @@ const toTop=()=>{if(lenis)lenis.scrollTo(0,{immediate:true,force:true});window.s
 function cr2bez(p){let d=`M${p[0][0].toFixed(1)} ${p[0][1].toFixed(1)}`;for(let i=0;i<p.length-1;i++){const a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;d+=` C${(b[0]+(c[0]-a[0])/6).toFixed(1)} ${(b[1]+(c[1]-a[1])/6).toFixed(1)}, ${(c[0]-(e[0]-b[0])/6).toFixed(1)} ${(c[1]-(e[1]-b[1])/6).toFixed(1)}, ${c[0].toFixed(1)} ${c[1].toFixed(1)}`;}return d;}
 const WC=[['#E6E2CB','#D9D5BB'],['#CDD1AF','#BEC49F'],['#AAB48E','#99A47F']];
 const WAVE={
-  hero:{vb:[1920,1200],layers:[
-    {c:0,pts:[[1360,-80],[1190,170],[960,410],[650,590],[270,690],[-120,730]],close:[[-120,1300],[2040,1300],[2040,-80]]},
-    {c:1,pts:[[2040,140],[1760,260],[1520,500],[1230,760],[860,920],[420,1010],[-120,1060]],close:[[-120,1300],[2040,1300]]},
-    {c:2,pts:[[-120,1130],[260,1020],[640,980],[1040,1000],[1420,900],[1720,820],[2040,760]],close:[[2040,1300],[-120,1300]]}]},
+  hero:{vb:[1920,1200],layers:[   /* 米色留得更大，标题、简介和按钮都在最浅的那一层里 */
+    {c:0,pts:[[1540,-80],[1430,250],[1270,560],[1020,830],[620,975],[-120,1030]],close:[[-120,1300],[2040,1300],[2040,-80]]},
+    {c:1,pts:[[2040,330],[1800,470],[1590,710],[1310,930],[910,1050],[430,1100],[-120,1130]],close:[[-120,1300],[2040,1300]]},
+    {c:2,pts:[[-120,1165],[300,1125],[700,1115],[1100,1130],[1460,1055],[1760,995],[2040,950]],close:[[2040,1300],[-120,1300]]}]},
   xs:{vb:[1920,760],layers:[
     {c:0,pts:[[-120,560],[380,490],[860,570],[1340,460],[2040,510]],close:[[2040,900],[-120,900]]},
     {c:1,pts:[[-120,640],[460,605],[980,665],[1480,590],[2040,620]],close:[[2040,900],[-120,900]]},
@@ -257,12 +257,11 @@ $$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);con
   hoverTL(st,tl,{speed:1.6});});
 
 /* library cards: pulled a little out of the pocket and stamped; slides back on leave */
-$$('.lib').forEach(l=>{const c=$('.lib__card',l),sp=$('.lib__stamp',l),pk=$('.lib__pocket',l);c.appendChild(sp);const r=adoptRotation(c);
-  if(!MOTION||!DESK())return;gsap.set(sp,{opacity:0,scale:2.2,rotation:-30});
+$$('.lib').forEach(l=>{const c=$('.lib__card',l),pk=$('.lib__pocket',l);const r=adoptRotation(c);
+  if(!MOTION||!DESK())return;
   const tl=gsap.timeline({paused:true})
     .to(c,{yPercent:-16,rotation:r*-1.2,duration:.6,ease:'power3.out'},0)
-    .to(pk,{y:5,duration:.4,ease:'power2.out'},0)
-    .to(sp,{opacity:1,scale:1,rotation:-12,duration:.28,ease:'power4.in'},.3);
+    .to(pk,{y:5,duration:.4,ease:'power2.out'},0);
   hoverTL(l,tl,{speed:1.5});});
 
 /* real paper tags (ChatGPT, see docs): used when assets/img/tags/tag-N.webp exist, else the drawn bookmark stays */
@@ -344,15 +343,15 @@ const TERMS=[
   idx.innerHTML=years.map(y=>`<div class="tindex__yr"><b>${y}</b><div>${TERMS.filter(t=>t.y===y).map(t=>`<button type="button" data-t="${t.id}" aria-pressed="false">${t.n}${t.now?'<small>进行中</small>':''}</button>`).join('')}</div></div>`).join('');
   const bk=c=>BOOKS.find(x=>x[0]===c);
   const tpl=t=>{const i=TERMS.indexOf(t),newer=TERMS[i-1],older=TERMS[i+1];return `
-    <header class="ts__head"><div class="stack"><span class="label">${t.y} 年${t.n}</span><h3 class="t-h2">「${t.theme}」</h3><p class="t-small">${t.range}</p></div>
+    <header class="ts__head"><div class="stack"><h3 class="t-h2">「${t.theme}」</h3><p class="t-small">${t.y} 年${t.n} · ${t.range}</p></div>
       <ul class="ts__stat">${t.stat.map(([a,b])=>`<li><b>${a}</b><span>${b}</span></li>`).join('')}</ul></header>
     <div class="ts__body">
       <div class="ts__books">${t.books.map(c=>{const b=bk(c);return bookHTML(c,[`《${b[1]}》`,`${b[3]}<br>${b[4]}`,b[2]],{bk:b[5],title:b[1],alt:`《${b[1]}》封面`});}).join('')}</div>
       <div class="ts__txt"><h4>这个学期</h4><p class="t-body">${t.recap}</p><h4>学期亮点</h4><ol class="hl">${t.hl.map(q=>`<li>${q}</li>`).join('')}</ol></div>
     </div>
     <div class="ts__ev"><h4>活动记录</h4><div class="list">${t.ev.map(l=>`<div class="r"><b>${l[0]}</b><span>${l[2]}</span><span class="m">${l[1]}</span></div>`).join('')}</div></div>
-    <div class="ts__ph" aria-label="代表性活动照片">${t.photos.map((c,k)=>`<figure class="ts__photo" style="--r:${[-2.5,1.8,-1.2][k]}deg"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
-    <div class="ts__links"><h4>相关文章</h4><ul>${t.links.map(([a,b])=>`<li><span class="chip">${b}</span><span>${a}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></li>`).join('')}</ul></div>
+    <div class="ts__ph" aria-label="代表性活动照片">${t.photos.map((c,k)=>`<figure class="ts__photo"><div class="ph"></div><figcaption>${c}</figcaption></figure>`).join('')}</div>
+    <div class="ts__links"><h4>相关文章</h4><ul>${t.links.map(([a,b])=>`<li><span>${b}：${a}</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 17L17 7M9 7h8v8"/></svg></li>`).join('')}</ul></div>
     <div class="ts__nav">${older?`<button type="button" class="ts__go" data-t="${older.id}">← ${older.y} 年${older.n}</button>`:'<span></span>'}${t.now?'<a class="ts__go" href="#events">去看本学期安排 →</a>':newer?`<button type="button" class="ts__go" data-t="${newer.id}">${newer.y} 年${newer.n} →</button>`:''}</div>
     <p class="t-small">档案内容为原型示例，以文学社实际记录为准。上线后「相关文章」链接到对应的公众号文章。</p>`;};
   let cur=null;
@@ -381,6 +380,16 @@ function msGrid(el,cols,rows){const P='，。、；：？！」』）》';const 
   const n=cols*rows;el.style.setProperty('--cols',cols);
   el.innerHTML=Array.from({length:n},(_,i)=>{const c=cells[i]&&cells[i]!=='　'?cells[i]:'';return `<span${c.length>1?' class="sq"':''}>${c}</span>`;}).join('');}
 $$('.mspaper .ms').forEach(el=>{const big=el.closest('.big'),m=!DESK();msGrid(el,m?12:big?16:14,m?(big?11:9):(big?9:7));});
+/* 本期刊登：四页稿纸可以翻，换页时字一格一格写上去 */
+(function(){const el=$('#msBig');if(!el)return;const pages=el.dataset.pages.split('|'),n=pages.length,no=$('#msNo'),pv=$('#msPrev'),nx=$('#msNext');let i=0,busy=false;
+  const cols=()=>DESK()?16:12,rows=()=>DESK()?9:11;
+  const go=d=>{const j=i+d;if(j<0||j>=n||busy)return;busy=true;i=j;no.textContent=`第 ${i+1} 页，共 ${n} 页`;pv.classList.toggle('off',i===0);nx.classList.toggle('off',i===n-1);
+    const put=()=>{el.dataset.ms=pages[i];msGrid(el,cols(),rows());};
+    if(!MOTION){put();busy=false;return;}
+    gsap.to(el,{opacity:0,x:d*-24,duration:.25,ease:'power2.in',onComplete:()=>{put();gsap.set(el,{opacity:1,x:0});
+      const cs=$$('span',el).filter(c=>c.textContent);gsap.fromTo(cs,{opacity:0,y:4},{opacity:1,y:0,duration:.25,stagger:.006,ease:'power1.out',onComplete:()=>busy=false});}});};
+  pv.addEventListener('click',()=>go(-1));nx.addEventListener('click',()=>go(1));
+  let sx=null;el.addEventListener('pointerdown',e=>{sx=e.clientX;});el.addEventListener('pointerup',e=>{if(sx===null)return;const dx=e.clientX-sx;sx=null;if(Math.abs(dx)>40)go(dx<0?1:-1);});})();
 const PIECES=[
   ['外婆的腌菜坛','林间','散文','2026 年第三学期','外婆的腌菜坛子摆在阳台最里面，盖子上压着一块青石。每年入秋，她都要把坛子搬出来晒一晒。'],
   ['白流苏的那一局','阿梓','读后感','2026 年第二学期','读到最后一页，我一直在想白流苏是不是赢了。一座城的陷落成全了她，可她要的到底是什么？'],
@@ -389,12 +398,16 @@ const PIECES=[
   ['福贵的牛','周周','读后感','2026 年第一学期','福贵给老牛也取名叫福贵。读到这里我笑了一下，接着就说不出地难过。'],
   ['地铁上的萧红','南方','小说片段','2026 年第三学期','她在弗林德斯街站换车的时候，书包里那本《呼兰河传》掉了出来，正好翻在祖父那一页。']];
 (function(){const box=$('#mss');if(!box)return;
-  box.innerHTML=PIECES.map(([t,a,k,w,x],i)=>`<article class="mscard" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="mspaper"><div class="ms" data-ms="${x}"></div></div><div class="mscard__meta"><span class="chip">${k}</span><h3>《${t}》</h3><p>${a} · ${w}</p></div></article>`).join('');
+  box.innerHTML=PIECES.map(([t,a,k,w,x],i)=>`<article class="mscard"><div class="mspaper"><div class="ms" data-ms="${x}"></div></div><div class="mscard__meta"><h3>《${t}》</h3><p>${k} · ${a} · ${w}</p></div></article>`).join('');
   $$('.ms',box).forEach(el=>msGrid(el,12,4));})();
-$$('.mscard').forEach(c=>{const r=rOf(c);if(MOTION){c.style.rotate='0deg';gsap.set(c,{rotation:r});}if(!MOTION||!FINE)return;
-  hoverTL(c,gsap.timeline({paused:true}).to(c,{rotation:0,y:-10,scale:1.03,duration:.5,ease:'power3.out'}),{speed:1.3});});
-$$('.voice').forEach(v=>{const r=adoptRotation(v);if(!MOTION||!FINE)return;
-  hoverTL(v,gsap.timeline({paused:true}).to(v,{rotation:0,y:-10,duration:.5,ease:'power3.out'}),{speed:1.3});});
+$$('.mscard').forEach(c=>{if(!MOTION||!FINE)return;hoverTL(c,gsap.timeline({paused:true}).to($('.mspaper',c),{y:-8,duration:.5,ease:'power3.out'}),{speed:1.3});});
+
+/* 书友说：一次只读一段，点名字切换 */
+(function(){const box=$('#story');if(!box)return;const qs=$$('blockquote',box),bs=$$('.story__who button',box);let cur=0;
+  const show=i=>{if(i===cur)return;const a=qs[cur],b=qs[i];cur=i;bs.forEach(x=>x.setAttribute('aria-selected',+x.dataset.i===i));
+    if(!MOTION){a.hidden=true;b.hidden=false;return;}
+    gsap.to(a,{opacity:0,y:-12,duration:.25,ease:'power2.in',onComplete:()=>{a.hidden=true;b.hidden=false;gsap.fromTo(b,{opacity:0,y:16},{opacity:1,y:0,duration:.6,ease:EN});}});};
+  bs.forEach(b=>b.addEventListener('click',()=>show(+b.dataset.i)));})();
 $$('.mspaper[style*="--r"]').forEach(m=>{if(m.closest('.mscard'))return;adoptRotation(m);});
 
 /* copy buttons (投稿邮箱) */
@@ -481,8 +494,8 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     $$('[data-split]',page).forEach(h=>{const ch=splitChars(h);gsap.fromTo(ch,{yPercent:30,opacity:0},{yPercent:0,opacity:1,duration:.7,stagger:.04,ease:EN,scrollTrigger:{trigger:h,start:'top 88%',once:true}});});
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
-    [['.icards','.icard'],['.ideas','li'],['.voices','.voice'],['.cuts','li'],['.cols','.col4'],['.figs','li'],['.mss','.mscard'],['.slants','.slant'],['.slip ol','li'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
-    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more,.spines,.dossier,.tindex,.feature,.tease',page).forEach(el=>rise([el],el));
+    [['.icards','.icard'],['.ideas','li'],['.story__who','li'],['.cols','.col4'],['.figs','li'],['.mss','.mscard'],['.orgfig','li'],['.slip ol','li'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
+    $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more,.spines,.dossier,.tindex,.feature,.tease,.strip,.story__q',page).forEach(el=>rise([el],el));
     $$('.stats b[data-count],.figs b',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
   },page);}
@@ -537,11 +550,14 @@ function intro(page,tl,at){const it=$('[data-intro]',page);if(!it)return;
   tl.to(paras,{opacity:1,y:0,duration:.35,delay:.5,ease:EN},at);if(btn)tl.to(btn,{opacity:1,y:0,duration:.35,delay:.575,ease:EN},at);
   if(vis)tl.to(vis,{opacity:1,y:0,rotate:0,duration:1,delay:.5,ease:'elastic.out(1,0.8)'},at);if(content)tl.to(content,{y:0,opacity:1,duration:.6,delay:.35,ease:EN},at);}
 function leave(){const tl=gsap.timeline();tl.set(trLogo,{scale:0,rotate:-64,autoAlpha:0}).set(trPath,{strokeWidth:'8%',drawSVG:'0% 0%'});
-  tl.to(trPath,{keyframes:{'15%':{strokeWidth:'8%'},'90%':{drawSVG:'0% 100%'},'100%':{strokeWidth:'70%'}},duration:1.25},'s');
+  /* 落笔时笔刷的粗细：在两段笔画快要合上的宽度附近加快通过，避免中间夹出细缝 */
+  tl.to(trPath,{keyframes:{'15%':{strokeWidth:'8%'},'36%':{strokeWidth:'16%',ease:'none'},'44%':{strokeWidth:'38%',ease:'none'},'66%':{strokeWidth:'46%',ease:'none'},'72%':{strokeWidth:'64%',ease:'none'},'90%':{drawSVG:'0% 100%'},'100%':{strokeWidth:'70%',ease:'none'}},duration:1.25},'s');
   tl.to(trLogo,{scale:1,rotate:0,autoAlpha:1,delay:.5,duration:.65,ease:'elastic.out(1,0.72)'},'s');return tl;}
 function enter(page){const tl=gsap.timeline();tl.set(trPath,{drawSVG:'0% 100%',strokeWidth:'70%'},0).set(hdr,{yPercent:-100},0);
   intro(page,tl,.4);
-  tl.to(trPath,{keyframes:{'95%':{strokeWidth:'8%',ease:'circ.out'},'100%':{drawSVG:'100% 100%'}},duration:1.25},0);
+  /* 收笔时笔刷的粗细：先和原来一样迅速变细露出形状，在 38% 到 13% 这一段加快通过。
+     原来的曲线在这一段放慢，相邻两段笔画之间会拉出一条细长的裂缝，停留六到八帧。 */
+  tl.to(trPath,{keyframes:{'12%':{strokeWidth:'38%',ease:'none'},'22%':{strokeWidth:'13%',ease:'none'},'95%':{strokeWidth:'8%',ease:'none'},'100%':{drawSVG:'100% 100%'}},duration:1.25},0);
   tl.to(trLogo,{scale:0,rotate:64,autoAlpha:0,duration:.45,ease:'elastic.in(1,0.72)'},0);
   tl.to(hdr,{yPercent:0,duration:.5,delay:.5,ease:EN,onStart:()=>{hid=false;hdr.classList.remove('away');}},.4);return tl;}
 const CAN=G&&!RM&&!!window.DrawSVGPlugin;
