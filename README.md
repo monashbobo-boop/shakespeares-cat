@@ -10,7 +10,7 @@
 
 **https://monashbobo-boop.github.io/shakespeares-cat/**
 
-- 右上角的按钮可以切换页面：关于我们、本学期活动、往期活动、书友投稿、加入我们、合作与联系。
+- 右上角的按钮可以切换页面：关于我们、本学期活动、往期活动、书友作品、加入我们、合作与联系。
 - 首页的地球可以用鼠标或手指拖动。
 - 「本学期活动」里可以在列表和日历之间切换，点日历上的日期能看到活动详情。
 - 「往期活动」先选年份和学期，每个学期用同一个模板显示。
@@ -49,10 +49,11 @@ tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸
 tools/subset_font.py    标题字体霞鹜文楷只保留网站用到的字，改了文字后重新运行
 assets/fonts/           标题字体（霞鹜文楷粗体子集，OFL）
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
-docs/WordPress-书友投稿.md  投稿在 WordPress 后台的字段，稿纸每页能放多少字
+docs/WordPress-书友作品.md  书友作品在 WordPress 后台的字段，稿纸每页能放多少字
+docs/书友作品-点赞与评论.md  点赞和留言上线时的设置
 ```
 
-- **改活动或书单**：编辑 `assets/js/main.js` 里的 `EV`（本学期）、`TERMS`（往期，每个学期一份，字段相同）、`BOOKS`（书架）、`SUBMISSIONS`（书友投稿，本期刊登和往期刊登都读这一份，后台字段见 `docs/WordPress-书友投稿.md`）。
+- **改活动或书单**：编辑 `assets/js/main.js` 里的 `EV`（本学期）、`TERMS`（往期，每个学期一份，字段相同）、`BOOKS`（书架）、`WORKS`（书友作品，只收公众号已发表的作品，附原文链接，后台字段见 `docs/WordPress-书友作品.md`）。
 - **换猫咪原图**：现在的猫是从会员设计稿截图里抠出来的，分辨率有限。拿到原图后，导出两张透明背景图替换 `assets/img/cat-body.webp`（身体）和 `assets/img/cat-tail.webp`（尾巴，单独一层才能摆动）。
 - **本地预览**：在仓库目录运行 `python3 -m http.server`，打开 http://localhost:8000 。
 - **重新打包单文件**：`python3 tools/build_single.py`。

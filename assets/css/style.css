@@ -1530,3 +1530,59 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .termband .ecard{box-shadow:0 1.2em 2em -1.6em rgba(43,51,38,.35)}
 @media (max-width:991px){.slip__ill{width:16em}.who__cta{margin-top:1.6em}.who__head{margin-bottom:2em}}
 .termband{margin-bottom:1.5em}@media (max-width:991px){.termband{margin-bottom:.8em}}
+
+/* v20 首页：五类活动放在一个板块。前三类每学期都在办，后两类计划中，横向排在下面一行 */
+.icards.five{grid-template-columns:repeat(6,1fr)}
+.icards.five > .icard{grid-column:span 2}
+.icards.five > .icard.plan{grid-column:span 3;min-height:0;border-radius:2.4em;padding:3em;display:grid;grid-template-columns:1fr 13em;align-items:center;gap:2em}
+.icard.plan .plan__txt{display:flex;flex-direction:column;gap:1em;align-items:flex-start}
+.icard.plan h3{font-size:2.8em;display:flex;align-items:center;flex-wrap:wrap;gap:.35em .5em}
+.icard.plan h3 .chip{font-family:var(--sans);font-size:.4em;letter-spacing:.04em;background:var(--paper);color:var(--moss);box-shadow:inset 0 0 0 1px rgba(43,51,38,.18)}
+.icard.plan .meta{margin-top:.4em}
+.icard.plan .ill.doodle{height:13em;margin:0;opacity:.88}
+@media (max-width:991px){
+  .icards.five{grid-template-columns:1fr}
+  .icards.five > .icard,.icards.five > .icard.plan{grid-column:auto}
+  .icards.five > .icard.plan{grid-template-columns:1fr;padding:2em 1.5em;border-radius:1.6em;gap:1em}
+  .icard.plan h3{font-size:1.8em}
+  .icard.plan .ill.doodle{height:9em;justify-self:center}
+}
+
+/* v20 本学期活动：开头是学期信息卡，不放「下一场」 */
+.ticket.term{max-width:38em}
+.ticket.term .ticket__main{gap:1.2em;padding:2.6em 2.4em}
+.ticket.term .ticket__main h3{font-size:3em}
+.ticket.term .kv{font-size:1.25em;grid-template-columns:3.4em 1fr}
+.ticket.term .kv dd{color:var(--ink);opacity:.78}
+[data-page="events"] .hxs__in.two .t-display{font-size:7em}
+@media (max-width:991px){[data-page="events"] .hxs__in.two .t-display{font-size:2.6em}.ticket.term .ticket__main{padding:1.6em 1.3em}.ticket.term .ticket__main h3{font-size:1.8em}.ticket.term .kv{font-size:.95em;grid-template-columns:3.2em 1fr}}
+
+/* v20 书友作品：喜欢、留言 */
+.react{display:flex;flex-wrap:wrap;align-items:center;gap:.8em 1.6em}
+.like{display:inline-flex;align-items:center;gap:.5em;height:2.8em;padding:0 1.2em 0 1em;border-radius:1.4em;border:0;background:var(--paper);box-shadow:inset 0 0 0 1.5px rgba(43,51,38,.22);color:var(--ink);font:inherit;font-size:1.3em;font-weight:500;cursor:pointer;transition:box-shadow .3s,background-color .3s}
+.like svg{width:1.25em;height:1.25em;fill:transparent;stroke:var(--seal);stroke-width:2;stroke-linejoin:round;transition:fill .3s}
+.like b{font-weight:700;font-variant-numeric:tabular-nums}
+.like:hover{box-shadow:inset 0 0 0 1.5px var(--seal)}
+.like[aria-pressed="true"]{background:#F6E3DC;box-shadow:inset 0 0 0 1.5px var(--seal)}
+.like[aria-pressed="true"] svg{fill:var(--seal)}
+.like:focus-visible{outline:2px solid var(--pine);outline-offset:3px}
+.react__cm{font-size:1.3em;color:var(--moss);text-decoration:underline;text-underline-offset:.25em;text-decoration-thickness:1px}
+.react__cm:hover{color:var(--ink)}
+.cmwrap{align-items:start}
+.cm{display:flex;flex-direction:column;gap:1.6em;min-width:0}
+.cm__head{font-family:var(--display);font-weight:700;font-size:2em}
+.cm__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.7em}
+.cm__list li{background:var(--paper);border-radius:1.2em;padding:1.4em 1.6em;display:flex;flex-direction:column;gap:.6em}
+.cm__list li p{font-size:1.35em;line-height:1.75}
+.cm__who{display:flex;flex-wrap:wrap;align-items:center;gap:.4em 1em}
+.cm__who b{font-size:1.3em}
+.cm__who span{font-size:1.15em;color:var(--moss)}
+.cm__who .chip{font-size:1em;height:1.9em;color:var(--moss);background:var(--ivory)}
+.cm__list li.pending{background:transparent;box-shadow:inset 0 0 0 1.5px rgba(43,51,38,.18)}
+.cm__list li.pending p{color:var(--moss)}
+.cm__empty p{color:var(--moss)}
+.cm__form{margin-top:.6em}
+.cm__sent{color:var(--pine);font-weight:500}
+.mscard__n{font-size:1.15em!important;color:var(--moss)}
+.mscard[aria-current] .mscard__meta b{color:var(--seal)}
+@media (max-width:991px){.like{font-size:.95em}.react__cm{font-size:.95em}.cm__head{font-size:1.3em}.cm__list li{padding:1em 1.1em}.cm__list li p{font-size:.95em}.cm__who b{font-size:.95em}.cm__who span{font-size:.8em}.mscard__n{font-size:.75em!important}}
