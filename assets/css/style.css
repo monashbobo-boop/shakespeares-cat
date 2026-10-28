@@ -2,6 +2,8 @@
    Layout: one 1260px container; every section = heading, one line, one block. Three layered sage waves (from the member's hero) carry colour; type does the rest.
    Single light look by choice: warm ivory reads well for both younger and older members, so there is no dark theme. */
 /* 霞鹜文楷粗体，只保留网站用到的字（tools/subset_font.py 生成） */
+/* 补字：主字体子集里没有的新字（tools/subset_font.py --extra 生成）。先声明补字，后声明主字体，浏览器先用主字体，缺字才用补字 */
+@font-face{font-family:"LXGW WenKai";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/lxgw-wenkai-bold-extra.woff2") format("woff2")}
 @font-face{font-family:"LXGW WenKai";font-weight:700;font-style:normal;font-display:swap;src:url("../fonts/lxgw-wenkai-bold-subset.woff2") format("woff2")}
 :root{
   color-scheme:light;
@@ -1586,3 +1588,20 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .mscard__n{font-size:1.15em!important;color:var(--moss)}
 .mscard[aria-current] .mscard__meta b{color:var(--seal)}
 @media (max-width:991px){.like{font-size:.95em}.react__cm{font-size:.95em}.cm__head{font-size:1.3em}.cm__list li{padding:1em 1.1em}.cm__list li p{font-size:.95em}.cm__who b{font-size:.95em}.cm__who span{font-size:.8em}.mscard__n{font-size:.75em!important}}
+
+/* v21 本学期：书单从活动里自动生成，封面用书名排出来，有真封面时可以换成图片 */
+.tbooks{display:grid;grid-template-columns:repeat(auto-fill,minmax(28em,1fr));gap:1.6em}
+.tbook{display:grid;grid-template-columns:8.5em 1fr;gap:1.6em;align-items:start;background:var(--paper);border-radius:1.6em;padding:1.6em;box-shadow:0 1.2em 2em -1.8em rgba(43,51,38,.4)}
+.tbook__cv{aspect-ratio:2/3;border-radius:.3em .8em .8em .3em;background:var(--bc);color:var(--bt);box-shadow:inset .6em 0 0 rgba(0,0,0,.08),0 .8em 1.2em -.8em rgba(43,51,38,.5);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.1em .6em 1em;writing-mode:vertical-rl}
+.tbook__cv b{font-family:var(--display);font-weight:700;font-size:1.55em;letter-spacing:.12em;line-height:1.1}
+.tbook__cv i{font-style:normal;font-size:1em;opacity:.75;letter-spacing:.1em}
+.tbook__txt{display:flex;flex-direction:column;gap:.6em;padding-top:.3em}
+.tbook__txt h3{font-size:2em;line-height:1.2}
+.tbook__a{font-size:1.3em;color:var(--moss)}
+.tbook__w{font-size:1.25em;line-height:1.7}
+.day.has.two{box-shadow:inset 0 -.28em 0 var(--seal)}
+.detail__ev{display:flex;flex-direction:column;gap:.35em;padding-top:.4em}
+@media (max-width:991px){.tbooks{grid-template-columns:1fr;gap:.9em}.tbook{grid-template-columns:5.6em 1fr;gap:1em;padding:1.1em;border-radius:1.2em}.tbook__cv b{font-size:1.05em}.tbook__cv i{font-size:.75em}.tbook__txt h3{font-size:1.3em}.tbook__a{font-size:.9em}.tbook__w{font-size:.9em}}
+
+.tbook__cv.img{padding:0;writing-mode:horizontal-tb;overflow:hidden;background:var(--parch)}
+.tbook__cv.img img{width:100%;height:100%;object-fit:cover;display:block}

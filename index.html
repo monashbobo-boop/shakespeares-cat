@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=20">
+<link rel="stylesheet" href="assets/css/style.css?v=21">
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
 <body>
@@ -86,7 +86,7 @@
     <svg class="waves" data-wave="panel2" aria-hidden="true"></svg>
     <div class="wrap layer">
       <div class="row-head">
-        <div><h2 class="t-h2" data-split>这学期我们一起读这些书</h2><p class="t-body">2026 年第三学期从 10 月 5 日到 12 月 13 日，主题是「故乡与远方」。</p></div>
+        <div><h2 class="t-h2" data-split>这学期的活动安排</h2><p class="t-body" id="homeTermLine"></p></div>
         <div class="ctrl" data-ctrl="term"><button class="circle off" data-prev aria-label="上一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="circle" data-next aria-label="下一张"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
       </div>
       <div class="slider" data-slider="term"><div class="track" id="termTrack"></div></div>
@@ -260,16 +260,15 @@
     <div class="wrap hxs__in two">
       <div class="stack">
         <h1 class="t-display" data-intro-title>2026 年第三学期</h1>
-        <p class="t-body" data-intro-para>10 月 5 日到 12 月 13 日，一共十周。这学期的主题是「故乡与远方」，一起读两位东北女作家写故乡的小说，聊离开家以后，故乡在我们心里变成了什么样子。</p>
+        <p class="t-body" data-intro-para>10 月 10 日到 12 月 12 日，每个周六都有活动。这学期读李娟、陈忠实和大仲马，从电影读回《教父》，请作家武陵驿来做讲座，也给青少年办读书会和线下活动。</p>
       </div>
       <div data-intro-visual><div class="ticket term" id="ticket">
-        <div class="ticket__main"><h3>故乡与远方</h3>
-          <dl class="kv"><dt>起止</dt><dd>10 月 5 日至 12 月 13 日</dd><dt>共读</dt><dd>《呼兰河传》《额尔古纳河右岸》</dd><dt>活动</dt><dd>六场，全部免费，面向公众开放</dd><dt>报名</dt><dd>公众号「莎士比亚的猫文学社」</dd></dl></div>
+        <div class="ticket__main" id="termCard"></div>
         <div class="ticket__stub">报名请看公众号</div></div></div>
     </div></section>
   <div data-intro-content>
     <section class="plain" id="ev-list"><div class="wrap">
-      <div class="shead"><div><h2 class="t-h2" data-split>十周里一共有六场活动</h2><p class="t-body">每场活动的报名链接提前一周发在公众号，时间或地点临时有变，也以公众号的通知为准。</p></div>
+      <div class="shead"><div><h2 class="t-h2" data-split id="evCount">这学期的活动</h2><p class="t-body">每场活动的报名链接提前一周发在公众号，时间或地点临时有变，也以公众号的通知为准。</p></div>
         <div class="tabs" role="tablist" aria-label="切换列表或日历"><button role="tab" aria-selected="true" data-tab="list" id="tab-list">列表</button><button role="tab" aria-selected="false" data-tab="cal" id="tab-cal">日历</button></div></div>
       <div data-panel="list"><div class="evs" id="sched"></div></div>
       <div data-panel="cal" hidden><div class="cal"><div class="cal__box"><div class="cal__head"><button class="circle" id="prevM" aria-label="上个月"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg></button><b id="mTitle">10 月</b><button class="circle" id="nextM" aria-label="下个月"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg></button></div><div class="dow"><span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span></div><div class="days" id="days"></div></div><div class="detail" id="detail" aria-live="polite"></div></div></div>
@@ -277,25 +276,8 @@
 
     <section class="band" style="--bb:var(--w1)" id="ev-books"><svg class="waves" data-wave="panel2" aria-hidden="true"></svg>
       <div class="wrap layer">
-        <div class="shead"><div><h2 class="t-h2">这学期读两本写故乡的小说</h2><p class="t-body">离开家的人，读起写故乡的书来总是格外认真。这学期读两位东北女作家。<span class="hint">把鼠标放在书上，可以看到读书会笔记。</span></p></div></div>
-        <div class="bfeat">
-          <div class="book" data-book style="--w:20em;--t:2.4em;--bk:#3F5A58"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div><div class="book__slip"><b>读书会笔记</b><span>10 月 10 日读第一至四章<br>11 月 7 日读第五至七章</span><i>莎士比亚的猫第三学期</i></div><div class="book__face book__spine"><b>呼兰河传</b><i></i></div><div class="book__face book__front"><img src="assets/img/covers/hulanhe.webp" alt="《呼兰河传》封面" loading="lazy"></div></div><span class="book__shadow"></span></div>
-          <div class="stack">
-            <h3 class="t-h2" style="font-size:3.4em">《呼兰河传》</h3>
-            <dl class="kv"><dt>作者</dt><dd>萧红</dd><dt>成书</dt><dd>1940 年，约 12 万字</dd><dt>读法</dt><dd>分两次读完，10 月 10 日、11 月 7 日</dd></dl>
-            <p class="t-body">用孩子的眼睛写东北小城里的人和事。祖父的后园明亮得像一幅画，小城里的人却一个接一个被风俗吞掉。</p>
-            <ul class="qs"><li>萧红为什么把悲凉写得这么亮？</li><li>「我」长大以后，还回得去那个后园吗？</li></ul>
-          </div>
-        </div>
-        <div class="bfeat rev">
-          <div class="book" data-book style="--w:20em;--t:2.8em;--bk:#5B4A2E"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div><div class="book__slip"><b>读书会笔记</b><span>11 月 28 日整本讨论<br>Nunawading Community Hub</span><i>莎士比亚的猫第三学期</i></div><div class="book__face book__spine"><b>额尔古纳河右岸</b><i></i></div><div class="book__face book__front"><img src="assets/img/covers/eergu.webp" alt="《额尔古纳河右岸》封面" loading="lazy"></div></div><span class="book__shadow"></span></div>
-          <div class="stack">
-            <h3 class="t-h2" style="font-size:3.4em">《额尔古纳河右岸》</h3>
-            <dl class="kv"><dt>作者</dt><dd>迟子建</dd><dt>成书</dt><dd>2005 年，约 20 万字</dd><dt>获奖</dt><dd>第七届茅盾文学奖</dd></dl>
-            <p class="t-body">一位九十岁的鄂温克老人，在一天之内讲完族人的百年迁徙。森林、驯鹿、萨满，和一个正在消失的世界。</p>
-            <ul class="qs"><li>叙述者的「老」，给了这本书什么？</li><li>我们自己的故乡，又在怎样消失？</li></ul>
-          </div>
-        </div>
+        <div class="shead"><div><h2 class="t-h2" id="bookCount">这学期读这些书</h2><p class="t-body">每本书在哪天读、由谁主持，都跟着上面的活动安排走。</p></div></div>
+        <div class="tbooks" id="termBooks"></div>
       </div>
     </section>
 
@@ -338,7 +320,7 @@
     <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>往期活动</h1><p class="t-body" data-intro-para>按学期整理，记下一起读过的书和说过的话。</p></div></section>
   <div data-intro-content>
     <section class="band" style="--bb:var(--w1)"><div class="wrap">
-      <div class="head"><h2 class="t-h2">这是我们一起读过的七本书</h2><p class="t-body">从 2025 年秋天的《边城》开始，按时间排列。</p></div>
+      <div class="head"><h2 class="t-h2">这是我们一起读完的五本书</h2><p class="t-body">从 2025 年秋天的《边城》开始，按时间排列。</p></div>
       <div class="shelf-wrap"><div class="realshelf" id="shelf" aria-label="读过的书"></div></div>
     </div></section>
 
@@ -561,7 +543,7 @@
   <nav class="wrap ft__nav" aria-label="页脚导航">
     <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#works"><span>书友作品</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社。设计原型 v20，活动、书单与照片均为示例。</span><span>标题字体用霞鹜文楷（OFL），插画来自 Open Doodles（Pablo Stanley，CC0），手绘图标来自 Streamline Freehand（CC BY 4.0），书封来自豆瓣，仅作原型展示。</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社。设计原型 v21，活动、书单与照片均为示例。</span><span>标题字体用霞鹜文楷（OFL），插画来自 Open Doodles（Pablo Stanley，CC0），手绘图标来自 Streamline Freehand（CC BY 4.0），书封来自豆瓣，仅作原型展示。</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -572,6 +554,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="assets/js/land.js"></script>
 <script src="assets/js/cat-rig.js?v=16"></script>
-<script src="assets/js/main.js?v=20"></script>
+<script src="assets/js/main.js?v=21"></script>
 </body>
 </html>

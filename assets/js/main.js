@@ -63,26 +63,60 @@ function initButtons(root){if(!G||RM||!matchMedia('(hover:hover) and (pointer:fi
 const CV=n=>`assets/img/covers/${n}.webp`;
 const SK=n=>`assets/img/sketch/${n}.svg`;
 const today=new Date();today.setHours(0,0,0,0);
-const D=(y,m,d)=>new Date(y,m-1,d),T0=D(2026,10,5),T1=D(2026,12,13),wd=['日','一','二','三','四','五','六'];
-const NCH='Nunawading Community Hub';
+const D=(y,m,d)=>new Date(y,m-1,d),wd=['日','一','二','三','四','五','六'];
+/* 本学期活动：只填日期、名称、类型、主持人四项，和社里排期表一致。
+   有书的活动再填 book（对应下面 TERM_BOOKS 里的 id），书单、学期卡、日历、首页卡片都从这里自动生成。
+   上线后在 WordPress 里，每场活动是一条「活动」，书是一条「书」，活动里选一本书就关联上了。
+   每本书可以上传一张封面（cover，书封或电影海报都行），有封面就显示图片；没有就用书名和底色 c 排一个封面。
+   字段说明见 docs/WordPress-本学期活动.md。 */
+const TERM={y:2026,n:'第三学期'};
+const TERM_BOOKS=[
+  {id:'jiyi',title:'记一忘三二',author:'李娟',cover:'',c:'#C6CBA8'},
+  {id:'bailu',title:'白鹿原',author:'陈忠实',cover:'',c:'#E9DCB5'},
+  {id:'doudou',title:'窗边的小豆豆',author:'黑柳彻子',cover:'',c:'#E7CFC4'},
+  {id:'jiaofu',title:'教父',author:'马里奥·普佐',cover:'',c:'#3A4A36',ink:'#FAF6EC'},
+  {id:'jidu',title:'基督山伯爵',author:'大仲马',cover:'',c:'#C9DEE3'}];
 const EV=[
-  {d:D(2026,10,10),t:'14:00',title:'《呼兰河传》（上）',type:'线下读书会',place:NCH,desc:'读第一至四章。小城的风俗、童年和祖父的后园，萧红为什么把悲凉写得这么亮？'},
-  {d:D(2026,10,24),t:'19:00',title:'春夜朗读：写故乡的一段话',type:'文学夜',place:'墨尔本东区，报名后通知',desc:'带一段写故乡的文字，任何语言都可以，每人朗读三分钟，再说说为什么选它。'},
-  {d:D(2026,11,7),t:'19:30',title:'《呼兰河传》（下）',type:'线上讨论',place:'Zoom',desc:'读完第五至七章和尾声。有二伯、冯歪嘴子和小团圆媳妇，谁的命运最让你放不下？'},
-  {d:D(2026,11,15),t:'19:00',title:'在异乡写中文',type:'嘉宾讲座',place:'Zoom',desc:'请一位在澳洲用中文写作的作家，聊离开母语环境后，怎么继续写。嘉宾即将公布。'},
-  {d:D(2026,11,28),t:'14:00',title:'《额尔古纳河右岸》',type:'线下读书会',place:NCH,desc:'整本讨论。一个人讲述一个民族的百年，叙述者的「老」给了这本书什么？'},
-  {d:D(2026,12,12),t:'18:30',title:'学期末写作分享：一页纸的远方',type:'文学夜',place:'墨尔本东区，报名后通知',desc:'交一篇不超过一千字的短文，写你的故乡或你现在住的地方。现场朗读，不点评对错。'}];
+  {d:D(2026,10,10),title:'文学咖啡夜',type:'文学夜',host:'王坚'},
+  {d:D(2026,10,17),title:'李娟《记一忘三二》',type:'线下文学读书会',host:'Flora',book:'jiyi'},
+  {d:D(2026,10,24),title:'文学热搜夜',type:'文学夜',host:'王坚'},
+  {d:D(2026,10,31),title:'陈忠实《白鹿原》①',type:'线下文学读书会',host:'Ally',book:'bailu'},
+  {d:D(2026,11,7),title:'《窗边的小豆豆》阅读交流',type:'青少年线上读书会',host:'Jojo',book:'doudou'},
+  {d:D(2026,11,7),title:'陈忠实《白鹿原》②',type:'线下文学读书会',host:'Tom',book:'bailu'},
+  {d:D(2026,11,14),title:'陈忠实《白鹿原》③',type:'线下文学读书会',host:'Tony',book:'bailu'},
+  {d:D(2026,11,21),title:'听听你的声音：AI 和我',type:'青少年线下活动',host:'Evan'},
+  {d:D(2026,11,21),title:'文学夜：当文学遇上电影',type:'文学夜',host:'王坚'},
+  {d:D(2026,11,28),title:'《教父》：电影加书籍',type:'线下文学读书会',host:'Nicole',book:'jiaofu'},
+  {d:D(2026,12,5),title:'作家讲座：武陵驿',type:'嘉宾活动',host:'王坚'},
+  {d:D(2026,12,12),title:'大仲马《基督山伯爵》',type:'线下文学读书会',host:'Bruce',book:'jidu'}];
+const T0=EV[0].d,T1=EV[EV.length-1].d;
 const fmt=d=>`${d.getMonth()+1}月${d.getDate()}日`;
-const where=p=>p==='Zoom'?'在 Zoom 上举行':`地点在${p}`;
+const md=d=>`${d.getMonth()+1} 月 ${d.getDate()} 日`;
 /* 不显示「下一场」「报名中」这类要随时更新的状态。报名和临时调整统一看公众号；
    只有日期过了的活动按日期自动标「已结束」，不需要人去改 */
 const next=EV.find(e=>e.d>=today);
 const status=e=>e.d<today?['done','已结束']:['',''];
 const CB=['#EAE4D2','#DEDAC1','#E6E1CC','#D3D6B9','#EDE8D8','#C6CBA8'];
-const TI={'线下读书会':'book','文学夜':'night','线上讨论':'laptop','嘉宾讲座':'mic'};
-$('#termTrack').innerHTML=EV.map((e,i)=>`<article class="ecard" style="--cb:${CB[i]}"><img class="sk" src="${SK(TI[e.type])}" alt=""><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月，周${wd[e.d.getDay()]} ${e.t}</p></div><div class="what"><h3 class="t-h3">${e.title}</h3><p class="meta">${e.type}<br>${e.place}</p></div></article>`).join('');
+const TI={'线下文学读书会':'book','文学夜':'night','青少年线上读书会':'laptop','青少年线下活动':'school','嘉宾活动':'mic'};
+const icon=t=>TI[t]||'calendar';
+const NUM=['零','一','二','三','四','五','六','七','八','九','十'];const cn=n=>n<=10?NUM[n]:n<20?'十'+(n%10?NUM[n%10]:''):String(n);
 
-$('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.t} 开始的${e.type}，${where(e.place)}</span><h3 class="t-h3">${e.title}</h3><p class="t-body">${e.desc}</p></div>${sl?`<span class="chip ${sc}">${sl}</span>`:''}</article>`}).join('');
+/* 首页卡片、学期卡、标题里的数字都按数据算 */
+$('#termTrack').innerHTML=EV.map((e,i)=>`<article class="ecard" style="--cb:${CB[i%CB.length]}"><img class="sk" src="${SK(icon(e.type))}" alt=""><div><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div><p class="when">${e.d.getMonth()+1} 月，周${wd[e.d.getDay()]}</p></div><div class="what"><h3 class="t-h3">${e.title}</h3><p class="meta">${e.type}<br>主持人 ${e.host}</p></div></article>`).join('');
+(function(){const days=[...new Set(EV.map(e=>e.d.getDay()))],every=days.length===1?`每周${wd[days[0]]}`:'';
+  const hi=$('#homeTermLine');if(hi)hi.textContent=`${TERM.y} 年${TERM.n}从 ${md(T0)}到 ${md(T1)}，一共 ${EV.length} 场活动。`;
+  const tc=$('#termCard');if(tc)tc.innerHTML=`<h3>${EV.length} 场活动</h3><dl class="kv"><dt>起止</dt><dd>${md(T0)}至 ${md(T1)}</dd>${every?`<dt>时间</dt><dd>${every}</dd>`:''}<dt>书目</dt><dd>${cn(TERM_BOOKS.length)}本，书单在下面</dd><dt>报名</dt><dd>公众号「莎士比亚的猫文学社」</dd></dl>`;
+  const hd=$('#evCount');if(hd)hd.textContent=`这学期一共有${cn(EV.length)}场活动`;
+  const bh=$('#bookCount');if(bh)bh.textContent=`这学期读这${cn(TERM_BOOKS.length)}本书`;})();
+
+$('#sched').innerHTML=EV.map(e=>{const[sc,sl]=status(e);return `<article class="ev ${e.d<today?'past':''}"><div class="d"><b>${String(e.d.getDate()).padStart(2,'0')}</b><span>${e.d.getMonth()+1} 月</span><span>周${wd[e.d.getDay()]}</span></div><div class="c"><span class="t-small">${e.type}，主持人 ${e.host}</span><h3 class="t-h3">${e.title}</h3></div>${sl?`<span class="chip ${sc}">${sl}</span>`:''}</article>`}).join('');
+
+/* 本学期书单：从活动里自动整理，一本书读几次、哪天、谁主持，都不用另外写 */
+(function(){const box=$('#termBooks');if(!box)return;
+  box.innerHTML=TERM_BOOKS.map(b=>{const es=EV.filter(e=>e.book===b.id);
+    const when=es.length>1?`分${cn(es.length)}次读：${es.map(e=>`${md(e.d)}（${e.host}）`).join('、')}`:es.map(e=>`${md(e.d)}，${e.type}，主持人 ${e.host}`).join('');
+    const cv=b.cover?`<div class="tbook__cv img"><img src="${b.cover}" alt="《${b.title}》封面" loading="lazy"></div>`:`<div class="tbook__cv" style="--bc:${b.c};--bt:${b.ink||'var(--ink)'}" aria-hidden="true"><b>${b.title}</b><i>${b.author}</i></div>`;
+    return `<article class="tbook">${cv}<div class="tbook__txt"><h3>《${b.title}》</h3><p class="tbook__a">${b.author}</p><p class="tbook__w">${when}</p></div></article>`;}).join('');})();
 
 /* real covers, from 豆瓣 (Chinese editions) */
 const bookHTML=(c,note,o={})=>`<div class="book" data-book style="${o.w?'--w:'+o.w+';':''}${o.t?'--t:'+o.t+';':''}--bk:${o.bk||'#2B3326'}"><div class="book__in"><div class="book__face book__back"></div><div class="book__face book__pages"></div><div class="book__face book__top"></div>${o.noSlip?'':`<div class="book__slip"><b>${note[0]}</b><span>${note[1]}</span><i>${note[2]||'莎士比亚的猫'}</i></div>`}<div class="book__face book__spine"><b>${(o.title||note[0]).replace(/[《》]/g,'')}</b><i></i></div><div class="book__face book__front"><img src="${CV(c)}" alt="${o.alt||''}" loading="lazy"></div></div><span class="book__shadow"></span></div>`;
@@ -91,9 +125,7 @@ const BOOKS=[
   ['huozhe','活着','余华','2026 年春天分两次读完','很多人说，第一次在读书会上哭。','#1E1E1E'],
   ['xusan','许三观卖血记','余华','2026 年春天的线下读书会','笑着读完，回家路上才难过。','#1E1E1E'],
   ['qingcheng','倾城之恋','张爱玲','2026 年冬天第一场讲座读的书','白流苏到底赢了没有？争了一下午。','#26324A'],
-  ['jinsuo','金锁记','张爱玲','2026 年冬天的线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A'],
-  ['hulanhe','呼兰河传','萧红','2026 年秋天正在读','祖父的后园，是全书最亮的地方。','#3F5A58'],
-  ['eergu','额尔古纳河右岸','迟子建','2026 年秋天，11 月 28 日读','一个人讲完一个民族的百年。','#5B4A2E']];
+  ['jinsuo','金锁记','张爱玲','2026 年冬天的线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A']];
 $('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,noSlip:true,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
@@ -138,18 +170,19 @@ initSlider('term');addEventListener('resize',()=>sliders.forEach(s=>s.measure())
 (function loop(){sliders.forEach(s=>s.tick());requestAnimationFrame(loop);})();
 
 /* calendar */
-const months=[9,10,11];let sel=next||EV[0],mi=Math.max(0,months.indexOf(sel.d.getMonth()));
+const months=[...new Set(EV.map(e=>e.d.getMonth()))];let sel=(next||EV[0]).d,mi=Math.max(0,months.indexOf(sel.getMonth()));
+const onDay=dt=>EV.filter(e=>+e.d===+dt);
 function renderCal(){const m=months[mi],first=new Date(2026,m,1),n=new Date(2026,m+1,0).getDate(),off=(first.getDay()+6)%7;
   $('#mTitle').textContent=`${m+1} 月`;$('#prevM').classList.toggle('off',mi===0);$('#nextM').classList.toggle('off',mi===months.length-1);
   let h='';for(let i=0;i<off;i++)h+='<div class="day blank"></div>';
-  for(let d=1;d<=n;d++){const dt=new Date(2026,m,d),ev=EV.find(e=>+e.d===+dt),c=['day'];if(dt>=T0&&dt<=T1)c.push('in');
-    if(ev){c.push('has');if(ev===sel)c.push('sel');h+=`<button type="button" class="${c.join(' ')}" data-t="${+dt}" aria-label="${fmt(dt)} ${ev.title}">${d}</button>`;}else h+=`<div class="${c.join(' ')}">${d}</div>`;}
+  for(let d=1;d<=n;d++){const dt=new Date(TERM.y,m,d),es=onDay(dt),ev=es[0],c=['day'];if(dt>=T0&&dt<=T1)c.push('in');
+    if(ev){c.push('has');if(+dt===+sel)c.push('sel');if(es.length>1)c.push('two');h+=`<button type="button" class="${c.join(' ')}" data-t="${+dt}" aria-label="${fmt(dt)} ${es.map(x=>x.title).join('，')}">${d}</button>`;}else h+=`<div class="${c.join(' ')}">${d}</div>`;}
   $('#days').innerHTML=h;}
-function renderDetail(anim){const e=sel,[sc,sl]=status(e);$('#detail').innerHTML=`<span class="stampin">${e.type}</span><div class="num">${String(e.d.getDate()).padStart(2,'0')}</div>${sl?`<span class="chip ${sc}" style="align-self:flex-start">${sl}</span>`:''}<h3 class="t-h3">${e.title}</h3><p class="t-body">${e.d.getMonth()+1} 月，周${wd[e.d.getDay()]} ${e.t}<br>${e.type}，${where(e.place)}</p><p class="t-small">${e.desc}</p>`;
+function renderDetail(anim){const es=onDay(sel),e=es[0],[sc,sl]=status(e);$('#detail').innerHTML=`<span class="stampin">${es.length>1?'两场活动':e.type}</span><div class="num">${String(sel.getDate()).padStart(2,'0')}</div>${sl?`<span class="chip ${sc}" style="align-self:flex-start">${sl}</span>`:''}<p class="t-small">${sel.getMonth()+1} 月，周${wd[sel.getDay()]}</p>${es.map(x=>`<div class="detail__ev"><h3 class="t-h3">${x.title}</h3><p class="t-body">${x.type}，主持人 ${x.host}</p></div>`).join('')}`;
   if(G&&!RM&&anim){gsap.killTweensOf('#detail *');gsap.fromTo('#detail > :not(.stampin)',{opacity:0,y:'.8em'},{opacity:1,y:0,duration:.5,stagger:.05,ease:EN});
     gsap.fromTo('#detail .stampin',{scale:2.4,opacity:0,rotation:-20},{scale:1,opacity:1,rotation:-6,duration:.45,ease:'power4.in',onComplete:()=>gsap.fromTo('#detail',{x:-3},{x:0,duration:.35,ease:'elastic.out(1,.3)'})});}}
-$('#days').addEventListener('click',ev=>{const b=ev.target.closest('.day.has');if(!b)return;sel=EV.find(e=>+e.d===+b.dataset.t);$$('.day.has').forEach(x=>x.classList.toggle('sel',x===b));renderDetail(true);});
-$('#prevM').onclick=()=>{if(mi>0){mi--;renderCal();}};$('#nextM').onclick=()=>{if(mi<2){mi++;renderCal();}};
+$('#days').addEventListener('click',ev=>{const b=ev.target.closest('.day.has');if(!b)return;sel=new Date(+b.dataset.t);$$('.day.has').forEach(x=>x.classList.toggle('sel',x===b));renderDetail(true);});
+$('#prevM').onclick=()=>{if(mi>0){mi--;renderCal();}};$('#nextM').onclick=()=>{if(mi<months.length-1){mi++;renderCal();}};
 renderCal();renderDetail();
 $$('[data-tab]').forEach(b=>b.addEventListener('click',()=>{$$('[data-tab]').forEach(x=>x.setAttribute('aria-selected',x===b));$$('[data-panel]').forEach(p=>p.hidden=p.dataset.panel!==b.dataset.tab);
   if(G&&!RM)gsap.from(`[data-panel="${b.dataset.tab}"]`,{opacity:0,y:'1em',duration:.5,ease:EN});if(ST)ScrollTrigger.refresh();}));
@@ -295,7 +328,7 @@ const HIST=[
   {y:'2025',s:'冬',h:'有了名字',p:'建立微信群和公众号，取名「莎士比亚的猫」。第一次公开朗读会，来了二十多人。',ill:'cat'},
   {y:'2026',s:'春',h:'以学期为单位读书',p:'第一学期读余华。读书会搬进 Nunawading Community Hub，有了固定的长桌。',ill:'calendar'},
   {y:'2026',s:'冬',h:'第一场线上讲座',p:'读张爱玲《倾城之恋》。悉尼和布里斯班的读者第一次和我们坐在同一张「桌」前。',ill:'mic'},
-  {y:'2026',s:'秋',h:'官网上线',p:'第三学期「故乡与远方」开始，同时筹备青少年与长者阅读推广。',ill:'globe'}];
+  {y:'2026',s:'秋',h:'官网上线',p:'第三学期开始，青少年读书会第一次办起来，长者阅读推广还在筹备。',ill:'globe'}];
 (function(){const ticks=$('#tlTicks');if(!ticks)return;let ti=HIST.length-1;
   ticks.innerHTML=HIST.map((h,i)=>`<button type="button" data-i="${i}">${h.y} ${h.s}</button>`).join('');
   const bs=$$('button',ticks),fill=$('#tlFill'),tx=$('#tlText'),il=$('#tlIll');
@@ -312,12 +345,6 @@ const HIST=[
 /* ---------- 往期活动：学期索引 + 统一的学期档案模板 ----------
    每个学期只填一份 TERMS 数据，页面按同一个模板渲染，内容再多也只显示当前选中的那个学期。 */
 const TERMS=[
-  {id:'t3',y:2026,n:'第三学期',theme:'故乡与远方',range:'从 10 月 5 日到 12 月 13 日',now:true,books:['hulanhe','eergu'],
-   stat:[['6','场活动'],['进行中','学期状态'],['2','本书']],
-   recap:'这个学期还在进行。读萧红和迟子建，两位东北女作家，一个写回忆里的小城，一个写森林里一个民族的百年。学期结束后，内容组会把回顾、讨论记录和照片补进这里。',
-   hl:['第一次把文学夜和读书会围绕同一个主题来安排','学期末写作分享会，收到的短文有几篇后来在公众号发表，收进了书友作品'],
-   links:[['学期预告：故乡与远方','公众号'],['十月读书会回顾','公众号']],
-   ev:EV.map(e=>[fmt(e.d),e.type,e.title]),photos:['十月的读书会','春夜朗读','学期末写作分享']},
   {id:'t2',y:2026,n:'第二学期',theme:'张爱玲的城',range:'从 4 月 25 日到 6 月 27 日',books:['qingcheng','jinsuo'],
    stat:[['4','场活动'],['约 120','人次参加'],['31','位新朋友']],
    recap:'集中读张爱玲。第一次办线上公益讲座，悉尼和布里斯班的读者也来了。讨论里争得最久的问题，是白流苏到底赢了没有；读《金锁记》那天，有位书友说曹七巧让她想起了自己的外婆，屋子里安静了很久。',

@@ -3,6 +3,11 @@
 改了页面文字、出现新字以后运行一次：
     python3 tools/subset_font.py 路径/LXGWWenKai-Bold.ttf
 
+只想补几个新字、不动已有字形时，加 --extra：
+    python3 tools/subset_font.py 路径/LXGWWenKai-Bold.ttf --extra
+它只把主子集里缺的字做成 lxgw-wenkai-bold-extra.woff2，style.css 里补字先声明、主字体后声明，
+浏览器优先用主字体，缺字才用补字。
+
 字体下载：https://github.com/lxgw/LxgwWenKai/releases （SIL Open Font License 1.1）
 需要 fonttools：pip install fonttools brotli
 """
@@ -45,8 +50,14 @@ def load_fixed(src):
 
 if __name__ == '__main__':
     font = load_fixed(sys.argv[1])
+    text, out = site_text(), OUT
+    if '--extra' in sys.argv:
+        have = set(TTFont(OUT).getBestCmap())
+        text = ''.join(c for c in site_text() if ord(c) not in have) or ' '
+        out = OUT.with_name('lxgw-wenkai-bold-extra.woff2')
+        print('补字：', text)
     opts = subset.Options(); opts.flavor = 'woff2'; opts.layout_features = ['*']
-    sub = subset.Subsetter(opts); sub.populate(text=site_text()); sub.subset(font)
-    OUT.parent.mkdir(exist_ok=True)
-    font.flavor = 'woff2'; font.save(OUT)
-    print(OUT, OUT.stat().st_size // 1024, 'KB')
+    sub = subset.Subsetter(opts); sub.populate(text=text); sub.subset(font)
+    out.parent.mkdir(exist_ok=True)
+    font.flavor = 'woff2'; font.save(out)
+    print(out, out.stat().st_size // 1024, 'KB')
