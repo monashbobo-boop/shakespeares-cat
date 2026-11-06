@@ -45,16 +45,18 @@ CREDITS.md              所有素材的来源和授权
 tools/cut_cat.py        从会员设计稿里抠出猫咪（身体和尾巴分两层）
 tools/build_single.py   打包成单个 HTML 文件，输出到 dist/
 tools/cat_rig.py    把趴着睡觉的猫拆成身体、头、耳朵、尾巴几层，并生成打哈欠的头部画面，网页用 canvas 让它在原地动
-tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸
+tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸，并裁出志愿者挂牌用的纸面
 tools/subset_font.py    标题字体霞鹜文楷只保留网站用到的字，改了文字后重新运行
 assets/fonts/           标题字体（霞鹜文楷粗体子集，OFL）
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 docs/WordPress-本学期活动.md  每学期的活动和书怎么录，书的封面怎么上传
 docs/WordPress-书友作品.md  书友作品在 WordPress 后台的字段，稿纸每页能放多少字
 docs/书友作品-点赞与评论.md  点赞和留言上线时的设置
+docs/WordPress-加入我们.md  加入我们页的三个文件夹和志愿者挂牌在后台的字段
 ```
 
 - **改活动或书单**：编辑 `assets/js/main.js` 里的 `EV` 和 `TERM_BOOKS`（本学期的活动和书，见 `docs/WordPress-本学期活动.md`）、`TERMS`（往期，每个学期一份，字段相同）、`BOOKS`（书架）、`WORKS`（书友作品，只收公众号已发表的作品，附原文链接，后台字段见 `docs/WordPress-书友作品.md`）。
+- **改加入方式或志愿者岗位**：编辑 `assets/js/main.js` 里的 `JOIN_WAYS`（三个文件夹，点开后抽出的那张纸写具体怎么做）和 `VOL_ROLES`（木杆上的挂牌，点一下翻到背面），后台字段见 `docs/WordPress-加入我们.md`。
 - **换猫咪原图**：现在的猫是从会员设计稿截图里抠出来的，分辨率有限。拿到原图后，导出两张透明背景图替换 `assets/img/cat-body.webp`（身体）和 `assets/img/cat-tail.webp`（尾巴，单独一层才能摆动）。
 - **本地预览**：在仓库目录运行 `python3 -m http.server`，打开 http://localhost:8000 。
 - **重新打包单文件**：`python3 tools/build_single.py`。

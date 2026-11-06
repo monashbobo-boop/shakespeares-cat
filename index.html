@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@600;700;900&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=21">
+<link rel="stylesheet" href="assets/css/style.css?v=22">
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
 <body>
@@ -342,14 +342,8 @@
     <section class="plain"><div class="wrap">
       <div class="shead"><div><h2 class="t-h2" data-split>有三种方式可以加入</h2><p class="t-body">从最轻的开始就好。不用入会，也不用交会费。</p></div>
         <a class="btn" href="#events" data-btn><span class="bt"><span>看本学期活动</span></span></a></div>
-      <div class="libs">
-        <article class="lib" style="--r:-2deg;--pk:#C6CBA8"><div class="lib__card"><div class="no"><span>借书卡 No.01</span><span>莎士比亚的猫</span></div><h3>参加一场活动</h3><p>挑一场感兴趣的，在公众号报名。读没读完都欢迎，来了先听也行。</p></div>
-          <div class="lib__pocket"><img class="sk pocket__ic" src="assets/img/sketch/book.svg" alt=""><a href="#ev-list">本学期六场活动</a></div></article>
-        <article class="lib" style="--r:1.5deg;--pk:#E9DCB5"><div class="lib__card"><div class="no"><span>借书卡 No.02</span><span>莎士比亚的猫</span></div><h3>加入社群</h3><p>进微信群跟读书进度、聊书，第一时间收到活动通知。</p></div>
-          <div class="lib__pocket"><img class="sk pocket__ic" src="assets/img/sketch/team.svg" alt=""><a href="#join-group">三步进群</a></div></article>
-        <article class="lib" style="--r:-1deg;--pk:#3A4A36;--pt:#FAF6EC"><div class="lib__card"><div class="no"><span>借书卡 No.03</span><span>莎士比亚的猫</span></div><h3>成为志愿者</h3><p>一起把活动办起来。每月几个小时，按你擅长的来。</p></div>
-          <div class="lib__pocket"><img class="sk pocket__ic" src="assets/img/sketch/heart-light.svg" alt=""><a href="#join-vol">看看岗位</a></div></article>
-      </div>
+      <!-- 三个文件夹由 main.js 里的 JOIN_WAYS 生成，上线后对应 WordPress 的「加入方式」，见 docs/WordPress-加入我们.md -->
+      <div class="folds" id="folds"></div>
     </div></section>
 
     <section class="band" style="--bb:var(--rose)" id="join-voices"><div class="wrap">
@@ -382,15 +376,9 @@
     </div></section>
 
     <section class="band dark" id="join-vol"><div class="wrap">
-      <div class="shead"><div><h2 class="t-h2">我们现在需要这些帮手</h2><p class="t-body">在公众号留言「志愿者」和想做的岗位，我们约你聊十五分钟。碰一下书签试试。</p></div></div>
-      <div class="marks">
-        <div class="mark" style="--mc:#FAF6EC"><div class="mark__body"><b>活动组织</b><p>订场地、签到、控制流程</p><span>每月 4 至 6 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#C6CBA8"><div class="mark__body"><b>讨论主持</b><p>提前读书，准备三个好问题</p><span>每场约 5 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#E9DCB5"><div class="mark__body"><b>宣传设计</b><p>海报、公众号排版、小红书</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#C9DEE3"><div class="mark__body"><b>摄影记录</b><p>现场拍照，征得同意后发布</p><span>每场 2 至 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#E7CFC4"><div class="mark__body"><b>内容整理</b><p>写活动回顾，整理往期档案</p><span>每月约 3 小时</span></div><i class="mark__tassel"></i></div>
-        <div class="mark" style="--mc:#DEDAC1"><div class="mark__body"><b>技术支持</b><p>网站、报名表、线上会议</p><span>按需</span></div><i class="mark__tassel"></i></div>
-      </div>
+      <div class="shead"><div><h2 class="t-h2">我们现在需要这些帮手</h2><p class="t-body">在公众号留言「志愿者」和想做的岗位，我们约你聊十五分钟。点一下挂牌，背面写着具体做什么。</p></div></div>
+      <!-- 挂牌由 main.js 里的 VOL_ROLES 生成，上线后对应 WordPress 的「志愿者岗位」，见 docs/WordPress-加入我们.md -->
+      <div class="rail" id="rail"><div class="rail__track"><ul class="rail__list" id="railList"></ul></div></div>
     </div></section>
 
     <section class="band" style="--bb:var(--w2)"><div class="wrap">
@@ -554,6 +542,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
 <script src="assets/js/land.js"></script>
 <script src="assets/js/cat-rig.js?v=16"></script>
-<script src="assets/js/main.js?v=21"></script>
+<script src="assets/js/main.js?v=22"></script>
 </body>
 </html>

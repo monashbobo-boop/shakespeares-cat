@@ -33,11 +33,9 @@ def build(artifact=False):
     # These optional images are loaded by JavaScript rather than src attributes.
     # the cat's layers are loaded by JavaScript rather than src attributes
     html = re.sub(r'"(assets/img/cat/rig/[a-z0-9]+\.webp)(?:\?v=[0-9a-f]+)?"', lambda m: json.dumps(data_uri(m.group(1))), html)
-    tags = {str(i): data_uri(f'assets/img/tags/tag-{i}.webp') for i in range(1, 7)
-            if (ROOT / f'assets/img/tags/tag-{i}.webp').exists()}
-    if tags:
-        html = html.replace('im.src=`assets/img/tags/tag-${i+1}.webp`;',
-                            'im.src=(' + json.dumps(tags) + ')[i+1]||`assets/img/tags/tag-${i+1}.webp`;')
+    # 志愿者挂牌的纸面也由 JavaScript 拼出地址
+    papers = {str(i): data_uri(f'assets/img/tags/paper-{i}.webp') for i in range(1, 7)}
+    html = html.replace('const TEX=n=>`assets/img/tags/paper-${n}.webp`;', 'const PAPER=' + json.dumps(papers) + ';const TEX=n=>PAPER[n];')
     html = re.sub(r'(src|href)="(assets/img/[^"]+)"', lambda m: f'{m.group(1)}="{data_uri(m.group(2))}"', html)
     if artifact:
         head = html[html.index('<title>'):html.index('</head>')]

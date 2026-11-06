@@ -726,34 +726,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .more a:hover{background:var(--pine);color:var(--paper);transform:translateY(-.25em)}
 @media (max-width:991px){.more{padding:2.5em 1.2em;border-radius:2em}.more h2{font-size:1.5em}.more a{font-size:.95em}}
 
-/* library card pulled from its pocket */
-.libs{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5em;padding-top:8em}
-.lib{position:relative;height:30em;cursor:pointer}
-.lib__card{position:absolute;left:8%;right:8%;top:-6em;height:28em;background:#FBF8EF;border-radius:.5em;padding:1.6em 1.6em 0;box-shadow:0 .6em 1.4em -.8em rgba(43,51,38,.4);transform:translateY(0) rotate(var(--r,-2deg));will-change:transform;display:flex;flex-direction:column;gap:.7em;
-  background-image:repeating-linear-gradient(to bottom,transparent 0 2.2em,rgba(184,65,47,.18) 2.2em calc(2.2em + 1px));background-position:0 5.6em}
-.lib__card .no{display:flex;justify-content:space-between;font-size:1.05em;letter-spacing:.15em;color:var(--moss);border-bottom:2px solid var(--seal);padding-bottom:.6em}
-.lib__card h3{font-size:2.6em;line-height:1.25}
-.lib__card p{font-size:1.35em;line-height:1.62}
-.lib__stamp{position:absolute;right:1.2em;top:4.4em;padding:.35em .7em;border:3px double var(--seal);color:var(--seal);font-family:var(--display);font-weight:700;font-size:1.5em;letter-spacing:.15em;rotate:-12deg;opacity:0;scale:2.2;pointer-events:none}
-.lib__pocket{position:absolute;left:0;right:0;bottom:0;height:17em;background:var(--pk,#C9B98F);border-radius:.4em .4em 1em 1em;padding:2.2em 1.8em 1.8em;display:flex;flex-direction:column;justify-content:flex-end;gap:.6em;box-shadow:inset 0 .4em 0 rgba(255,255,255,.18),0 1.8em 2.6em -1.8em rgba(43,51,38,.6);z-index:2}
-.lib__pocket::before{content:"";position:absolute;left:50%;top:-1.2em;width:5.4em;height:2.4em;translate:-50% 0;background:var(--pk,#C9B98F);border-radius:3em 3em 0 0;clip-path:inset(0 0 50% 0)}
-.lib__pocket b{font-family:var(--display);font-weight:700;font-size:1.7em;color:var(--pt,var(--ink))}
-.lib__pocket a{align-self:flex-start;font-weight:700;font-size:1.25em;color:var(--pt,var(--ink));text-decoration:underline;text-underline-offset:.3em}
-.lib__pocket svg{position:absolute;right:1.4em;top:1.6em;width:7.5em;height:5.5em}
-@media (max-width:991px){.libs{grid-template-columns:1fr;gap:6.5em;padding-top:6em}.lib{height:22em}.lib__card{height:21em;top:-5em;padding:1.1em 1.1em 0;background-position:0 4.2em}.lib__card h3{font-size:1.5em}.lib__card p{font-size:.95em}.lib__pocket{height:11em;padding:1.4em 1.1em 1.1em}.lib__pocket b{font-size:1.1em}.lib__pocket a{font-size:.9em}.lib__pocket svg{width:5em;height:3.6em}.lib__stamp{font-size:1em;top:3.4em}}
-
-/* hanging bookmarks for volunteer roles */
-.marks{display:grid;grid-template-columns:repeat(6,1fr);gap:1.2em;align-items:start;padding-top:1em}
-.mark{position:relative;transform-origin:50% -2.6em;will-change:transform;cursor:default}
-.mark::before{content:"";position:absolute;left:50%;top:-2.6em;height:2.6em;border-left:2px solid rgba(250,246,236,.5)}
-.mark__body{position:relative;background:var(--mc,var(--paper));color:var(--ink);border-radius:.4em .4em 0 0;padding:2.2em 1.2em 3.6em;min-height:26em;display:flex;flex-direction:column;gap:.9em;clip-path:polygon(0 0,100% 0,100% 100%,50% calc(100% - 2.4em),0 100%)}
-.mark__body::before{content:"";width:1.1em;height:1.1em;border-radius:50%;background:var(--pine);align-self:center;margin-bottom:.6em;box-shadow:inset 0 0 0 .3em rgba(250,246,236,.5)}
-.mark b{font-family:var(--display);font-weight:700;font-size:2.2em;writing-mode:vertical-rl;align-self:center;letter-spacing:.2em}
-.mark p{font-size:1.2em;line-height:1.6;color:var(--moss);text-align:center}
-.mark span{margin-top:auto;align-self:center;font-size:1.05em;font-weight:700;color:var(--seal)}
-.mark__tassel{position:absolute;left:50%;bottom:-3.2em;width:.5em;height:4.6em;translate:-50% 0;background:repeating-linear-gradient(90deg,var(--seal) 0 1px,#8E2F22 1px 2px);border-radius:0 0 .3em .3em;transform-origin:50% 0}
-@media (max-width:991px){.marks{grid-template-columns:repeat(3,1fr);gap:3.6em .6em}.mark__body{min-height:18em;padding:1.6em .6em 3em}.mark b{font-size:1.3em}.mark p{font-size:.78em}.mark span{font-size:.75em}}
-
 /* envelopes for partnership directions */
 .envs{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4em;padding-top:9em}
 .env{position:relative;aspect-ratio:1.05;perspective:900px;cursor:default}
@@ -864,9 +836,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .tfeat__books .book{--w:15em}
 @media (max-width:991px){.bfeat,.bfeat.rev{grid-template-columns:1fr}.bfeat.rev .book{order:0}.bfeat .book{--w:12em!important;--t:1.6em!important;margin:0 auto}.tfeat__books .book{--w:8.5em}}
 
-.mark{min-width:0}
-@media (max-width:991px){.marks{grid-template-columns:repeat(3,minmax(0,1fr))}}
-
 /* ===== v7 ===== */
 /* term slider: cards may bleed to the screen edge, never get cut at the container edge */
 .sec:has(.slider[data-slider="term"]){overflow:hidden}
@@ -895,18 +864,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 
 /* stamps with real icons */
 .stamp__in .stamp__ic{width:72%;height:62%;object-fit:contain;filter:drop-shadow(0 .4em .5em rgba(43,51,38,.2))}
-
-/* library pocket icon */
-.lib__pocket .pocket__ic{position:absolute;right:1em;top:-2.6em;width:7.5em;height:7.5em;filter:drop-shadow(0 .8em .9em rgba(43,51,38,.3));rotate:8deg;transition:transform .9s var(--spring)}
-.lib:hover .pocket__ic{transform:translateY(-.6em) rotate(-10deg) scale(1.08)}
-@media (max-width:991px){.lib__pocket .pocket__ic{width:5em;height:5em;top:-1.6em}}
-
-/* bookmarks: real icon at the top */
-.mark__body::before{display:none}
-.mark .mark__ic{width:4.6em;height:4.6em;align-self:center;filter:drop-shadow(0 .4em .5em rgba(43,51,38,.25));margin-bottom:.2em}
-.mark__body{background-color:var(--mc,var(--paper));background-image:radial-gradient(rgba(43,51,38,.05) 1px,transparent 1.2px);background-size:.6em .6em;padding-top:1.4em}
-.mark__eyelet{position:absolute;left:50%;top:.7em;width:1em;height:1em;translate:-50% 0;border-radius:50%;background:var(--pine);box-shadow:0 0 0 .28em #C9A86A;z-index:2}
-@media (max-width:991px){.mark .mark__ic{width:3em;height:3em}}
 
 /* envelopes: a real envelope, the letter slides up from behind */
 .envs{padding-top:7em;gap:2em}
@@ -1022,14 +979,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .stamp__pm svg *{fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round}
 .stamp__pm svg text{fill:currentColor;stroke:none;font-family:var(--display);font-weight:700;font-size:7.4px;letter-spacing:.5px}
 
-/* pocket icons */
-.lib__pocket .pocket__ic{width:5.4em;height:5.4em;top:1.4em;right:1.4em;filter:none;rotate:0deg}
-.lib:hover .pocket__ic{transform:translateY(-.3em) rotate(-8deg)}
-@media (max-width:991px){.lib__pocket .pocket__ic{width:3.6em;height:3.6em;top:1em}}
-
-/* bookmarks */
-.mark .mark__ic{width:3.4em;height:3.4em;filter:none;opacity:.9}
-
 /* envelopes: hand-drawn envelope on paper, the letter rises from behind */
 .envs{padding-top:11em}
 .env{aspect-ratio:24/17.64;rotate:var(--r)}
@@ -1059,8 +1008,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 /* v9 fixes */
 .icard.leaf .go{right:auto;left:2em}
 @media (max-width:991px){.icard.leaf .go{left:1.4em}}
-.libs{padding-top:12em}
-@media (max-width:991px){.libs{padding-top:8em;gap:8em}}
+
 .amp{grid-template-columns:1fr 1fr;gap:6em}
 /* header: slides away on scroll down, returns on scroll up or when the pointer nears the top */
 .hdr{transition:transform .55s var(--ease)}
@@ -1109,13 +1057,8 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   .btn .bi{width:3.4em}
   .menu-btn .bt{padding:0 1.1em}
 }
-/* phones have no hover: library cards and envelopes show their content up front, nothing slides behind anything */
+/* phones have no hover: envelopes show their content up front, nothing slides behind anything */
 @media (max-width:991px){
-  .libs{padding-top:1em;gap:1.4em}
-  .lib{height:auto;display:flex;flex-direction:column}
-  .lib__card{position:relative;inset:auto;top:auto;left:auto;right:auto;height:auto;padding:1.2em 1.2em 1.4em;margin:0 6%;transform:none!important;rotate:0deg!important;z-index:1}
-  .lib__pocket{position:relative;height:auto;min-height:7.5em;margin-top:-1.4em;padding:2em 1.2em 1.2em}
-  .lib__stamp{display:none}
   .envs{grid-template-columns:1fr;padding-top:1em;row-gap:1.2em}
   .env{aspect-ratio:auto;display:grid;grid-template-columns:7.5em 1fr;gap:1.2em;align-items:center;rotate:0deg!important;transform:none!important}
   .env__img{position:relative;inset:auto;width:7.5em;height:5.5em;grid-row:1/3}
@@ -1126,7 +1069,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
   .env__to{display:none}
 }
 @media (min-width:992px){.env__letter .env__ic{display:none}.env__letter b{font-size:1.5em}.env__letter p{font-size:1.1em}.envs{padding-top:13em}}
-@media (max-width:991px){.lib__card{padding-bottom:2.8em}.lib__pocket::before{display:none}}
+
 @media (hover:none),(max-width:991px){.hint{display:none}}
 @media (min-width:992px){.env__letter{top:auto!important;bottom:12%!important;height:auto!important;max-height:86%}.env__letter p{line-height:1.5}}
 
@@ -1135,12 +1078,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .cat__seq{position:absolute;z-index:4;left:var(--cat-x);bottom:var(--cat-y);width:var(--cat-w);aspect-ratio:2/1;background:no-repeat 0 0/400% 400%;display:none;pointer-events:none;will-change:transform}
 .cat.has-seq .cat__seq{display:block}
 .cat.has-seq > img{display:none}
-/* real paper tags */
-.mark.has-tag .mark__body{background:var(--tag) center/100% 100% no-repeat;clip-path:none;border-radius:0;padding:3.4em 1.4em 3.2em}
-.mark.has-tag .mark__eyelet,.mark.has-tag .mark__tassel{display:none}
-.marks:has(.has-tag){align-items:stretch}
-.mark.has-tag .mark__body{height:100%}
-.mark.has-tag::before{top:-2.6em;height:3.6em}
 
 /* ===== v12 ===== */
 /* cat: two frame layers that cross-fade */
@@ -1168,12 +1105,6 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .acc summary{transition:background-color .3s ease}
 .acc summary:hover{background:rgba(58,74,54,.05)}
 @media (max-width:991px){.acc .ans{padding:0}.acc .ans__in{padding:0 1.1em 1.1em}}
-@media (max-width:600px){.marks{grid-template-columns:repeat(2,minmax(0,1fr))}}
-/* real paper tags keep the photo's proportions, so the brass eyelet always sits in the same place and the text starts below it */
-.marks:has(.has-tag){align-items:start}
-.mark.has-tag .mark__body{height:auto;min-height:0;aspect-ratio:373/1100;padding:84% 1.2em 40%;overflow:hidden}
-@media (max-width:991px){.mark.has-tag .mark__body{padding:84% .7em 40%}}
-.mark.has-tag p{color:var(--ink);opacity:.72}
 
 /* ===== v13/v14 ===== */
 /* cat: a canvas redraws the cut-up still each frame; it is a bit wider and taller than the still, for the tail swing and the breathing */
@@ -1605,3 +1536,94 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 
 .tbook__cv.img{padding:0;writing-mode:horizontal-tb;overflow:hidden;background:var(--parch)}
 .tbook__cv.img img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* 加入我们：三个文件夹。后片带一个夹舌，前片是半透明的磨砂纸，里面那张纸隐约透出来；
+   点开后前片往前倒一点，纸整张抽出来。颜色只用站内的灰绿、麦黄、雾蓝，不加光泽。 */
+.folds{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3em;align-items:start;padding-top:2em}
+.fold{position:relative}
+.fold__box{position:relative;height:24em}
+.fold__back{position:absolute;inset:2.5em 0 0;border-radius:0 1.3em 1.3em 1.3em;background:color-mix(in srgb,var(--fc) 86%,#2B3326);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
+.fold__back::before{content:"";position:absolute;left:0;bottom:100%;width:40%;height:2.6em;background:inherit;border-radius:1.1em 1.1em 0 0/1.1em 1.1em 0 0;clip-path:polygon(0 0,74% 0,100% 100%,0 100%);border-top-left-radius:1.1em}
+.fold__slot{position:absolute;left:7%;right:7%;top:-90em;bottom:2em;overflow:hidden;pointer-events:none;z-index:1}
+.fold__paper{position:absolute;left:0;right:0;top:calc(90em + 4em);background:#FBF8EF;border-radius:.5em;padding:2em 2em 3.6em;display:flex;flex-direction:column;gap:1.3em;box-shadow:0 .5em 1.4em -.8em rgba(43,51,38,.45);will-change:transform}
+.fold.is-open .fold__paper{pointer-events:auto}
+.fold__paper h4{margin:0;font-family:var(--display);font-weight:700;font-size:1.75em;line-height:1.3;color:var(--ink);text-wrap:balance}
+.fold__paper dl{margin:0;display:grid;gap:1em}
+.fold__paper dl > div{display:grid;grid-template-columns:5.2em 1fr;gap:1em;align-items:baseline}
+.fold__paper dt{font-weight:700;font-size:1.25em;color:var(--moss)}
+.fold__paper dd{margin:0;font-size:1.3em;line-height:1.65;color:var(--ink)}
+.fold__go{align-self:flex-start;font-weight:700;font-size:1.3em;color:var(--ink);text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:.08em}
+.fold__front{position:absolute;left:0;right:0;top:9em;bottom:0;z-index:2;border-radius:.9em .9em 1.3em 1.3em;padding:2.2em 2.2em 2em;display:flex;flex-direction:column;gap:.8em;
+  background:color-mix(in srgb,var(--fc) 82%,transparent);-webkit-backdrop-filter:blur(.7em) saturate(1.1);backdrop-filter:blur(.7em) saturate(1.1);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 1.6em 2.6em -1.8em rgba(43,51,38,.5);transform-origin:50% 100%;will-change:transform}
+.fold__front h3{font-size:2.6em;line-height:1.25;padding-right:2.4em}
+.fold__front p{font-size:1.35em;line-height:1.62;max-width:22em}
+.fold__ic{position:absolute;right:1.6em;top:1.6em;width:4.6em;height:4.6em;opacity:.8;pointer-events:none}
+.fold__act{margin-top:auto;align-self:flex-start;background:none;border:0;padding:0;cursor:pointer;font-weight:700;font-size:1.25em;color:var(--ink);text-decoration:underline;text-underline-offset:.3em;text-decoration-thickness:.08em}
+.fold__act::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.fold__act span + span,.fold__act[aria-expanded="true"] span:first-child{display:none}
+.fold__act[aria-expanded="true"] span + span{display:inline}
+@media (max-width:991px){
+  .folds{grid-template-columns:1fr;gap:2em;padding-top:1em}
+  .fold__box{height:17.5em}
+  .fold__front h3,.fold__front p{padding-right:3.4em}
+  .fold__back{inset:2em 0 0;border-radius:0 1em 1em 1em}
+  .fold__back::before{height:2.1em;width:42%}
+  .fold__front{top:6.4em;padding:1.4em 1.3em 1.3em;gap:.5em}
+  .fold__front h3{font-size:1.45em}
+  .fold__front p{font-size:.95em}
+  .fold__ic{width:3.2em;height:3.2em;right:1em;top:1em}
+  .fold__act{font-size:.95em}
+  .fold__slot{left:5%;right:5%}
+  .fold__paper{top:calc(90em + 3.2em);padding:1.3em 1.2em 3em;gap:.9em}
+  .fold__paper h4{font-size:1.25em}
+  .fold__paper dl{gap:.7em}
+  .fold__paper dl > div{grid-template-columns:3.8em 1fr;gap:.6em}
+  .fold__paper dt{font-size:.88em}
+  .fold__paper dd,.fold__go{font-size:.95em}
+}
+
+/* 加入我们：志愿者挂牌。一根木杆，棉织挂带，哑光铜夹，牌子用原来标签的纸。 */
+.rail{margin-top:1em}
+.rail__list{--n:6;position:relative;display:grid;grid-template-columns:repeat(var(--n),minmax(0,1fr));gap:1.8em;padding:0 1.6em 2em}
+.rail__list::before{content:"";position:absolute;left:0;right:0;top:0;height:.9em;border-radius:.45em;z-index:2;
+  background:linear-gradient(#A3845A,#7E6141 55%,#62492F);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 .5em .8em -.3em rgba(0,0,0,.4)}
+.hang{position:relative;min-width:0}
+.hang__swing{--a:0deg;--s:0em;display:flex;flex-direction:column;align-items:center;transform-origin:50% .45em;transform:rotate(var(--a))}
+.hang__strap{position:relative;z-index:3;width:1.15em;height:calc(7.4em + var(--s));margin-top:-.25em;border-radius:.5em .5em .15em .15em;
+  background:repeating-linear-gradient(135deg,#E2D8BF 0 .2em,#D2C6A8 .2em .4em);box-shadow:inset .14em 0 0 rgba(43,51,38,.1),inset -.14em 0 0 rgba(43,51,38,.1),0 .2em .3em rgba(0,0,0,.18)}
+.hang__clip{position:relative;z-index:3;width:1.5em;height:2em;margin-top:-.4em;border:.24em solid #B49B6C;border-radius:.4em .4em .7em .7em;box-shadow:0 .15em .25em rgba(0,0,0,.25)}
+.bdg{position:relative;display:block;width:100%;aspect-ratio:.66;margin-top:-1.05em;padding:0;border:0;background:none;color:var(--ink);font:inherit;text-align:center;cursor:grab;perspective:1100px;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.is-drag .bdg{cursor:grabbing}
+.bdg__in{position:relative;display:block;width:100%;height:100%;transform-style:preserve-3d;transition:transform .85s var(--spring)}
+.bdg[aria-pressed="true"] .bdg__in{transform:rotateY(180deg)}
+.bdg__face{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;gap:.6em;padding:2.6em 1.2em 1.5em;border-radius:.7em;overflow:hidden;
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  background-color:var(--paper);background-size:auto,150% auto;box-shadow:0 1.3em 1.8em -1.2em rgba(0,0,0,.6)}
+.bdg__slot{position:absolute;top:.95em;left:50%;width:2.4em;height:.6em;translate:-50% 0;border-radius:.4em;background:var(--pine);box-shadow:inset 0 .12em .18em rgba(0,0,0,.45)}
+.bdg__ic{width:4.2em;height:4.2em;margin-top:1em;opacity:.82}
+.bdg b{font-family:var(--display);font-weight:700;font-size:1.95em;line-height:1.2;margin-top:.2em}
+.bdg__line{font-size:1.15em;line-height:1.55;color:rgba(43,51,38,.78);text-wrap:pretty}
+.bdg__time{margin-top:auto;font-size:1.05em;font-weight:700;color:var(--seal)}
+.bdg__back{transform:rotateY(180deg);align-items:stretch;text-align:left;gap:.75em;padding:2.4em 1.3em 1.4em}
+.bdg__back b{font-size:1.45em;margin:0}
+.bdg__row{display:flex;flex-direction:column;gap:.15em;font-size:1.1em;line-height:1.5}
+.bdg__row em{font-style:normal;font-weight:700;font-size:.9em;color:rgba(43,51,38,.6)}
+.bdg:focus-visible{outline:none}
+.bdg:focus-visible .bdg__face{outline:.18em solid var(--paper);outline-offset:.25em}
+@media (prefers-reduced-motion:reduce){.bdg__in{transition:none}}
+@media (max-width:991px){
+  .rail__track{margin:0 -16px;padding:0 16px;overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x mandatory;scroll-padding:0 16px;scrollbar-width:none}
+  .rail__track::-webkit-scrollbar{display:none}
+  .rail__list{display:flex;width:max-content;gap:1.1em;padding:0 1em 1.6em}
+  .hang{flex:none;width:12.5em;scroll-snap-align:center}
+  .bdg{cursor:pointer}
+  .bdg__face{padding:2.4em 1em 1.2em;gap:.45em}
+  .bdg__ic{width:3.2em;height:3.2em;margin-top:.7em}
+  .bdg b{font-size:1.35em}
+  .bdg__line{font-size:.88em}
+  .bdg__time{font-size:.82em}
+  .bdg__back{padding:2.2em 1em 1.1em;gap:.55em}
+  .bdg__back b{font-size:1.05em}
+  .bdg__row{font-size:.8em}
+}

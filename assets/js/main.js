@@ -128,6 +128,80 @@ const BOOKS=[
   ['jinsuo','金锁记','张爱玲','2026 年冬天的线下读书会','曹七巧的那副金锁，锁住了谁？','#6B5A4A']];
 $('#shelf').innerHTML=BOOKS.map(([c,t,a,when,line,bk],i)=>bookHTML(c,[`《${t}》`,`${when}<br>${line}`,a],{bk,title:t,noSlip:true,alt:`《${t}》封面`,t:['1.3em','1.7em','1.5em','1.4em','1.2em','1.6em','1.9em'][i]})).join('');
 
+/* 加入我们：三个文件夹。文件夹正面写标题和一句话，点开后抽出来的那张纸写具体怎么做。
+   上线后在 WordPress 里每个文件夹是一条「加入方式」，字段一一对应，见 docs/WordPress-加入我们.md。
+   color 只能选 FOLD_COLORS 里的名字；icon 是 assets/img/sketch 里的图标名；points 每行一条，「名称」和「内容」。 */
+const FOLD_COLORS={'灰绿':'#C6CBA8','麦黄':'#E9DCB5','雾蓝':'#C9DEE3','米灰':'#DEDAC1','藕粉':'#E7CFC4'};
+const JOIN_WAYS=[
+  {title:'参加一场活动',line:'挑一场感兴趣的，在公众号报名。读没读完都欢迎，来了先听也行。',color:'灰绿',icon:'book',
+   paper:'第一次来只要知道这几件事',
+   points:[['报名','看公众号「莎士比亚的猫文学社」的活动推文，按推文里的方式报名。'],
+           ['读书','读没读完都欢迎。线下活动会准备大字版讨论问题，来了先听也行。'],
+           ['地点','线下读书会在 Nunawading Community Hub，嘉宾讲座和线上讨论在 Zoom。'],
+           ['费用','大部分活动免费。需要分摊场地或茶点时，报名时会写清楚每一笔用在哪里。']],
+   link:['看本学期活动','#events']},
+  {title:'加入社群',line:'进微信群跟读书进度、聊书，第一时间收到活动通知。',color:'麦黄',icon:'team',
+   paper:'进群只要在公众号留一句话',
+   points:[['进群','关注公众号，留言「入群」和你的称呼，管理员一两天内拉你进群。'],
+           ['群里','跟读书进度、聊书，活动通知第一时间发在群里。'],
+           ['约定','不发广告、不拉票、不转发未经核实的消息。'],
+           ['不用微信','可以在 Facebook 找到我们，Meetup 上有英文活动页。']],
+   link:['看进群步骤','#join-group']},
+  {title:'成为志愿者',line:'一起把活动办起来。每月几个小时，按你擅长的来。',color:'雾蓝',icon:'heart',
+   paper:'志愿者从一次聊天开始',
+   points:[['岗位','活动组织、讨论主持、宣传设计、摄影记录、内容整理、技术支持。'],
+           ['时间','每月几个小时，按你擅长的来，忙的时候可以停一停。'],
+           ['报名','在公众号留言「志愿者」和想做的岗位，我们约你聊十五分钟。']],
+   link:['看看岗位','#join-vol']}];
+$('#folds').innerHTML=JOIN_WAYS.map((w,i)=>`<article class="fold" style="--fc:${FOLD_COLORS[w.color]||w.color}">
+  <div class="fold__box">
+    <i class="fold__back" aria-hidden="true"></i>
+    <div class="fold__front">
+      <img class="sk fold__ic" src="${SK(w.icon)}" alt="">
+      <h3>${w.title}</h3><p>${w.line}</p>
+      <button type="button" class="fold__act" aria-expanded="false" aria-controls="fold-${i}"><span>打开看看</span><span>收起来</span></button>
+    </div>
+    <div class="fold__slot"><div class="fold__paper" id="fold-${i}" inert>
+      <h4>${w.paper}</h4>
+      <dl>${w.points.map(([k,v])=>`<div><dt>${k}</dt><dd>${v}</dd></div>`).join('')}</dl>
+      ${w.link?`<a class="fold__go" href="${w.link[1]}">${w.link[0]}</a>`:''}
+    </div></div>
+  </div></article>`).join('');
+
+/* 加入我们：志愿者挂牌，挂在一根木杆上。正面是岗位，点一下翻到背面，写做什么、适合谁。
+   上线后在 WordPress 里每张挂牌是一条「志愿者岗位」，见 docs/WordPress-加入我们.md。
+   paper 选纸色，对应 assets/img/tags/paper-N.webp（和原来的标签是同一种纸）。 */
+const PAPERS={'米白':1,'灰绿':2,'麦黄':3,'雾蓝':4,'砖红':5,'牛皮':6};
+const TEX=n=>`assets/img/tags/paper-${n}.webp`;
+/* 每张牌从纸上不同的位置取，纤维和压痕就不会张张一样 */
+const tex=(r,i)=>`background-image:linear-gradient(rgba(250,246,236,.22),rgba(250,246,236,.22)),url(${TEX(PAPERS[r.paper]||1)});background-position:0 0,${[10,80,35,60,90,20][i%6]}% ${[70,15,45,90,30,60][i%6]}%`;
+const VOL_ROLES=[
+  {name:'活动组织',line:'订场地、签到、控制流程',time:'每月 4 至 6 小时',paper:'米白',icon:'calendar',
+   does:'和场地联系预订，活动当天摆座位、签到，提醒主持人看时间。',fit:'做事有条理，不怕和人打交道。'},
+  {name:'讨论主持',line:'提前读书，准备三个好问题',time:'每场约 5 小时',paper:'灰绿',icon:'chat',
+   does:'提前读完当期的书，准备三个好问题，现场让每个人都有机会说话。',fit:'喜欢读书，也愿意多听别人说。'},
+  {name:'宣传设计',line:'海报、公众号排版、小红书',time:'每月约 3 小时',paper:'麦黄',icon:'palette',
+   does:'做活动海报，排公众号推文，在小红书分享书单和笔记。',fit:'会用 Canva 或 Figma，或者想学。'},
+  {name:'摄影记录',line:'现场拍照，征得同意后发布',time:'每场 2 至 3 小时',paper:'雾蓝',icon:'camera',
+   does:'活动现场拍照，回家挑图、修图，征得同意后发布。',fit:'有相机，或者手机拍得不错。'},
+  {name:'内容整理',line:'写活动回顾，整理往期档案',time:'每月约 3 小时',paper:'砖红',icon:'typewriter',
+   does:'写活动回顾发在公众号，把书单和讨论整理进往期档案。',fit:'爱写字，对文字细心。'},
+  {name:'技术支持',line:'网站、报名表、线上会议',time:'按需',paper:'牛皮',icon:'laptop',
+   does:'维护网站和报名表，线上讲座时管理 Zoom 会议。',fit:'熟悉电脑，遇到问题愿意查。'}];
+$('#railList').style.setProperty('--n',VOL_ROLES.length);
+$('#railList').innerHTML=VOL_ROLES.map((r,i)=>`<li class="hang"><div class="hang__swing">
+  <i class="hang__strap" aria-hidden="true"></i><i class="hang__clip" aria-hidden="true"></i>
+  <button type="button" class="bdg" aria-pressed="false">
+    <span class="bdg__in">
+      <span class="bdg__face bdg__front" style="${tex(r,i)}"><i class="bdg__slot" aria-hidden="true"></i>
+        <img class="sk bdg__ic" src="${SK(r.icon)}" alt=""><b>${r.name}</b><span class="bdg__line">${r.line}</span><span class="bdg__time">${r.time}</span></span>
+      <span class="bdg__face bdg__back" aria-hidden="true" style="${tex(r,i+3)}"><i class="bdg__slot" aria-hidden="true"></i>
+        <b>${r.name}</b>
+        <span class="bdg__row"><em>做什么</em>${r.does}</span>
+        <span class="bdg__row"><em>适合谁</em>${r.fit}</span>
+        <span class="bdg__row"><em>时间</em>${r.time}</span></span>
+    </span></button></div></li>`).join('');
+
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
 /* covers appear beside the list (never on top of the words), swing in, drift a little with the pointer */
 function sideCovers(sec,list,items,getCovers){
@@ -290,24 +364,74 @@ $$('.stamp').forEach(st=>{const f=$('.stamp__face',st),pm=$('.stamp__pm',st);con
     .to(f,{x:-3,duration:.06,yoyo:true,repeat:1},.45);
   hoverTL(st,tl,{speed:1.6});});
 
-/* library cards: pulled a little out of the pocket and stamped; slides back on leave */
-$$('.lib').forEach(l=>{const c=$('.lib__card',l),pk=$('.lib__pocket',l);const r=adoptRotation(c);
-  if(!MOTION||!DESK())return;
-  const tl=gsap.timeline({paused:true})
-    .to(c,{yPercent:-16,rotation:r*-1.2,duration:.6,ease:'power3.out'},0)
-    .to(pk,{y:5,duration:.4,ease:'power2.out'},0);
-  hoverTL(l,tl,{speed:1.5});});
+/* 加入我们的文件夹：鼠标靠近时朝指针轻轻倾斜，里面的纸探出一点；
+   点开时前片往前倒一点，那张纸整张抽出来，文件夹往下让出位置。一次只开一个。 */
+(()=>{const folds=$$('.fold');if(!folds.length)return;let cur=null;
+  const parts=f=>({f,box:$('.fold__box',f),slot:$('.fold__slot',f),pap:$('.fold__paper',f),front:$('.fold__front',f),btn:$('.fold__act',f)});
+  const P=folds.map(parts);
+  /* how far the paper has to rise so all of it clears the front panel, leaving its foot tucked in */
+  const rise=o=>{const em=parseFloat(getComputedStyle(o.box).fontSize);
+    const y0=o.slot.offsetTop+o.pap.offsetTop,yF=o.front.offsetTop;
+    return Math.max(0,y0+o.pap.offsetHeight-yF-1.9*em);};
+  const set=(o,on,instant)=>{o.btn.setAttribute('aria-expanded',on);o.f.classList.toggle('is-open',on);
+    if(on)o.pap.removeAttribute('inert');else o.pap.setAttribute('inert','');
+    const R=on?rise(o):0;
+    if(!MOTION||instant){o.f.style.paddingTop=R+'px';o.pap.style.transform=`translateY(${-R}px)`;o.front.style.transform=on?'perspective(60em) rotateX(-10deg)':'';return;}
+    gsap.killTweensOf([o.f,o.pap,o.front]);
+    if(on){gsap.to(o.f,{paddingTop:R,duration:.75,ease:'power3.inOut'});
+      gsap.to(o.pap,{y:-R,rotation:0,duration:.85,ease:'back.out(1.15)',delay:.08});
+      gsap.to(o.front,{rotationX:-10,transformPerspective:800,transformOrigin:'50% 100%',duration:.6,ease:'power2.out'});}
+    else{gsap.to(o.pap,{y:0,duration:.55,ease:'power3.in'});
+      gsap.to(o.f,{paddingTop:0,duration:.6,ease:'power3.inOut',delay:.12});
+      gsap.to(o.front,{rotationX:0,duration:.7,ease:'back.out(1.6)',delay:.25});}};
+  P.forEach(o=>{
+    o.btn.addEventListener('click',()=>{const on=o.btn.getAttribute('aria-expanded')!=='true';
+      if(on&&cur&&cur!==o)set(cur,false);set(o,on);cur=on?o:null;});
+    if(!MOTION||!FINE)return;
+    /* lean toward the pointer, the paper peeks out a little */
+    gsap.set(o.box,{transformPerspective:1400});
+    const rx=gsap.quickTo(o.box,'rotationX',{duration:.8,ease:'power3'}),ry=gsap.quickTo(o.box,'rotationY',{duration:.8,ease:'power3'}),py=gsap.quickTo(o.slot,'y',{duration:.6,ease:'power3'});
+    o.box.addEventListener('pointermove',e=>{const r=o.box.getBoundingClientRect();ry(((e.clientX-r.left)/r.width-.5)*5);rx(-((e.clientY-r.top)/r.height-.5)*4);});
+    o.box.addEventListener('pointerenter',()=>{if(!o.f.classList.contains('is-open'))py(-parseFloat(getComputedStyle(o.box).fontSize)*.9);});
+    o.box.addEventListener('pointerleave',()=>{rx(0);ry(0);py(0);});});
+  addEventListener('keydown',e=>{if(e.key==='Escape'&&cur){const b=cur.btn;set(cur,false);cur=null;b.focus();}});
+  let rt;addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{if(cur)set(cur,true,true);},150);});})();
 
-/* real paper tags (ChatGPT, see docs): used when assets/img/tags/tag-N.webp exist, else the drawn bookmark stays */
-$$('.mark').forEach((m,i)=>{const im=new Image();im.onload=()=>{m.classList.add('has-tag');$('.mark__body',m).style.setProperty('--tag',`url("${im.src}")`);};im.src=`assets/img/tags/tag-${i+1}.webp`;});
-/* hanging bookmarks: a damped swing, the tassel lags behind */
-$$('.mark').forEach(m=>{const t=$('.mark__tassel',m);const e=document.createElement('i');e.className='mark__eyelet';$('.mark__body',m).before(e);if(!MOTION)return;let busy=false;
-  const swing=dir=>{if(busy)return;busy=true;const a=8*dir;
-    gsap.to(m,{keyframes:{rotation:[a,-a*.62,a*.36,-a*.18,a*.07,0],easeEach:'sine.inOut'},duration:2.2,onComplete:()=>busy=false});
-    gsap.to(t,{keyframes:{rotation:[-a*1.6,a*1.1,-a*.6,a*.3,0],easeEach:'sine.inOut'},duration:2.4,delay:.06});
-    gsap.fromTo(m,{y:0},{y:8,duration:.25,yoyo:true,repeat:1,ease:'power2.out'});};
-  m.addEventListener('pointerenter',e=>{const r=m.getBoundingClientRect();swing(e.clientX<r.left+r.width/2?-1:1);});
-  m.addEventListener('click',()=>swing(1));});
+/* 志愿者挂牌：每张牌是一个挂在木杆上的小摆。鼠标碰到会晃，邻居跟着被轻轻碰一下；
+   按住可以拽，往下拉挂带会拉长，松手弹回去；点一下翻到背面。手机上左右滑，点一下翻面。 */
+(()=>{const list=$('#railList');if(!list)return;const H=$$('.hang',list);
+  const S=H.map((h,i)=>({h,i,sw:$('.hang__swing',h),b:$('.bdg',h),a:0,va:0,s:0,vs:0,drag:null}));
+  const draw=o=>{o.sw.style.setProperty('--a',o.a.toFixed(2)+'deg');o.sw.style.setProperty('--s',o.s.toFixed(3)+'em');};
+  let raf=0,last=0;
+  const step=t=>{const dt=Math.min(.033,last?(t-last)/1000:.016);last=t;let live=false;
+    S.forEach(o=>{if(!o.drag){o.va+=(-36*o.a-2.4*o.va)*dt;o.a+=o.va*dt;o.vs+=(-170*o.s-10*o.vs)*dt;o.s+=o.vs*dt;
+        if(Math.abs(o.a)<.03&&Math.abs(o.va)<.08&&Math.abs(o.s)<.003&&Math.abs(o.vs)<.02){o.a=o.va=o.s=o.vs=0;}else live=true;}
+      else live=true;draw(o);});
+    if(live)raf=requestAnimationFrame(step);else{raf=0;last=0;}};
+  const kick=()=>{if(!raf)raf=requestAnimationFrame(step);};
+  const push=(i,v)=>{const o=S[i];if(!o||RM)return;o.va+=v;kick();};
+  const flip=(o,on)=>{o.b.setAttribute('aria-pressed',on);const [f,k]=$$('.bdg__face',o.b);f.setAttribute('aria-hidden',on);k.setAttribute('aria-hidden',!on);};
+  let justDragged=false;
+  S.forEach(o=>{
+    o.b.addEventListener('click',e=>{if(justDragged){e.preventDefault();return;}
+      flip(o,o.b.getAttribute('aria-pressed')!=='true');push(o.i,(o.i%2?-1:1)*26);});
+    if(!FINE||RM)return;
+    o.h.addEventListener('pointerenter',e=>{if(o.drag)return;const r=o.h.getBoundingClientRect(),d=e.clientX<r.left+r.width/2?-1:1;
+      push(o.i,d*34);setTimeout(()=>push(o.i-d,d*12),140);});   // CSS rotation is clockwise and the pivot is at the top, so a negative angle swings the bottom right: entering from the left (d=-1) pushes it right and nudges the right-hand neighbour
+    o.b.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse'||e.button!==0)return;
+      const r=o.h.getBoundingClientRect(),ax=r.left+r.width/2,ay=r.top,em=parseFloat(getComputedStyle(o.h).fontSize);
+      o.drag={ax,ay,em,x0:e.clientX,y0:e.clientY,r0:Math.hypot(e.clientX-ax,e.clientY-ay),on:false,pa:o.a,pt:performance.now()};
+      o.b.setPointerCapture(e.pointerId);});
+    o.b.addEventListener('pointermove',e=>{const d=o.drag;if(!d)return;
+      if(!d.on){if(Math.hypot(e.clientX-d.x0,e.clientY-d.y0)<6)return;d.on=true;o.h.classList.add('is-drag');kick();}
+      const dx=e.clientX-d.ax,dy=Math.max(1,e.clientY-d.ay);
+      const a=Math.max(-26,Math.min(26,-Math.atan2(dx,dy)*180/Math.PI)),now=performance.now();
+      o.va=(a-d.pa)/Math.max(.008,(now-d.pt)/1000);d.pa=a;d.pt=now;o.a=a;
+      o.s=Math.max(0,Math.min(5,(Math.hypot(dx,dy)-d.r0)/d.em));o.vs=0;});
+    const end=()=>{const d=o.drag;if(!d)return;o.drag=null;o.h.classList.remove('is-drag');
+      if(d.on){o.va=Math.max(-160,Math.min(160,o.va));justDragged=true;setTimeout(()=>justDragged=false,0);kick();}};
+    o.b.addEventListener('pointerup',end);o.b.addEventListener('pointercancel',end);});
+  addEventListener('keydown',e=>{if(e.key==='Escape')S.forEach(o=>{if(o.b.getAttribute('aria-pressed')==='true')flip(o,false);});});})();
 
 /* envelopes: the letter rises from behind and drops back on leave */
 $$('.env').forEach(v=>{const lt=$('.env__letter',v),img=$('.env__img',v);const r=adoptRotation(v);if(!MOTION||!DESK())return;
@@ -638,7 +762,7 @@ function pageAnimations(page){if(!G||!ST||RM)return;ctxPage&&ctxPage.revert();
     $$('[data-split]',page).forEach(h=>{const ch=splitChars(h);gsap.fromTo(ch,{yPercent:30,opacity:0},{yPercent:0,opacity:1,duration:.7,stagger:.04,ease:EN,scrollTrigger:{trigger:h,start:'top 88%',once:true}});});
     if(page.dataset.page==='home')home(page);
     $$('.blk,.notice,.wx',page).forEach(b=>rise([...b.children],b));
-    [['.icards','.icard'],['.ideas','li'],['.story__who','li'],['.cols','.col4'],['.figs','li'],['.mss','.mscard'],['.orgfig','li'],['.slip ol','li'],['.stamps','.stamp'],['.libs','.lib'],['.marks','.mark'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
+    [['.icards','.icard'],['.ideas','li'],['.story__who','li'],['.cols','.col4'],['.figs','li'],['.mss','.mscard'],['.orgfig','li'],['.slip ol','li'],['.stamps','.stamp'],['.folds','.fold'],['.rail__list','.hang'],['.envs','.env'],['.clock','li'],['.flow','li'],['.amp',':scope > *'],['.qs','li'],['.stats',':scope > div'],['.logos','.logo-c'],['.realshelf','.book']].forEach(([w,c])=>$$(w,page).forEach(el=>rise($$(c,el),el)));
     $$('.bfeat,.tfeat,.letter,.phone,.polas,.tl,.more,.spines,.dossier,.tindex,.feature,.tease,.strip,.story__q',page).forEach(el=>rise([el],el));
     $$('.stats b[data-count],.figs b',page).forEach(b=>{const v=+b.dataset.count,o={n:v>1000?v-25:0};ScrollTrigger.create({trigger:b,start:'top 90%',once:true,onEnter:()=>gsap.to(o,{n:v,duration:1.6,ease:'power3.out',onUpdate:()=>b.textContent=Math.round(o.n)})});});
     $$('[data-manifesto]',page).forEach(m=>{const ph=$$('.ph',m);ScrollTrigger.create({trigger:m,start:'top 80%',end:'bottom 45%',scrub:true,onUpdate:st=>{const k=Math.round(st.progress*ph.length);ph.forEach((p,i)=>p.classList.toggle('dim',i>=k));}});});
