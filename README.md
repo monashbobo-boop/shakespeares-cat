@@ -54,6 +54,7 @@ tools/build_tags.py     整理 ChatGPT 生成的 6 张标签纸，并裁出志�
 tools/subset_font.py    标题字体霞鹜文楷只保留网站用到的字，改了文字后重新运行
 tools/import_events.py  把活动表 CSV 变成 assets/js/events-data.js
 assets/fonts/           标题字体（霞鹜文楷粗体子集，OFL）
+.claude/skills/          设计用的 skill（design-taste-frontend 和 impeccable），Claude Code 在本仓库里自动加载
 docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 docs/WordPress-活动表.md  活动的字段，和社里活动表的列一一对应；本学期和往期怎么分
 docs/WordPress-本学期活动.md  本学期的书怎么录，书的封面怎么上传
