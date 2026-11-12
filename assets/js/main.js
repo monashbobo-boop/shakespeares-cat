@@ -206,8 +206,7 @@ $('#railList').innerHTML=VOL_ROLES.map((r,i)=>`<li class="hang"><div class="hang
         <b>${r.name}</b>
         <span class="bdg__row"><em>具体做什么</em>${r.tasks.map(t=>`<span class="bdg__task">${t}</span>`).join('')}</span>
         ${r.fit?`<span class="bdg__row"><em>适合谁</em>${r.fit}</span>`:''}
-        ${r.time?`<span class="bdg__row"><em>时间</em>${r.time}</span>`:''}
-        <span class="bdg__how">在公众号留言「志愿者」报名</span></span>
+        ${r.time?`<span class="bdg__row"><em>时间</em>${r.time}</span>`:''}</span>
     </span></button></div></li>`).join('');
 
 /* covers that trail the pointer: each cover has its own lag, so the group feels like it has weight */
@@ -522,7 +521,7 @@ const WORKS=[
 
 三十多年前，两个年轻夫妻，坐在北京某个不起眼的小店儿里。他们说说笑笑，非常开心，因为他们完成了两件大事：买了新房、换了新工作，还是个铁饭碗。在他们旁边的方形桌子上，搁着一台卡式录音机，里面播着童安格的《明天你是否依然爱我》，歌声盖过了他们俩的谈话，但他们还是谈笑得前胸贴后背，合不拢嘴。
 
-而今，妻子早已安详地走了，她的先生和孩子还在这世上过着生活，只是一个在北半球忙着家里、工作上的各种琐事，另一个在南半球坐在电脑前，一边循环播放着 WillYou Still Love Me Tomorrow，一边敲下这些文字。
+而今，妻子早已安详地走了，她的先生和孩子还在这世上过着生活，只是一个在北半球忙着家里、工作上的各种琐事，另一个在南半球坐在电脑前，一边循环播放着 Will You Still Love Me Tomorrow，一边敲下这些文字。
 
 午夜里的旋律，一直在重复；昨天的故事，早已归入脑海的深处。`},
   {id:'luoye',title:'落叶',author:'赤夜',paper:'灰绿',url:WX,likes:0,comments:[],
@@ -636,41 +635,64 @@ const WORKS=[
 
 妖猫局之谓从此由来。`}];
 
-/* 书友作品页：点赞和留言（原型演示）
-   点赞记在这台设备的浏览器里，刷新后还在；留言提交后显示为「等待审核」，只有自己看得见，不会真正发送。
-   上线后由 WordPress 处理，做法见 docs/书友作品-点赞与评论.md */
-const LIKED=(()=>{let set=new Set();try{set=new Set(JSON.parse(localStorage.getItem('sc-liked')||'[]'));}catch(_){}
-  return {has:id=>set.has(id),toggle:id=>{set.has(id)?set.delete(id):set.add(id);try{localStorage.setItem('sc-liked',JSON.stringify([...set]));}catch(_){}return set.has(id);}};})();
-const PENDING={};
-const likeCount=p=>p.likes+(LIKED.has(p.id)?1:0);
-const cmCount=p=>p.comments.length;
+/* ---------- 书友作品：喜欢和留言 ----------
+   上线后都存在 WordPress 的数据库里，不放在读者的浏览器里：
+   - 留言就是 WordPress 自带的评论（wp_comments 表），走自带的 REST 接口 /wp/v2/comments，后台「评论」里审核；
+     登录的成员留言会自动记在他的 WordPress 用户名下。
+   - 喜欢由 wordpress/sc-likes 插件记在一张表里（wp_sc_likes）：登录的成员按用户记，没登录的按浏览器记，
+     每人每篇只算一次；总数同时写进作品的自定义字段 sc_like_count，后台作品列表能看到、能排序。
+   主题用 wp_localize_script 输出 window.SC_WP = { root: rest_url(), nonce: wp_create_nonce('wp_rest') }，
+   每篇作品带上它的文章编号 wp。原型里没有 WordPress，喜欢和留言只存在这一页的内存里，刷新就没了。 */
+const WPAPI=(function(){const cfg=window.SC_WP||null;
+  const strip=h=>new DOMParser().parseFromString(h,'text/html').body.textContent.trim();
+  if(cfg){const req=async(path,o={})=>{const r=await fetch(cfg.root+path,{credentials:'same-origin',...o,headers:{'Content-Type':'application/json','X-WP-Nonce':cfg.nonce}});
+      const j=await r.json().catch(()=>({}));if(!r.ok)throw new Error(j.message||'请求失败');return j;};
+    return {live:true,
+      likes:p=>req(`sc/v1/likes/${p.wp}`),
+      toggleLike:p=>req(`sc/v1/likes/${p.wp}`,{method:'POST'}),
+      comments:p=>req(`wp/v2/comments?post=${p.wp}&per_page=100&order=asc`).then(a=>a.map(c=>({name:c.author_name,date:c.date.slice(0,10),text:strip(c.content.rendered)}))),
+      postComment:(p,f)=>req('wp/v2/comments',{method:'POST',body:JSON.stringify({post:p.wp,author_name:f.name,author_email:f.email,content:f.text})})};}
+  const mem={},st=p=>mem[p.id]=mem[p.id]||{count:p.likes||0,liked:false,list:(p.comments||[]).map(([name,date,text])=>({name,date,text}))};
+  return {live:false,
+    likes:async p=>({count:st(p).count,liked:st(p).liked}),
+    toggleLike:async p=>{const x=st(p);x.liked=!x.liked;x.count+=x.liked?1:-1;return {count:x.count,liked:x.liked};},
+    comments:async p=>st(p).list,
+    postComment:async()=>({status:'hold'})};})();
 
-/* 喜欢：点一下加一，再点一下取消。心形填满时轻轻跳一下 */
-const REACT=(function(){const btn=$('#likeBtn');let piece=null;
-  const paint=()=>{const on=LIKED.has(piece.id);btn.setAttribute('aria-pressed',on);$('#likeTxt').textContent=on?'已喜欢':'喜欢';$('#likeN').textContent=likeCount(piece);
-    btn.setAttribute('aria-label',`${on?'取消喜欢':'喜欢'}《${piece.title}》，现在有 ${likeCount(piece)} 人喜欢`);
-    $('#cmJump').textContent=`${cmCount(piece)} 条留言`;};
-  if(btn)btn.addEventListener('click',()=>{if(!piece)return;const on=LIKED.toggle(piece.id);paint();
-    if(on&&MOTION)gsap.fromTo($('svg',btn),{scale:.6},{scale:1,duration:.6,ease:'elastic.out(1,.4)'});});
-  return {show:p=>{piece=p;if(btn)paint();}};})();
+/* 喜欢按钮：作品集下面的留言区和阅读器最后一页各有一个，点任何一个，两个一起变 */
+const LIKES=(function(){const state={};
+  const paint=(btn,p)=>{const x=state[p.id];if(!x)return;btn.setAttribute('aria-pressed',x.liked);$('.like__t',btn).textContent=x.liked?'已喜欢':'喜欢';$('.like__n',btn).textContent=x.count;
+    btn.setAttribute('aria-label',`${x.liked?'取消喜欢':'喜欢'}《${p.title}》，现在有 ${x.count} 人喜欢`);};
+  const all=p=>$$(`.like[data-id="${p.id}"]`).forEach(b=>paint(b,p));
+  async function load(p){try{state[p.id]=await WPAPI.likes(p);}catch(_){state[p.id]={count:p.likes||0,liked:false};}all(p);}
+  function bind(btn,p){btn.dataset.id=p.id;paint(btn,p);if(!state[p.id])load(p);
+    btn.onclick=async()=>{btn.disabled=true;try{state[p.id]=await WPAPI.toggleLike(p);all(p);
+      if(state[p.id].liked&&MOTION)gsap.fromTo($('svg',btn),{scale:.6},{scale:1,duration:.6,ease:'elastic.out(1,.4)'});}catch(_){}btn.disabled=false;};}
+  const html=()=>`<button class="like" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.4C1.4 7.2 3.6 4 6.9 4c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.3 0 5.5 3.2 4.2 6.9-1.7 4.8-9.3 9.4-9.3 9.4z"/></svg><span class="like__t">喜欢</span><b class="like__n">0</b></button>`;
+  return {bind,html};})();
 
 /* 留言：已通过的按时间排，自己刚提交的显示「等待审核」 */
-const COMMENTS=(function(){const list=$('#cmList'),form=$('#cmForm');let piece=null;
+const COMMENTS=(function(){const list=$('#cmList'),form=$('#cmForm');let piece=null;const mine={};
   const date=t=>{const[y,m,d]=t.split('-').map(Number);return `${y} 年 ${m} 月 ${d} 日`;};
-  const render=()=>{const ok=piece.comments,mine=PENDING[piece.id]||[];
-    $('#cmHead').innerHTML=ok.length?`《${esc(piece.title)}》下有 ${ok.length} 条留言`:`《${esc(piece.title)}》下还没有留言`;
-    list.innerHTML=ok.map(([n,t,x])=>`<li><div class="cm__who"><b>${esc(n)}</b><span>${date(t)}</span></div><p>${esc(x)}</p></li>`).join('')
-      +mine.map(([n,x])=>`<li class="pending"><div class="cm__who"><b>${esc(n)}</b><span class="chip">等待审核</span></div><p>${esc(x)}</p></li>`).join('')
-      +(ok.length||mine.length?'':`<li class="cm__empty"><p>第一个留言的人，往往会让后面的人更敢说。</p></li>`);};
-  if(form){form.addEventListener('submit',e=>{e.preventDefault();
+  let ok=[];
+  const render=()=>{const my=mine[piece.id]||[];
+    list.innerHTML=ok.map(c=>`<li><div class="cm__who"><b>${esc(c.name)}</b><span>${date(c.date)}</span></div><p>${esc(c.text)}</p></li>`).join('')
+      +my.map(c=>`<li class="pending"><div class="cm__who"><b>${esc(c.name)}</b><span class="chip">等待审核</span></div><p>${esc(c.text)}</p></li>`).join('')
+      +(ok.length||my.length?'':`<li class="cm__empty"><p>还没有人留言。</p></li>`);};
+  if(form){form.addEventListener('submit',async e=>{e.preventDefault();
     const R={'c-name':v=>v.trim()?'':'请留一个称呼','c-email':v=>/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)?'':'请填写有效的邮箱，只用来回复你','c-msg':v=>v.trim().length>=2?'':'请写下你想说的话'};
-    let ok=true;for(const id in R){const el=$('#'+id),m=R[id](el.value);$(`.err[data-for="${id}"]`).textContent=m;el.classList.toggle('invalid',!!m);if(m&&ok){ok=false;el.focus();}}
-    if(!ok)return;(PENDING[piece.id]=PENDING[piece.id]||[]).push([$('#c-name').value.trim(),$('#c-msg').value.trim()]);
-    $('#c-msg').value='';render();let n=$('.cm__sent',form);if(!n){n=document.createElement('p');n.className='cm__sent t-small';form.appendChild(n);}
-    n.textContent='已收到。编辑看过后，你的留言会显示在这里。这是原型演示，留言没有真正发送。';
-    const li=list.lastElementChild;if(li&&MOTION)gsap.from(li,{opacity:0,y:12,duration:.5,ease:EN});});
+    let good=true;for(const id in R){const el=$('#'+id),m=R[id](el.value);$(`.err[data-for="${id}"]`).textContent=m;el.classList.toggle('invalid',!!m);if(m&&good){good=false;el.focus();}}
+    if(!good)return;const f={name:$('#c-name').value.trim(),email:$('#c-email').value.trim(),text:$('#c-msg').value.trim()};
+    const btn=$('button[type=submit]',form);btn.disabled=true;let n=$('.cm__sent',form);if(!n){n=document.createElement('p');n.className='cm__sent t-small';form.appendChild(n);}
+    try{const r=await WPAPI.postComment(piece,f);
+      if(r.status==='approved'){ok=await WPAPI.comments(piece);}else (mine[piece.id]=mine[piece.id]||[]).push(f);
+      $('#c-msg').value='';render();n.textContent=WPAPI.live?'已收到，编辑看过后会显示在这里。':'已收到。这是原型，留言没有真正发送。';
+      const li=list.lastElementChild;if(li&&MOTION)gsap.from(li,{opacity:0,y:12,duration:.5,ease:EN});}
+    catch(err){n.textContent='没有发出去，请稍后再试。'+(err.message?`（${err.message}）`:'');}
+    btn.disabled=false;});
     $$('input,textarea',form).forEach(el=>el.addEventListener('input',()=>{el.classList.remove('invalid');const er=$(`.err[data-for="${el.id}"]`);if(er)er.textContent='';}));}
-  return {show:p=>{piece=p;if(list)render();const n=form&&$('.cm__sent',form);if(n)n.remove();}};})();
+  return {show:async p=>{piece=p;if(!list)return;$('#cmTitle').textContent=`读完《${p.title}》想说点什么就写在这里`;LIKES.bind($('#likeBtn'),p);
+    ok=[];render();try{ok=await WPAPI.comments(p);}catch(_){ok=[];}if(piece===p)render();const n=form&&$('.cm__sent',form);if(n)n.remove();}};})();
 
 /* ---------- 书友作品集 ----------
    每一篇是一个摊开的对页：左页竖排篇名和署名，右页是开头一段。没轮到的几篇往两边叠起来，
@@ -685,8 +707,7 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   const opening=t=>{const p=t.split(/\n\s*\n/)[0].trim();return p.length>150?p.slice(0,150)+'……':p;};
   scene.innerHTML=WORKS.map((w,i)=>`<div class="anth__it" data-i="${i}">
     <div class="anth__pg l" style="--pc:${ANTH_PAPER[w.paper]||'#DEDAC1'};background-image:linear-gradient(rgba(250,246,236,.28),rgba(250,246,236,.28)),url(${TEX(ANTH_TEX[w.paper]||1)})"><div class="anth__in">
-      <div class="anth__head"><h3 class="anth__t">${esc(w.title)}</h3><p class="anth__a">${esc(w.author)}</p></div>
-      <p class="anth__n">约 ${Math.max(1,Math.round(w.text.replace(/\s/g,'').length/100))*100} 字</p></div><i class="anth__shade"></i></div>
+      <div class="anth__head"><h3 class="anth__t">${esc(w.title)}</h3><p class="anth__a">${esc(w.author)}</p></div></div><i class="anth__shade"></i></div>
     <div class="anth__pg r"><div class="anth__in"><p class="anth__x">${esc(opening(w.text))}</p></div><i class="anth__shade"></i></div></div>`).join('');
   const its=$$('.anth__it',scene),pgs=its.map(it=>$$('.anth__pg',it));
   let W=0,pos=0,target=0,tw=null,raf=0,drag=null;
@@ -700,18 +721,23 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   const paint=()=>{its.forEach((el,i)=>{const q=pose(i-pos,W);el.style.transform=`translate3d(${q.x.toFixed(1)}px,0,${q.z.toFixed(1)}px)`;el.style.opacity=q.op;
     const[l,r]=pgs[i];l.style.transform=`rotateY(${q.l.toFixed(2)}deg)`;r.style.transform=`rotateY(${q.r.toFixed(2)}deg)`;
     l.style.setProperty('--s',shade(q.l).toFixed(3));r.style.setProperty('--s',shade(q.r).toFixed(3));
-    el.toggleAttribute('data-cur',Math.round(pos)===i);});};
+    const cur=Math.round(pos)===i;el.toggleAttribute('data-cur',cur);el.setAttribute('aria-hidden',cur?'false':'true');});};
   const frame=t=>{raf=0;if(tw){const k=tw.dur?clampN((t-tw.t0)/tw.dur,0,1):1;pos=tw.a+(tw.b-tw.a)*(k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2);if(k>=1)tw=null;}
     paint();if(tw)raf=requestAnimationFrame(frame);};
   const kick=()=>{if(!raf)raf=requestAnimationFrame(frame);};
-  const show=i=>{const w=WORKS[i];$('#anthT').textContent=`《${w.title}》`;$('#anthA').textContent=w.author;REACT.show(w);COMMENTS.show(w);
+  const show=i=>{const w=WORKS[i];$('#anthT').textContent=`《${w.title}》`;$('#anthA').textContent=w.author;COMMENTS.show(w);
     $('#anthPrev').classList.toggle('off',i===0);$('#anthNext').classList.toggle('off',i===n-1);};
   const go=i=>{i=clampN(i,0,n-1);if(i!==target){target=i;show(i);}
     const steps=Math.abs(i-pos);tw={a:pos,b:i,t0:performance.now(),dur:RM?0:Math.round(560*Math.sqrt(Math.min(steps,12)))};kick();};
   const size=()=>{const sw=root.clientWidth,sh=root.clientHeight,narrow=sw<640,asp=narrow&&sh>sw?.86:1.25;
     W=Math.round(Math.min(sw*(narrow?.84:.54),sh*.9*asp,980));root.style.setProperty('--w',W+'px');root.style.setProperty('--h',Math.round(W/asp)+'px');paint();};
   new ResizeObserver(size).observe(root);
-  const read=i=>{const w=WORKS[i];if(!window.BookReader)return;window.BookReader.open(w,{paper:ANTH_PAPER[w.paper]||'#C6CBA8',onOpen:()=>{if(lenis)lenis.stop();}});};
+  /* 读到最后一页，阅读器下面换成：喜欢、写留言、在公众号读原文 */
+  const endRow=(box,w)=>{box.innerHTML=`${LIKES.html()}<button type="button" class="rd__btn" data-cm>写留言</button><a class="rd__btn" href="${w.url}" target="_blank" rel="noopener">在公众号读原文</a>`;
+    LIKES.bind($('.like',box),w);
+    $('[data-cm]',box).onclick=()=>{window.BookReader.close();const y=$('#works-comments').getBoundingClientRect().top+scrollY-90;lenis?lenis.scrollTo(y,{duration:1}):window.scrollTo({top:y,behavior:'smooth'});setTimeout(()=>$('#c-name').focus({preventScroll:true}),900);};};
+  const read=i=>{const w=WORKS[i];if(!window.BookReader)return;
+    window.BookReader.open(w,{paper:ANTH_PAPER[w.paper]||'#C6CBA8',tex:TEX(ANTH_TEX[w.paper]||1),renderEnd:endRow,onOpen:()=>{if(lenis)lenis.stop();}});};
   if(window.BookReader)window.BookReader.onClose=()=>{if(lenis)lenis.start();};
   root.addEventListener('pointerdown',e=>{if(e.button>0)return;tw=null;drag={id:e.pointerId,x:e.clientX,from:pos,lx:e.clientX,lt:e.timeStamp,v:0,moved:false};});
   root.addEventListener('pointermove',e=>{const d=drag;if(!d||d.id!==e.pointerId||!W)return;const dx=e.clientX-d.x;
@@ -725,7 +751,7 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   root.addEventListener('pointerup',up);root.addEventListener('pointercancel',e=>{if(drag){drag.moved=true;up(e);}});
   root.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(target+1);}else if(e.key==='ArrowLeft'){e.preventDefault();go(target-1);}else if(e.key==='Enter'){e.preventDefault();read(target);}});
   $('#anthPrev').onclick=()=>go(target-1);$('#anthNext').onclick=()=>go(target+1);$('#anthOpen').onclick=()=>read(target);
-  $('#anthHead').textContent=`书友的${cn(n)}篇文章都收在这本集子里`;
+  $('#anthHead').textContent=`书友的${cn(n)}篇文章`;
   show(0);size();})();
 
 /* 书友说：一次读一段，点名字切换；引号和底色跟着人一起换 */

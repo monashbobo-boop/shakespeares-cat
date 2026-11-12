@@ -59,7 +59,8 @@ docs/给ChatGPT的提示词.md  生成猫和标签纸的提示词与步骤
 docs/WordPress-活动表.md  活动的字段，和社里活动表的列一一对应；本学期和往期怎么分
 docs/WordPress-本学期活动.md  本学期的书怎么录，书的封面怎么上传
 docs/WordPress-书友作品.md  书友作品的字段，作品集和翻页阅读器怎么排版
-docs/书友作品-点赞与评论.md  点赞和留言上线时的设置
+docs/书友作品-点赞与评论.md  喜欢和留言存在 WordPress 数据库里的做法
+wordpress/sc-likes/           「喜欢」的小插件（建表和接口）
 docs/WordPress-加入我们.md  加入我们页的三个文件夹、志愿者挂牌和加入表单
 ```
 

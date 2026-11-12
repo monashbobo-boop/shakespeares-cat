@@ -12,7 +12,7 @@
   --w1:#DEDAC1;         /* wave, light */
   --w2:#C6CBA8;         /* wave, mid */
   --w3:#A2AC87;         /* wave, deep */
-  --moss:#6B7756;       /* secondary text on light, labels */
+  --moss:#5A6647;       /* secondary text on light, labels */
   --pine:#3A4A36;       /* buttons, active states */
   --ink:#2B3326;        /* headings and body text */
   --seal:#B8412F;       /* cinnabar: the globe's routes, "next" marker, errors. Used sparingly. */
@@ -278,7 +278,7 @@ footer{position:relative;background:var(--ink);color:var(--paper);margin-top:-5e
 .prose{display:flex;flex-direction:column;gap:1.2em;max-width:46em}
 @media (max-width:991px){.doc{padding-block:3em 6em}.col{gap:4em}.blk{gap:1.2em}.blk .t-h2{font-size:1.9em}}
 
-.lede{font-family:var(--serif);font-weight:600;font-size:2.6em;line-height:1.6;color:var(--ink);padding-left:1em;border-left:3px solid var(--w3)}
+.lede{font-family:var(--serif);font-weight:600;font-size:2.6em;line-height:1.6;color:var(--ink)}
 @media (max-width:991px){.lede{font-size:1.25em;padding-left:.8em}}
 
 /* rows */
@@ -1606,7 +1606,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 .bdg__back{transform:rotateY(180deg);align-items:stretch;text-align:left;gap:.75em;padding:2.4em 1.3em 1.4em}
 .bdg__back b{font-size:1.45em;margin:0}
 .bdg__row{display:flex;flex-direction:column;gap:.15em;font-size:1.1em;line-height:1.5}
-.bdg__row em{font-style:normal;font-weight:700;font-size:.9em;color:rgba(43,51,38,.6)}
+.bdg__row em{font-style:normal;font-weight:700;font-size:1em;color:rgba(43,51,38,.72)}
 .bdg:focus-visible{outline:none}
 .bdg:focus-visible .bdg__face{outline:.18em solid var(--paper);outline-offset:.25em}
 @media (prefers-reduced-motion:reduce){.bdg__in{transition:none}}
@@ -1774,3 +1774,28 @@ html.rd-open{overflow:hidden}
 .bdg__front b.long{font-size:1.55em;white-space:nowrap}
 .bdg__how{font-size:.85em}
 @media (max-width:991px){.bdg__front b.long{font-size:1.1em}}
+
+/* 2026-11 精简：作品集下面只留左右切换、篇名和「翻开来读」 */
+.anth-band > .wrap > .t-h2{margin-bottom:.4em}
+.anth__under{display:grid;grid-template-columns:auto minmax(0,24em) auto;justify-content:center;align-items:center;gap:1.4em 2.4em;margin-top:1.2em}
+.anth__under .btn{grid-column:1/-1;justify-self:center}
+.anth__a{color:#2B3326}
+@media (max-width:991px){.anth__under{grid-template-columns:auto minmax(0,1fr) auto;gap:1em 1em}}
+
+/* 阅读器：右上两个文字按钮，下面一排页码；读到最后一页，下面换成喜欢、留言、原文 */
+.rd__top{justify-content:flex-end;gap:2em}
+.rd__bar{gap:3em}
+.rd__no{min-width:7em;font-size:1.05em}
+.rd__end{display:flex;justify-content:center;align-items:center;gap:2em;padding:0 1em 1.4em;flex-wrap:wrap}
+.rd__end .like{background:var(--paper)}
+.rd__end a.rd__btn{text-decoration:underline}
+.rd__text h2{font-family:var(--display);font-weight:700;font-size:2em;line-height:1.35;margin:0}
+.rd__text .rd__fin{text-align:center;text-indent:0;color:var(--moss);margin:1.4em 0 1em}
+@media (max-width:700px){.rd__top{gap:1.4em}.rd__bar{gap:1.6em}.rd__end{gap:1.2em;font-size:.92em}}
+
+/* 留言区：标题下一句话，下面就是喜欢 */
+#works-comments .side .like{margin-top:1.6em;align-self:flex-start}
+
+/* 审核后补：手机上作品集右页和署名字太小；书单作者名放大一点 */
+@media (max-width:991px){.anth__it{font-size:calc(var(--w,320px) * .034)}.anth__x{font-size:1.12em}.anth__a{font-size:1.1em}}
+.tbook__cv i{font-size:1.1em}

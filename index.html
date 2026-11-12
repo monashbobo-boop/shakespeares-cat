@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700&family=Noto+Serif+SC:wght@400;600;700;900&display=swap">
-<link rel="stylesheet" href="assets/css/style.css?v=23">
+<link rel="stylesheet" href="assets/css/style.css?v=24">
 <noscript><style>.transition{display:none}</style></noscript>
 </head>
 <body>
@@ -468,30 +468,29 @@
   <div data-intro-content>
 
     <!-- 作品集：每一篇是一个摊开的对页，左页是篇名和署名，右页是开头一段。其他篇叠在两边，拖动或点两边切换，点中间翻开来读 -->
+    <!-- 作品集：每一篇是一个摊开的对页，左页竖排篇名和署名，右页是开头一段。其他篇叠在两边，拖动或点两边切换，点中间翻开来读 -->
     <section class="band dark anth-band" id="works-book"><div class="wrap">
-      <div class="shead"><div><h2 class="t-h2" id="anthHead">书友的文章都收在这本集子里</h2><p class="t-body">左右拖动，或者点两边，换一篇看看开头。点中间那一篇翻开来读，可以像真的书一样一页一页翻。每一篇都在公众号发表过。</p></div></div>
+      <h2 class="t-h2" id="anthHead">书友的文章都收在这本集子里</h2>
     </div>
       <div class="anth" id="anth" tabindex="0" role="group" aria-roledescription="作品集" aria-label="书友作品集，按左右方向键换一篇，回车翻开">
         <div class="anth__view"><div class="anth__scene" id="anthScene"></div></div>
       </div>
       <div class="wrap anth__under">
-        <div class="anth__nav"><button class="circle lt" id="anthPrev" aria-label="上一篇"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button><button class="circle lt" id="anthNext" aria-label="下一篇"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button></div>
+        <button class="circle lt" id="anthPrev" aria-label="上一篇"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M19 12H5M11 6l-6 6 6 6"/></svg></button>
         <div class="anth__cap" aria-live="polite"><b id="anthT"></b><span id="anthA"></span></div>
-        <div class="anth__acts">
-          <button class="like lt" type="button" id="likeBtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.4C1.4 7.2 3.6 4 6.9 4c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.3 0 5.5 3.2 4.2 6.9-1.7 4.8-9.3 9.4-9.3 9.4z"/></svg><span id="likeTxt">喜欢</span><b id="likeN">0</b></button>
-          <a class="react__cm" href="#works-comments" id="cmJump">0 条留言</a>
-          <button class="btn lt" type="button" id="anthOpen" data-btn><span class="bt"><span>翻开来读</span></span></button>
-        </div>
+        <button class="circle lt" id="anthNext" aria-label="下一篇"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        <button class="btn lt" type="button" id="anthOpen" data-btn><span class="bt"><span>翻开来读</span></span></button>
       </div>
     </section>
 
+    <!-- 喜欢和留言都存在 WordPress 里：留言是 WordPress 自带的评论，喜欢是 wordpress/sc-likes 插件建的一张表。见 docs/书友作品-点赞与评论.md -->
     <section class="band" style="--bb:var(--w1)" id="works-comments"><div class="wrap fsplit cmwrap">
-      <div class="side"><h2 class="t-h2">读完可以在这里留言</h2><p class="t-body">留言由编辑组看过后再显示，一般一两天内。不用注册，留一个称呼就行，邮箱只用来回复你，不会公开。</p></div>
+      <div class="side"><h2 class="t-h2" id="cmTitle">读完想说点什么就写在这里</h2><p class="t-body">编辑看过后显示，邮箱不公开。</p>
+        <button class="like" type="button" id="likeBtn" aria-pressed="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20.3s-7.6-4.6-9.3-9.4C1.4 7.2 3.6 4 6.9 4c2.1 0 3.6 1.2 5.1 3 1.5-1.8 3-3 5.1-3 3.3 0 5.5 3.2 4.2 6.9-1.7 4.8-9.3 9.4-9.3 9.4z"/></svg><span class="like__t">喜欢</span><b class="like__n">0</b></button></div>
       <div class="cm">
-        <p class="cm__head" id="cmHead"></p>
         <ol class="cm__list" id="cmList"></ol>
         <form class="fm cm__form" id="cmForm" novalidate>
-          <div class="two"><label for="c-name">称呼<input id="c-name" autocomplete="nickname"><span class="err" data-for="c-name"></span></label><label for="c-email">邮箱（不公开）<input id="c-email" type="email" autocomplete="email"><span class="err" data-for="c-email"></span></label></div>
+          <div class="two"><label for="c-name">称呼<input id="c-name" autocomplete="nickname"><span class="err" data-for="c-name"></span></label><label for="c-email">邮箱<input id="c-email" type="email" autocomplete="email"><span class="err" data-for="c-email"></span></label></div>
           <label for="c-msg">留言<textarea id="c-msg" rows="4"></textarea><span class="err" data-for="c-msg"></span></label>
           <div><button class="btn" type="submit" data-btn><span class="bt"><span>提交留言</span></span></button></div>
         </form>
@@ -507,12 +506,12 @@
   <section class="hxs" data-intro><div class="hxs__bg" data-intro-bg><svg class="waves" data-wave="xs" data-seed="6" aria-hidden="true"></svg></div>
     <div class="wrap hxs__in"><h1 class="t-display" data-intro-title>隐私说明</h1><p class="t-body" data-intro-para>原型示例文字，上线前需与实际使用的服务核对。</p></div></section>
   <section class="doc" data-intro-content><div class="wrap"><div class="col" style="gap:4em">
-    <div class="blk"><h3 class="t-h3">收集哪些信息</h3><p class="t-body prose">网站本身不设注册和报名。你提交合作表单时，会收集称呼、机构、邮箱和留言；在书友作品下留言时，会收集称呼、邮箱和留言内容，其中只有称呼和留言会公开显示。活动报名在公众号完成，适用微信的隐私政策。</p></div>
-    <div class="blk"><h3 class="t-h3">用途</h3><p class="t-body prose">只用于回复你的咨询和显示你的留言，不出售，不用于推广，不转交第三方。留言会先经过反垃圾过滤和编辑审核。</p></div>
-    <div class="blk"><h3 class="t-h3">保存多久</h3><p class="t-body prose">合作沟通结束后保留一年，之后删除。你可以随时要求提前删除。</p></div>
-    <div class="blk"><h3 class="t-h3">统计、第三方与 Cookie</h3><p class="t-body prose">如使用访问统计、嵌入服务或 Cookie，会在此列明服务名称及关闭方法。</p></div>
-    <div class="blk"><h3 class="t-h3">照片与作品</h3><p class="t-body prose">活动照片和成员作品征得同意后才发布，可以随时要求撤下。涉及未成年人须经监护人同意，且不公开可识别身份的细节。</p></div>
-    <div class="blk"><h3 class="t-h3">联系我们</h3><p class="t-body prose">通过公众号留言，或写信到对外联系邮箱。</p></div>
+    <div class="blk"><h2 class="t-h3">收集哪些信息</h2><p class="t-body prose">网站本身不设注册。你提交合作表单时，会收集称呼、机构、邮箱和留言；填加入表单时，会收集称呼、邮箱或微信号和留言；在书友作品下留言时，会收集称呼、邮箱和留言内容，其中只有称呼和留言会公开显示。点「喜欢」时，网站在你的浏览器里放一个随机编号，只用来避免重复计数；已登录的成员按账号计。这些都存在文学社自己的 WordPress 网站里。活动报名在公众号完成，适用微信的隐私政策。</p></div>
+    <div class="blk"><h2 class="t-h3">用途</h2><p class="t-body prose">只用于回复你的咨询和显示你的留言，不出售，不用于推广，不转交第三方。留言会先经过反垃圾过滤和编辑审核。</p></div>
+    <div class="blk"><h2 class="t-h3">保存多久</h2><p class="t-body prose">合作沟通结束后保留一年，之后删除。你可以随时要求提前删除。</p></div>
+    <div class="blk"><h2 class="t-h3">统计、第三方与 Cookie</h2><p class="t-body prose">如使用访问统计、嵌入服务或 Cookie，会在此列明服务名称及关闭方法。</p></div>
+    <div class="blk"><h2 class="t-h3">照片与作品</h2><p class="t-body prose">活动照片和成员作品征得同意后才发布，可以随时要求撤下。涉及未成年人须经监护人同意，且不公开可识别身份的细节。</p></div>
+    <div class="blk"><h2 class="t-h3">联系我们</h2><p class="t-body prose">通过公众号留言，或写信到对外联系邮箱。</p></div>
   </div></div></section>
 </div>
 </main>
@@ -525,7 +524,7 @@
   <nav class="wrap ft__nav" aria-label="页脚导航">
     <a class="pill" href="#home"><span>首页</span></a><a class="pill" href="#about"><span>关于我们</span></a><a class="pill" href="#events"><span>本学期活动</span></a><a class="pill" href="#archive"><span>往期活动</span></a><a class="pill" href="#works"><span>书友作品</span></a><a class="pill" href="#join"><span>加入我们</span></a><a class="pill" href="#partner"><span>合作与联系</span></a>
   </nav>
-  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社。设计原型 v22，活动、书单与照片均为示例。</span><span>标题字体用霞鹜文楷（OFL），插画来自 Open Doodles（Pablo Stanley，CC0），手绘图标来自 Streamline Freehand（CC BY 4.0），书封来自豆瓣，仅作原型展示。</span><a href="#privacy">隐私说明</a></div>
+  <div class="wrap ft__bottom"><span>© 2026 莎士比亚的猫文学社。设计原型 v23，活动、书单与照片均为示例。</span><span>标题字体用霞鹜文楷（OFL），插画来自 Open Doodles（Pablo Stanley，CC0），手绘图标来自 Streamline Freehand（CC BY 4.0），书封来自豆瓣，仅作原型展示。</span><a href="#privacy">隐私说明</a></div>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
@@ -537,7 +536,7 @@
 <script src="assets/js/land.js"></script>
 <script src="assets/js/cat-rig.js?v=16"></script>
 <script src="assets/js/events-data.js?v=1"></script>
-<script src="assets/js/reader.js?v=1"></script>
-<script src="assets/js/main.js?v=23"></script>
+<script src="assets/js/reader.js?v=2"></script>
+<script src="assets/js/main.js?v=24"></script>
 </body>
 </html>
