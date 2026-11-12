@@ -502,7 +502,7 @@ const HIST=[
 /* ---------- 关于我们：五个活动模块，书脊式展开 ---------- */
 (function(){const box=$('#spines');if(!box)return;const sps=$$('.sp',box);
   const open=sp=>{sps.forEach(x=>{const on=x===sp;x.dataset.open=String(on);$('.sp__tab',x).setAttribute('aria-expanded',on);});
-    if(MOTION){gsap.fromTo($$('.sp__txt > *, .sp__ic',sp),{opacity:0,y:18},{opacity:1,y:0,duration:.55,stagger:.05,delay:.25,ease:EN});}
+    if(MOTION){gsap.fromTo($$('.sp__txt > *, .sp__ic',sp),{opacity:0,y:10},{opacity:1,y:0,duration:.5,stagger:.04,delay:DESK()?.25:.08,ease:EN});}
     if(ST)setTimeout(()=>ScrollTrigger.refresh(),700);};
   sps.forEach(sp=>$('.sp__tab',sp).addEventListener('click',()=>{if(sp.dataset.open==='true'&&DESK())return;open(sp.dataset.open==='true'?null:sp);}));})();
 
@@ -870,6 +870,7 @@ const trPath=$('#trPath'),trLogo=$('#trLogo');
 const routes=['home','about','events','archive','works','join','partner','privacy'];let cur=null,busy=false;
 function showPage(r){$$('.page').forEach(p=>p.classList.toggle('on',p.dataset.page===r));cur=r;
   $$('#nav [data-r]').forEach(a=>a.dataset.r===r&&!a.classList.contains('btn')?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
+  $$('#menu .menu__links a').forEach(a=>a.getAttribute('href')==='#'+r?a.setAttribute('aria-current','page'):a.removeAttribute('aria-current'));
   const page=$(`[data-page="${r}"]`);
   $('#main').classList.add('ready');toTop();initButtons(page);initButtons(hdr);sliders.forEach(s=>s.measure());
   requestAnimationFrame(()=>{window.__tlPaint&&window.__tlPaint();if(ST)ScrollTrigger.refresh();pageAnimations(page);if(ST)ScrollTrigger.refresh();});return page;}
@@ -886,15 +887,15 @@ function intro(page,tl,at){const it=$('[data-intro]',page);if(!it)return;
   if(vis)tl.to(vis,{opacity:1,y:0,rotate:0,duration:1,delay:.5,ease:'elastic.out(1,0.8)'},at);if(content)tl.to(content,{y:0,opacity:1,duration:.6,delay:.35,ease:EN},at);}
 function leave(){const tl=gsap.timeline();tl.set(trLogo,{scale:0,rotate:-64,autoAlpha:0}).set(trPath,{strokeWidth:'8%',drawSVG:'0% 0%'});
   /* 落笔时笔刷的粗细：在两段笔画快要合上的宽度附近加快通过，避免中间夹出细缝 */
-  tl.to(trPath,{keyframes:{'15%':{strokeWidth:'8%'},'36%':{strokeWidth:'16%',ease:'none'},'44%':{strokeWidth:'38%',ease:'none'},'66%':{strokeWidth:'46%',ease:'none'},'72%':{strokeWidth:'64%',ease:'none'},'90%':{drawSVG:'0% 100%'},'100%':{strokeWidth:'70%',ease:'none'}},duration:1.25},'s');
-  tl.to(trLogo,{scale:1,rotate:0,autoAlpha:1,delay:.5,duration:.65,ease:'elastic.out(1,0.72)'},'s');return tl;}
+  tl.to(trPath,{keyframes:{'15%':{strokeWidth:'8%'},'36%':{strokeWidth:'16%',ease:'none'},'44%':{strokeWidth:'38%',ease:'none'},'66%':{strokeWidth:'46%',ease:'none'},'72%':{strokeWidth:'64%',ease:'none'},'90%':{drawSVG:'0% 100%',ease:'none'},'100%':{strokeWidth:'70%',ease:'none'},easeEach:'none',ease:'power2.inOut'},duration:.9},'s');
+  tl.to(trLogo,{scale:1,rotate:0,autoAlpha:1,delay:.38,duration:.5,ease:'back.out(1.6)'},'s');return tl;}
 function enter(page){const tl=gsap.timeline();tl.set(trPath,{drawSVG:'0% 100%',strokeWidth:'70%'},0).set(hdr,{yPercent:-100},0);
-  intro(page,tl,.4);
+  intro(page,tl,.25);
   /* 收笔时笔刷的粗细：先和原来一样迅速变细露出形状，在 38% 到 13% 这一段加快通过。
      原来的曲线在这一段放慢，相邻两段笔画之间会拉出一条细长的裂缝，停留六到八帧。 */
-  tl.to(trPath,{keyframes:{'12%':{strokeWidth:'38%',ease:'none'},'22%':{strokeWidth:'13%',ease:'none'},'95%':{strokeWidth:'8%',ease:'none'},'100%':{drawSVG:'100% 100%'}},duration:1.25},0);
-  tl.to(trLogo,{scale:0,rotate:64,autoAlpha:0,duration:.45,ease:'elastic.in(1,0.72)'},0);
-  tl.to(hdr,{yPercent:0,duration:.5,delay:.5,ease:EN,onStart:()=>{hid=false;hdr.classList.remove('away');}},.4);return tl;}
+  tl.to(trPath,{keyframes:{'12%':{strokeWidth:'38%',ease:'none'},'22%':{strokeWidth:'13%',ease:'none'},'95%':{strokeWidth:'8%',ease:'none'},'100%':{drawSVG:'100% 100%',ease:'none'},easeEach:'none',ease:'power2.out'},duration:1},0);
+  tl.to(trLogo,{scale:0,rotate:40,autoAlpha:0,duration:.3,ease:'back.in(1.6)'},0);
+  tl.to(hdr,{yPercent:0,duration:.5,delay:.3,ease:EN,onStart:()=>{hid=false;hdr.classList.remove('away');}},.4);return tl;}
 const CAN=G&&!RM&&!!window.DrawSVGPlugin;
 function go(r,first){if(!routes.includes(r))r='home';
   if(r===cur&&!first){lenis?lenis.scrollTo(0):window.scrollTo({top:0,behavior:'smooth'});return;}
