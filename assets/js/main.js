@@ -505,6 +505,7 @@ const HIST=[
   new ResizeObserver(()=>box.style.setProperty('--spw',box.clientWidth+'px')).observe(box);
   const open=sp=>{sps.forEach(x=>{const on=x===sp;x.dataset.open=String(on);$('.sp__tab',x).setAttribute('aria-expanded',on);});
     if(ST)setTimeout(()=>ScrollTrigger.refresh(),1200);};
+  sps.forEach(sp=>sp.addEventListener('sc:open',()=>{if(sp.dataset.open!=='true')open(sp);}));   // 首页卡片链接过来时直接打开这一卷
   sps.forEach(sp=>$('.sp__tab',sp).addEventListener('click',()=>{if(sp.dataset.open==='true'&&DESK())return;open(sp.dataset.open==='true'?null:sp);}));})();
 
 /* ---------- 书友作品 ----------
@@ -913,7 +914,8 @@ addEventListener('hashchange',()=>{const h=hashR();if(routes.includes(h))go(h);}
 document.addEventListener('click',e=>{const a=e.target.closest('a[href^="#"]');if(!a)return;const h=a.getAttribute('href').slice(1);
   if(routes.includes(h)){e.preventDefault();location.hash!=='#'+h?location.hash=h:go(h);return;}
   const target=document.getElementById(h);if(!target)return;e.preventDefault();setMenu(false);
-  const owner=target.closest('.page');if(owner&&owner.dataset.page!==cur){location.hash=owner.dataset.page;setTimeout(()=>scrollToId(h),2600);}else scrollToId(h);});
+  const isSp=target.classList.contains('sp');if(isSp)target.dispatchEvent(new Event('sc:open'));
+  const owner=target.closest('.page');if(owner&&owner.dataset.page!==cur){location.hash=owner.dataset.page;setTimeout(()=>scrollToId(h),2600);}else setTimeout(()=>scrollToId(h),isSp?950:0);});
 const fr=routes.includes(hashR())?hashR():'home';
 if(CAN){gsap.set(trPath,{drawSVG:'0% 100%',strokeWidth:'70%'});gsap.set(trLogo,{autoAlpha:1,scale:1});$('#tr').classList.remove('boot');
   Promise.race([document.fonts?document.fonts.ready:Promise.resolve(),new Promise(r=>setTimeout(r,1200))]).then(()=>setTimeout(()=>go(fr,true),250));}
