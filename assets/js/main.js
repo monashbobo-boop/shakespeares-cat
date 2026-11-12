@@ -737,7 +737,10 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   /* 读到最后一页，阅读器下面换成：喜欢、写留言、在公众号读原文 */
   const endRow=(box,w)=>{box.innerHTML=`${LIKES.html()}<button type="button" class="rd__btn" data-cm>写留言</button><a class="rd__btn" href="${w.url}" target="_blank" rel="noopener">在公众号读原文</a>`;
     LIKES.bind($('.like',box),w);
-    $('[data-cm]',box).onclick=()=>{window.BookReader.close();const y=$('#works-comments').getBoundingClientRect().top+scrollY-90;lenis?lenis.scrollTo(y,{duration:1}):window.scrollTo({top:y,behavior:'smooth'});setTimeout(()=>$('#c-name').focus({preventScroll:true}),900);};};
+    /* 在首页读完也能写留言：借用站内锚点跳转，先换到书友作品页再滚到留言区 */
+    $('[data-cm]',box).onclick=()=>{window.BookReader.close();const away=location.hash!=='#works';
+      const a=document.createElement('a');a.href='#works-comments';document.body.appendChild(a);a.click();a.remove();
+      setTimeout(()=>$('#c-name').focus({preventScroll:true}),away?3500:900);};};
   const read=i=>{const w=WORKS[i];if(!window.BookReader)return;
     window.BookReader.open(w,{paper:ANTH_PAPER[w.paper]||'#C6CBA8',tex:TEX(ANTH_TEX[w.paper]||1),renderEnd:endRow,onOpen:()=>{if(lenis)lenis.stop();}});};
   if(window.BookReader)window.BookReader.onClose=()=>{if(lenis)lenis.start();};
@@ -771,6 +774,10 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
     list.addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const i=+b.dataset.i;go(i);read(i);});
     const sh=show;show=i=>{sh(i);$$('button[data-i]',list).forEach(b=>b.toggleAttribute('aria-current',+b.dataset.i===i));};
     toc();}
+  /* 首页也放一份目录：只列最新的 HOME_N 篇，点了就在首页翻开 */
+  const HOME_N=6,home=$('#homeWorks');
+  if(home){home.innerHTML=WORKS.slice(0,HOME_N).map((w,i)=>`<li><button type="button" data-i="${i}"><b>${esc(w.title)}</b><span>${esc(w.author)}</span></button></li>`).join('');
+    home.addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const i=+b.dataset.i;go(i);read(i);});}
   show(0);size();})();
 
 /* 书友说：一次读一段，点名字切换；引号和底色跟着人一起换 */
