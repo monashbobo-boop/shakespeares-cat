@@ -727,7 +727,7 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   const frame=t=>{raf=0;if(tw){const k=tw.dur?clampN((t-tw.t0)/tw.dur,0,1):1;pos=tw.a+(tw.b-tw.a)*(k<.5?4*k*k*k:1-Math.pow(-2*k+2,3)/2);if(k>=1)tw=null;}
     paint();if(tw)raf=requestAnimationFrame(frame);};
   const kick=()=>{if(!raf)raf=requestAnimationFrame(frame);};
-  const show=i=>{const w=WORKS[i];$('#anthT').textContent=`《${w.title}》`;$('#anthA').textContent=w.author;COMMENTS.show(w);
+  let show=i=>{const w=WORKS[i];$('#anthT').textContent=`《${w.title}》`;$('#anthA').textContent=w.author;COMMENTS.show(w);
     $('#anthPrev').classList.toggle('off',i===0);$('#anthNext').classList.toggle('off',i===n-1);};
   const go=i=>{i=clampN(i,0,n-1);if(i!==target){target=i;show(i);}
     const steps=Math.abs(i-pos);tw={a:pos,b:i,t0:performance.now(),dur:RM?0:Math.round(560*Math.sqrt(Math.min(steps,12)))};kick();};
@@ -754,6 +754,23 @@ const ANTH_TEX={'米灰':1,'灰绿':2,'麦黄':3,'雾蓝':4,'藕粉':5};
   root.addEventListener('keydown',e=>{if(e.key==='ArrowRight'){e.preventDefault();go(target+1);}else if(e.key==='ArrowLeft'){e.preventDefault();go(target-1);}else if(e.key==='Enter'){e.preventDefault();read(target);}});
   $('#anthPrev').onclick=()=>go(target-1);$('#anthNext').onclick=()=>go(target+1);$('#anthOpen').onclick=()=>read(target);
   $('#anthHead').textContent=`书友的${cn(n)}篇文章`;
+  /* 目录：一行一篇，篇名和作者，点了直接翻开读全文，作品集也转到这一篇。
+     作品多起来以后（超过 TOOLS_AT 篇）上面自动出现搜索和排序，不用改代码 */
+  const TOOLS_AT=9,list=$('#tocList'),q=$('#tocQ'),none=$('#tocNone');let sortBy='';
+  const zh=(a,b)=>a.localeCompare(b,'zh-CN');
+  const toc=()=>{const k=(q&&q.value||'').trim().toLowerCase();
+    let rows=WORKS.map((w,i)=>({w,i})).filter(({w})=>!k||(w.title+w.author).toLowerCase().includes(k));
+    if(sortBy==='title')rows.sort((a,b)=>zh(a.w.title,b.w.title));
+    else if(sortBy==='author')rows.sort((a,b)=>zh(a.w.author,b.w.author)||zh(a.w.title,b.w.title));
+    else if(sortBy==='likes')rows.sort((a,b)=>(b.w.likes||0)-(a.w.likes||0));
+    list.innerHTML=rows.map(({w,i})=>`<li><button type="button" data-i="${i}"${i===target?' aria-current="true"':''}><b>${esc(w.title)}</b><span>${esc(w.author)}</span></button></li>`).join('');
+    none.hidden=rows.length>0;};
+  if(list){
+    if(n>=TOOLS_AT){$('#tocTools').hidden=false;q.addEventListener('input',toc);
+      $$('.anth__sort button').forEach(b=>b.onclick=()=>{sortBy=b.dataset.s;$$('.anth__sort button').forEach(x=>x.setAttribute('aria-pressed',x===b));toc();});}
+    list.addEventListener('click',e=>{const b=e.target.closest('button[data-i]');if(!b)return;const i=+b.dataset.i;go(i);read(i);});
+    const sh=show;show=i=>{sh(i);$$('button[data-i]',list).forEach(b=>b.toggleAttribute('aria-current',+b.dataset.i===i));};
+    toc();}
   show(0);size();})();
 
 /* 书友说：一次读一段，点名字切换；引号和底色跟着人一起换 */
