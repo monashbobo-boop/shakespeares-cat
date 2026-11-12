@@ -625,7 +625,7 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 
 /* ===== v6: signature objects and hovers =====
    Every hover moves only transform/opacity, driven by GSAP or long-tail CSS easing. */
-:root{--spring:cubic-bezier(.2,.9,.25,1);--out:cubic-bezier(.22,1,.36,1);--straw:#E9DCB5;--mist:#C9DEE3;--rose:#E7CFC4}
+:root{--spring:cubic-bezier(.2,.9,.25,1);--out:cubic-bezier(.22,1,.36,1);--unroll:cubic-bezier(.45,0,.2,1);--straw:#E9DCB5;--mist:#C9DEE3;--rose:#E7CFC4}
 
 /* real 3D book: cover swings open on hover, ribbon drops */
 .book{--w:12em;--t:1.6em;position:relative;width:var(--w);max-width:100%;aspect-ratio:.69;perspective:1400px;flex:none}
@@ -1140,17 +1140,17 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 
 /* 关于：五个活动模块（书脊） */
 .spines{display:flex;gap:.9em;height:40em}
-.sp{position:relative;display:flex;flex:0 0 7.2em;min-width:0;border-radius:1em;background:var(--sc);overflow:hidden;transition:flex-basis .9s var(--spring),flex-grow .9s var(--spring);box-shadow:inset -.5em 0 0 rgba(0,0,0,.06),0 1.4em 2em -1.6em rgba(43,51,38,.5)}
-.sp[data-open="true"]{flex:1 1 auto}
-.sp__tab{flex:0 0 7.2em;height:100%;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.8em 0 1.6em;color:var(--ink);font:inherit;border-right:1px dashed rgba(43,51,38,.25)}
+.sp{position:relative;display:flex;flex:0 0 7.2em;min-width:0;border-radius:1em;background:var(--sc);overflow:hidden;transition:flex-grow 1.15s var(--unroll);box-shadow:inset -.5em 0 0 rgba(0,0,0,.06),0 1.4em 2em -1.6em rgba(43,51,38,.5)}
+.sp[data-open="true"]{flex:1 1 7.2em}
+.sp__tab{flex:0 0 7.2em;height:100%;border:0;background:none;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:1.8em 0 1.6em;color:var(--ink);font:inherit;position:relative;z-index:1}
 .sp__tab em{font-style:normal;font-family:var(--display);font-weight:700;font-size:1.8em}
 .sp__tab b{writing-mode:vertical-rl;font-family:var(--display);font-weight:700;font-size:2.4em;letter-spacing:.15em}
 .sp__tab small{writing-mode:vertical-rl;font-size:1.1em;letter-spacing:.2em;color:var(--moss)}
 .sp:not([data-open="true"]) .sp__tab:hover b{transform:translateY(-.15em)}
 .sp__tab b{transition:transform .5s var(--spring)}
-.sp__body{flex:1;min-width:0;display:grid;grid-template-columns:1fr 13em;gap:2em;align-items:center;padding:3em 3.4em 3em 3em;opacity:0;visibility:hidden;transition:opacity .4s}
-.sp[data-open="true"] .sp__body{opacity:1;visibility:visible;transition-delay:.3s}
-.sp__txt{display:flex;flex-direction:column;gap:1.1em;min-width:28em}
+.sp__body{flex:none;width:calc(var(--spw,100em) - 39.6em);min-width:0;display:grid;grid-template-columns:1fr 13em;gap:2em;align-items:center;padding:3em 3.4em 3em 3em;opacity:0;visibility:hidden;transition:opacity .45s,visibility 0s linear .45s}
+.sp[data-open="true"] .sp__body{opacity:1;visibility:visible;transition:opacity .8s .1s,visibility 0s}
+.sp__txt{display:flex;flex-direction:column;gap:1.1em;min-width:0}
 .sp__txt h3{font-size:3.4em}
 .sp__txt .t-body{max-width:34em}
 .sp__txt .kv{max-width:34em}
@@ -1160,9 +1160,9 @@ form.fm{display:flex;flex-direction:column;gap:1.2em;background:var(--paper);bor
 @media (max-width:991px){.spines{flex-direction:column;height:auto;gap:.6em}.sp{flex:none;flex-direction:column;border-radius:.9em}.sp[data-open="true"]{flex:none}
   .sp__tab{flex:none;height:auto;width:100%;flex-direction:row;justify-content:flex-start;gap:.8em;padding:1em 1.1em;border-right:0}
   .sp__tab b,.sp__tab small{writing-mode:horizontal-tb;letter-spacing:.04em}.sp__tab em{font-size:1.1em}.sp__tab b{font-size:1.3em}.sp__tab small{margin-left:auto;font-size:.8em}
-  .sp__body{display:grid;grid-template-columns:1fr;grid-template-rows:0fr;gap:0;padding:0 1.1em;opacity:0;visibility:hidden;
-    transition:grid-template-rows .55s var(--out),padding .55s var(--out),opacity .3s,visibility 0s linear .55s}
-  .sp[data-open="true"] .sp__body{grid-template-rows:1fr;padding:.2em 1.1em 1.4em;opacity:1;visibility:visible;transition:grid-template-rows .55s var(--out),padding .55s var(--out),opacity .4s .1s,visibility 0s}
+  .sp__body{width:auto;display:grid;grid-template-columns:1fr;grid-template-rows:0fr;gap:0;align-items:stretch;overflow:hidden;padding:0 1.1em;opacity:0;visibility:hidden;
+    transition:grid-template-rows .9s var(--unroll),padding .9s var(--unroll),opacity .4s,visibility 0s linear .9s}
+  .sp[data-open="true"] .sp__body{grid-template-rows:1fr;padding:.2em 1.1em 1.4em;opacity:1;visibility:visible;transition:grid-template-rows .9s var(--unroll),padding .9s var(--unroll),opacity .7s .1s,visibility 0s}
   .sp__txt{min-width:0;min-height:0;overflow:hidden}.sp__txt h3{display:none}.sp__ic{display:none}}
 
 /* 关于：公益性质与组织情况 */
