@@ -21,7 +21,7 @@ def build(artifact=False):
     css = re.sub(r'url\("\.\./fonts/([^"]+)"\)', lambda m: f'url("{data_uri("assets/fonts/" + m.group(1))}")', css)
     html = re.sub(r'<link rel="stylesheet" href="assets/css/style\.css(?:\?[^\"]*)?">',
                   lambda m: f'<style>\n{css}\n</style>', html)
-    for js in ('assets/js/land.js', 'assets/js/cat-rig.js', 'assets/js/main.js'):
+    for js in ('assets/js/land.js', 'assets/js/cat-rig.js', 'assets/js/events-data.js', 'assets/js/reader.js', 'assets/js/main.js'):
         code = (ROOT / js).read_text(encoding='utf-8')
         html = re.sub(r'<script src="' + re.escape(js) + r'(?:\?[^\"]*)?"></script>',
                       lambda m: f'<script>\n{code}\n</script>', html)
